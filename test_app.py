@@ -996,6 +996,32 @@ class TestCollegeHub(unittest.TestCase):
         self.assertEqual(res_login_new.status_code, 200)
         self.assertEqual(json.loads(res_login_new.data)['status'], 'success')
 
+    def test_20_google_redirect_and_email_otp_security(self):
+        """Test Google OAuth redirect to accounts.google.com and OTP security."""
+        # 1. Google OAuth login endpoint redirects browser directly
+        res_redirect = self.client.get('/api/auth/google/login')
+        self.assertEqual(res_redirect.status_code, 302)
+        location = res_redirect.headers.get('Location', '')
+        self.assertTrue('google.com' in location or 'supabase.co' in location)
+
+        # 2. Short URL alias /auth/google also redirects
+        res_short = self.client.get('/auth/google')
+        self.assertEqual(res_short.status_code, 302)
+
+        # 3. Google OAuth callback error handling
+        res_err = self.client.get('/api/auth/google/callback?error=access_denied')
+        self.assertEqual(res_err.status_code, 302)
+        self.assertIn('/login?error=access_denied', res_err.headers.get('Location', ''))
+
+        # 4. OTP Non-Leakage in Production Mode: verification_code must NOT be returned in JSON
+        self.app.config['TESTING'] = False
+        res_prod = self.client.post('/api/auth/send-reset-code', json={"email": "student.prod@example.com"})
+        self.assertEqual(res_prod.status_code, 200)
+        data_prod = json.loads(res_prod.data)
+        self.assertEqual(data_prod['status'], 'success')
+        self.assertNotIn('verification_code', data_prod)
+        self.app.config['TESTING'] = True
+
 
 if __name__ == '__main__':
     unittest.main()

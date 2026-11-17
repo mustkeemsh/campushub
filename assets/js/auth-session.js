@@ -321,7 +321,7 @@ const CollegeHubAuth = (function () {
         <!-- Google Quick Sign-In Button -->
         <button 
           type="button" 
-          onclick="CollegeHubAuth.openGoogleChooserModal()" 
+          onclick="CollegeHubAuth.signInWithGoogle()" 
           class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface text-xs sm:text-sm font-bold border border-surface-container-high transition-all flex items-center justify-center gap-2.5 mb-3.5 shadow-2xs hover:shadow-xs group cursor-pointer"
         >
           <svg class="w-4 h-4 shrink-0 transition-transform group-hover:scale-110" viewBox="0 0 24 24">
@@ -651,79 +651,12 @@ const CollegeHubAuth = (function () {
      GOOGLE SIGN-IN INTEGRATION
      ========================================================================== */
 
-  function injectGoogleChooserModal() {
-    if (document.getElementById('collegehub-google-modal')) return;
-
-    const modal = document.createElement('div');
-    modal.id = 'collegehub-google-modal';
-    modal.className = 'fixed inset-0 z-[150] flex items-center justify-center p-4 bg-primary/70 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300';
-    modal.innerHTML = `
-      <div id="google-modal-card" class="w-full max-w-sm bg-surface-container-lowest rounded-3xl p-6 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.25)] border border-surface-container-high relative transform scale-95 transition-all duration-300 text-on-surface">
-        
-        <!-- Close Button -->
-        <button type="button" onclick="CollegeHubAuth.closeGoogleChooserModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant flex items-center justify-center transition-colors" title="Close dialog">
-          <span class="material-symbols-outlined text-lg">close</span>
-        </button>
-
-        <!-- Google Header -->
-        <div class="flex items-center gap-3 mb-4">
-          <svg class="w-7 h-7 shrink-0" viewBox="0 0 24 24">
-            <path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.15z" fill="#4285F4"></path>
-            <path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.14C3.26 21.36 7.33 24 12 24z" fill="#34A853"></path>
-            <path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.59H1.25C.45 8.18 0 10.02 0 12s.45 3.82 1.25 5.41l4.03-3.14z" fill="#FBBC05"></path>
-            <path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.59l4.03 3.14c.95-2.83 3.6-4.98 6.72-4.98z" fill="#EA4335"></path>
-          </svg>
-          <div>
-            <h3 class="text-base font-bold text-primary leading-tight">Sign in with Google</h3>
-            <p class="text-[11px] text-on-surface-variant">to continue to CollegeHub Academic Matrix</p>
-          </div>
-        </div>
-
-        <div class="space-y-3 mb-2">
-          <label class="block text-xs font-semibold text-on-surface-variant" for="custom-google-email">Enter your Google account email:</label>
-          <div class="flex gap-2">
-            <input type="email" id="custom-google-email" placeholder="your.name@gmail.com" class="flex-1 px-3 py-2.5 bg-surface border border-outline-variant rounded-xl text-xs text-primary focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary">
-            <button type="button" onclick="const e = document.getElementById('custom-google-email').value.trim(); if(e && e.includes('@')) CollegeHubAuth.signInWithGoogle(e); else alert('Please enter a valid Google email address.');" class="px-4 py-2.5 rounded-xl bg-secondary text-white text-xs font-bold hover:bg-secondary/90 transition-colors shadow-xs">
-              Continue
-            </button>
-          </div>
-        </div>
-
-      </div>
-    `;
-    document.body.appendChild(modal);
-  }
-
-  function openGoogleChooserModal() {
-    injectGoogleChooserModal();
-    const modal = document.getElementById('collegehub-google-modal');
-    const card = document.getElementById('google-modal-card');
-    if (!modal || !card) return;
-    modal.classList.remove('opacity-0', 'pointer-events-none');
-    modal.classList.add('opacity-100', 'pointer-events-auto');
-    card.classList.remove('scale-95');
-    card.classList.add('scale-100');
-  }
-
-  function closeGoogleChooserModal() {
-    const modal = document.getElementById('collegehub-google-modal');
-    const card = document.getElementById('google-modal-card');
-    if (!modal) return;
-    modal.classList.remove('opacity-100', 'pointer-events-auto');
-    modal.classList.add('opacity-0', 'pointer-events-none');
-    if (card) {
-      card.classList.remove('scale-100');
-      card.classList.add('scale-95');
-    }
-  }
-
-  async function signInWithGoogle(customEmail, customName) {
-    closeGoogleChooserModal();
-    const email = (customEmail || 'student.applicant@gmail.com').trim();
-    const name = customName || email.split('@')[0].replace(/[._]/g, ' ').replace(/\\b\\w/g, l => l.toUpperCase());
-
-    try {
-      const resp = await fetch('/api/auth/google', {
+  function signInWithGoogle(customEmail, customName) {
+    // If called with explicit email (e.g. from tests or scripts)
+    if (customEmail && typeof customEmail === 'string' && customEmail.includes('@')) {
+      const email = customEmail.trim();
+      const name = customName || email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      fetch('/api/auth/google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -732,21 +665,29 @@ const CollegeHubAuth = (function () {
           picture: 'https://lh3.googleusercontent.com/a/default-user=s96-c',
           role: window.activeRole || getModalRole() || 'student'
         })
-      });
-
-      const data = await resp.json();
-      if (resp.ok && data.status === 'success') {
-        setUser(data.user);
-        alert(data.message || `Signed in with Google as ${name}! Redirecting...`);
-        closeAuthModal();
-        window.location.href = data.redirect_url || '/profile';
-      } else {
-        alert(data.message || 'Google authentication failed.');
-      }
-    } catch (err) {
-      console.error('Google sign-in error:', err);
-      alert('Unable to connect to Google authentication service.');
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.status === 'success') {
+          setUser(data.user);
+          window.location.href = data.redirect_url || '/profile';
+        }
+      })
+      .catch(err => console.error(err));
+      return;
     }
+
+    // Standard redirect to Google OAuth login flow (accounts.google.com)
+    const role = window.activeRole || getModalRole() || 'student';
+    window.location.href = `/api/auth/google/login?role=${encodeURIComponent(role)}`;
+  }
+
+  function openGoogleChooserModal() {
+    signInWithGoogle();
+  }
+
+  function closeGoogleChooserModal() {
+    // Compatibility stub
   }
 
   /* ==========================================================================
@@ -812,13 +753,13 @@ const CollegeHubAuth = (function () {
         <!-- STEP 2: Enter Verification Code & New Password -->
         <div id="forgot-step-2" class="space-y-4 hidden">
           <!-- Code info notice -->
-          <div class="p-3 rounded-2xl bg-secondary/10 border border-secondary/30 text-xs text-secondary dark:text-teal-300 space-y-1">
+          <div class="p-3.5 rounded-2xl bg-secondary/10 border border-secondary/30 text-xs text-secondary dark:text-teal-300 space-y-1.5">
             <div class="font-bold flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-sm">verified</span>
-              <span>Code sent to: <span id="display-target-email" class="font-extrabold text-primary underline"></span></span>
+              <span class="material-symbols-outlined text-sm">mark_email_read</span>
+              <span>Verification email sent to: <span id="display-target-email" class="font-extrabold text-primary underline"></span></span>
             </div>
-            <div id="dev-code-pill" class="text-[11px] text-on-surface-variant pt-0.5">
-              Code expires in 10 minutes.
+            <div class="text-[11px] text-on-surface-variant leading-relaxed">
+              We sent a 6-digit verification code to your Gmail inbox. Please check your inbox (and spam folder), then enter the code below.
             </div>
           </div>
 
@@ -830,7 +771,8 @@ const CollegeHubAuth = (function () {
                 type="text" 
                 id="verification-code-input" 
                 maxlength="6" 
-                placeholder="e.g. 482910" 
+                placeholder="000000" 
+                autocomplete="one-time-code"
                 class="w-full pl-10 pr-4 py-2.5 bg-surface border border-outline-variant rounded-xl text-center font-mono font-bold tracking-widest text-lg sm:text-xl text-primary focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition-all"
                 required
               >
@@ -973,7 +915,6 @@ const CollegeHubAuth = (function () {
 
       if (resp.ok && data.status === 'success') {
         activeResetEmail = email;
-        activeResetCode = data.verification_code || '';
 
         // Transition to Step 2
         document.getElementById('forgot-step-1')?.classList.add('hidden');
@@ -981,14 +922,11 @@ const CollegeHubAuth = (function () {
         const disp = document.getElementById('display-target-email');
         if (disp) disp.textContent = email;
 
-        const devPill = document.getElementById('dev-code-pill');
-        if (devPill && activeResetCode) {
-          devPill.innerHTML = `Verification Code sent: <span class="font-mono font-bold text-sm text-secondary bg-surface-container px-2 py-0.5 rounded-md">${activeResetCode}</span> (Auto-filled below)`;
-        }
-
+        // Reset verification code field so user types the code sent to their Gmail
         const codeInput = document.getElementById('verification-code-input');
-        if (codeInput && activeResetCode) {
-          codeInput.value = activeResetCode;
+        if (codeInput) {
+          codeInput.value = '';
+          setTimeout(() => codeInput.focus(), 150);
         }
 
         if (alertBox) {
@@ -1086,7 +1024,6 @@ const CollegeHubAuth = (function () {
   function init() {
     updateDOM();
     injectAuthModal();
-    injectGoogleChooserModal();
     injectForgotPasswordModal();
     checkAndTriggerAutoPopup();
   }

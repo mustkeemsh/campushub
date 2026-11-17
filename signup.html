@@ -84,8 +84,12 @@
       <!-- Brand Wordmark -->
       <div class="flex items-center gap-8">
         <a class="flex items-center gap-3 group focus:outline-none" href="index.html">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary to-[#0d9488] flex items-center justify-center text-white shadow-sm shrink-0 transition-transform group-hover:scale-105">
-            <span class="material-symbols-outlined text-2xl">school</span>
+          <div class="w-10 h-10 rounded-2xl bg-secondary flex items-center justify-center text-white shadow-md shadow-secondary/20 group-hover:scale-105 transition-transform">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
+              <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+              <path d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path>
+            </svg>
           </div>
           <div class="flex flex-col">
             <span class="text-xl font-bold text-primary tracking-tight group-hover:text-secondary transition-colors">CollegeHub</span>
@@ -300,7 +304,7 @@
 
     function simulateOAuth(provider) {
       if (provider === 'Google' && typeof CollegeHubAuth !== 'undefined') {
-        CollegeHubAuth.openGoogleChooserModal();
+        CollegeHubAuth.signInWithGoogle();
         return;
       }
       alert(`Authenticating with ${provider}. Redirecting to your Student Hub...`);

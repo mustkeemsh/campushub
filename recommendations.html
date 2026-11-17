@@ -573,53 +573,58 @@
               </div>
             </div>
 
-            <!-- Filters & Sort Strip -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              
-              <!-- Filter by Match Label -->
-              <div>
-                <label for="filter-match-type" class="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant mb-1">Match Type</label>
-                <select id="filter-match-type" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary">
-                  <option value="all">All Results</option>
-                  <option value="historical_match">🟢 Historical match only</option>
-                  <option value="more_competitive">🟡 More competitive only</option>
-                  <option value="insufficient_data">⚪ Insufficient cutoff data</option>
-                </select>
-              </div>
+            <!-- Sticky Filters & Sort Strip -->
+            <div class="sticky top-16 z-20 bg-surface/95 dark:bg-[#0d1320]/95 backdrop-blur-md py-3.5 px-4 -mx-4 sm:-mx-6 sm:px-6 rounded-2xl border-b border-surface-container-high/60 shadow-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                
+                <!-- Filter by Match Label -->
+                <div>
+                  <label for="filter-match-type" class="block text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-1 flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px] text-secondary">filter_alt</span> Match Type
+                  </label>
+                  <select id="filter-match-type" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all cursor-pointer">
+                    <option value="all">All Results</option>
+                    <option value="historical_match">🟢 Historical match only</option>
+                    <option value="more_competitive">🟡 More competitive only</option>
+                    <option value="insufficient_data">⚪ Insufficient cutoff data</option>
+                  </select>
+                </div>
 
-              <!-- Filter by City -->
-              <div>
-                <label for="filter-city" class="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant mb-1">City / Region</label>
-                <select id="filter-city" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary">
-                  <option value="all">All Cities</option>
-                  <option value="Pune">Pune</option>
-                  <option value="Mumbai">Mumbai</option>
-                  <option value="Sangli">Sangli</option>
-                  <option value="Chhatrapati Sambhajinagar">Chhatrapati Sambhajinagar</option>
-                </select>
-              </div>
+                <!-- Filter by City -->
+                <div>
+                  <label for="filter-city" class="block text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-1 flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px] text-secondary">location_on</span> City / Region
+                  </label>
+                  <select id="filter-city" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all cursor-pointer">
+                    <option value="all">All Cities</option>
+                  </select>
+                </div>
 
-              <!-- Filter by Branch -->
-              <div>
-                <label for="filter-branch" class="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant mb-1">Branch</label>
-                <select id="filter-branch" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary">
-                  <option value="all">All Selected Branches</option>
-                  <!-- Populated from student's selected branches -->
-                </select>
-              </div>
+                <!-- Filter by Branch -->
+                <div>
+                  <label for="filter-branch" class="block text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-1 flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px] text-secondary">hub</span> Branch
+                  </label>
+                  <select id="filter-branch" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all cursor-pointer">
+                    <option value="all">All Selected Branches</option>
+                  </select>
+                </div>
 
-              <!-- Sort By -->
-              <div>
-                <label for="sort-by" class="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant mb-1">Sort Results By</label>
-                <select id="sort-by" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary">
-                  <option value="probability" selected>🎯 Best Match (Eligible &amp; High Probability First)</option>
-                  <option value="university">🏛️ University Wise (A–Z)</option>
-                  <option value="priority">📌 Branch Priority First</option>
-                  <option value="fees_low_high">💰 Annual Tuition (Low to High)</option>
-                  <option value="alphabetical">🔤 College Name (A–Z)</option>
-                </select>
-              </div>
+                <!-- Sort By -->
+                <div>
+                  <label for="sort-by" class="block text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-1 flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px] text-secondary">sort</span> Sort Results By
+                  </label>
+                  <select id="sort-by" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all cursor-pointer">
+                    <option value="probability" selected>🎯 Best Match (Eligible &amp; High Probability First)</option>
+                    <option value="university">🏛️ University Wise (A–Z)</option>
+                    <option value="priority">📌 Branch Priority First</option>
+                    <option value="fees_low_high">💰 Annual Tuition (Low to High)</option>
+                    <option value="alphabetical">🔤 College Name (A–Z)</option>
+                  </select>
+                </div>
 
+              </div>
             </div>
 
           </div>
@@ -1164,6 +1169,12 @@
       branchFilter.innerHTML = `<option value="all">All Selected Branches (${currentProfile.preferredBranches.length})</option>` +
         currentProfile.preferredBranches.map(b => `<option value="${b}">${b} - ${BRANCH_META[b] || b}</option>`).join('');
 
+      // Populate dynamic city filter options based on returned results
+      const cityFilter = document.getElementById('filter-city');
+      const uniqueCities = Array.from(new Set(rawRecommendations.map(it => it.record?.city).filter(Boolean))).sort();
+      cityFilter.innerHTML = '<option value="all">All Cities</option>' +
+        uniqueCities.map(c => `<option value="${c}">${c}</option>`).join('');
+
       applyFiltersAndSort();
 
       // Show Results Step
@@ -1206,11 +1217,20 @@
       const sortBy = document.getElementById('sort-by')?.value || 'probability';
       let lastUniversity = null;
 
+      let savedPrograms = [];
+      try {
+        savedPrograms = JSON.parse(localStorage.getItem('collegehub_saved_programs') || '[]');
+      } catch (e) {
+        savedPrograms = [];
+      }
+
       container.innerHTML = items.map(item => {
         const r = item.record;
         const isHistorical = item.matchType === 'historical_match';
         const isCompetitive = item.matchType === 'more_competitive';
         const isInsufficient = item.matchType === 'insufficient_data';
+        const progId = `${r.collegeCode}_${r.branchCode}`;
+        const isSaved = savedPrograms.some(sp => sp.id === progId);
 
         const univName = r.university || r.universityName || r.university_name || r.affiliatedUniversity || (typeof CollegeHubRecommender !== 'undefined' && CollegeHubRecommender.resolveUniversity ? CollegeHubRecommender.resolveUniversity(r) : '');
 
@@ -1293,12 +1313,6 @@
                       <span>${item.admissionProbability.toFixed(0)}% Probability</span>
                     </span>
                   ` : ''}
-                  ${item.matchPercentage !== undefined && item.matchPercentage !== null ? `
-                    <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold border ${isHistorical ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30' : (isCompetitive ? 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30' : 'bg-surface-container text-on-surface-variant border-surface-container-high')} flex items-center gap-1">
-                      <span class="material-symbols-outlined text-xs">percent</span>
-                      <span>${Number(item.matchPercentage).toFixed(1)}% Match</span>
-                    </span>
-                  ` : ''}
                   <span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[11px] font-bold border border-surface-container-high">
                     Code: ${r.collegeCode}
                   </span>
@@ -1370,7 +1384,7 @@
 
             <!-- Admission Probability Meter -->
             ${hasProb ? `
-              <div class="mb-2.5 sm:mb-3 p-2.5 sm:p-3 rounded-2xl bg-surface-container-low/80 border border-surface-container-high/90 space-y-1.5">
+              <div class="mb-2.5 sm:mb-3 p-3 rounded-2xl bg-surface-container-low/90 dark:bg-[#0c1424] border border-surface-container-high/90 dark:border-slate-800 space-y-2 shadow-2xs">
                 <div class="flex items-center justify-between text-xs flex-wrap gap-2">
                   <span class="flex items-center gap-1.5 font-bold text-on-surface">
                     <span class="material-symbols-outlined text-base ${probTextColor}">analytics</span>
@@ -1381,25 +1395,18 @@
                     ${item.probabilityTier || ''}
                   </span>
                 </div>
-                <div class="w-full h-2 rounded-full bg-surface-container-high/80 overflow-hidden">
-                  <div class="h-full rounded-full transition-all duration-500 ${probBarColor}" style="width: ${item.admissionProbability}%"></div>
+                <div class="w-full h-2.5 rounded-full bg-surface-container-high dark:bg-slate-800 border border-surface-container-high/80 dark:border-slate-700/60 overflow-hidden">
+                  <div class="h-full rounded-full transition-all duration-500 ${probBarColor}" style="width: ${Math.max(item.admissionProbability, 2)}%"></div>
                 </div>
               </div>
             ` : ''}
 
             <!-- Plain Language Explanation -->
-            <div class="p-2.5 sm:p-3 rounded-2xl ${isHistorical ? 'bg-emerald-500/10 border border-emerald-500/20' : (isCompetitive ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-surface-container-low border border-surface-container-high')} mb-2.5 sm:mb-3">
-              <div class="flex items-start gap-2 text-xs leading-relaxed text-on-surface">
-                <span class="material-symbols-outlined text-sm ${isHistorical ? 'text-emerald-600' : (isCompetitive ? 'text-amber-600' : 'text-on-surface-variant')} shrink-0 mt-0.5">psychology_alt</span>
+            <div class="p-3 rounded-2xl ${isHistorical ? 'bg-emerald-500/10 border border-emerald-500/25 dark:bg-emerald-950/20' : (isCompetitive ? 'bg-amber-500/10 border border-amber-500/25 dark:bg-amber-950/20' : 'bg-surface-container-low border border-surface-container-high')} mb-2.5 sm:mb-3">
+              <div class="flex items-start gap-2.5 text-xs leading-relaxed text-on-surface">
+                <span class="material-symbols-outlined text-base ${isHistorical ? 'text-emerald-600 dark:text-emerald-400' : (isCompetitive ? 'text-amber-600 dark:text-amber-400' : 'text-on-surface-variant')} shrink-0 mt-0.5">psychology_alt</span>
                 <div>
-                  <span class="font-bold">Match Breakdown:</span> ${hasProb ? `<span class="font-bold ${item.admissionProbability >= 70 ? 'text-emerald-700 dark:text-emerald-400' : (item.admissionProbability >= 50 ? 'text-amber-700 dark:text-amber-400' : 'text-rose-700 dark:text-rose-400')}">${item.admissionProbability.toFixed(1)}% Allotment Probability (${item.probabilityTier})</span> &bull; ` : ''}${item.matchPercentage !== undefined && item.matchPercentage !== null ? `<span class="text-secondary font-semibold">${Number(item.matchPercentage).toFixed(1)}% Cutoff Alignment</span> &bull; ` : ''}${item.explanation}
-                </div>
-              </div>
-            </div>
-              <div class="flex items-start gap-2 text-xs leading-relaxed text-on-surface">
-                <span class="material-symbols-outlined text-sm ${isHistorical ? 'text-emerald-600' : (isCompetitive ? 'text-amber-600' : 'text-on-surface-variant')} shrink-0 mt-0.5">psychology_alt</span>
-                <div>
-                  <span class="font-bold">Match Breakdown:</span> ${hasProb ? `<span class="font-bold ${item.admissionProbability >= 70 ? 'text-emerald-700 dark:text-emerald-400' : (item.admissionProbability >= 50 ? 'text-amber-700 dark:text-amber-400' : 'text-rose-700 dark:text-rose-400')}">${item.admissionProbability.toFixed(1)}% Allotment Probability (${item.probabilityTier})</span> &bull; ` : ''}${item.matchPercentage !== undefined && item.matchPercentage !== null ? `<span class="text-secondary font-semibold">${Number(item.matchPercentage).toFixed(1)}% Cutoff Alignment</span> &bull; ` : ''}${item.explanation}
+                  <span class="font-bold text-primary">Admission Insight:</span> ${hasProb ? `<span class="font-bold ${item.admissionProbability >= 70 ? 'text-emerald-700 dark:text-emerald-400' : (item.admissionProbability >= 50 ? 'text-amber-700 dark:text-amber-400' : 'text-rose-700 dark:text-rose-400')}">${item.admissionProbability.toFixed(1)}% Allotment Probability (${item.probabilityTier})</span> &bull; ` : ''}${item.explanation}
                 </div>
               </div>
             </div>
@@ -1563,14 +1570,16 @@
             <!-- Card Actions -->
             <div class="mt-3 flex items-center justify-between gap-3 pt-2.5 border-t border-surface-container-high/60 text-xs">
               <span class="text-[11px] text-on-surface-variant italic">
-                Cutoffs vary by seat matrix &amp; annual applicant volume.
+                Verified CAP cutoffs &bull; Centralized Admission Process
               </span>
               <div class="flex items-center gap-2">
-                <a href="faqs.html?q=${encodeURIComponent(r.collegeName)}" class="px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-bold transition-colors">
-                  Ask AI About Cutoffs
+                <a href="faqs.html?q=${encodeURIComponent(r.collegeName)}" class="px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-bold transition-colors inline-flex items-center gap-1.5 shadow-2xs">
+                  <span class="material-symbols-outlined text-sm text-secondary">smart_toy</span>
+                  <span>Ask AI About Cutoffs</span>
                 </a>
-                <button onclick="alert('Program bookmarked to student dossier: ${r.collegeName} (${r.branchCode})');" class="px-3.5 py-1.5 rounded-xl bg-secondary text-white font-bold hover:bg-secondary/90 shadow-xs transition-colors">
-                  Save Program
+                <button type="button" onclick="toggleBookmarkProgram(this, '${r.collegeCode}', '${r.branchCode}', '${(r.collegeName || '').replace(/'/g, "\\'")}', '${r.branchCode}')" class="px-3.5 py-1.5 rounded-xl ${isSaved ? 'bg-emerald-600 text-white' : 'bg-secondary text-white'} font-bold hover:opacity-90 shadow-xs transition-all inline-flex items-center gap-1.5 cursor-pointer">
+                  <span class="material-symbols-outlined text-sm">${isSaved ? 'bookmark_added' : 'bookmark_add'}</span>
+                  <span>${isSaved ? 'Saved &check;' : 'Save Program'}</span>
                 </button>
               </div>
             </div>
@@ -1578,6 +1587,48 @@
           </div>
         `;
       }).join('');
+    }
+
+    function toggleBookmarkProgram(btn, collegeCode, branchCode, collegeName, branchName) {
+      const key = 'collegehub_saved_programs';
+      let saved = [];
+      try {
+        saved = JSON.parse(localStorage.getItem(key) || '[]');
+      } catch (e) {
+        saved = [];
+      }
+      const id = `${collegeCode}_${branchCode}`;
+      const exists = saved.some(item => item.id === id);
+      if (exists) {
+        saved = saved.filter(item => item.id !== id);
+        localStorage.setItem(key, JSON.stringify(saved));
+        btn.innerHTML = `<span class="material-symbols-outlined text-sm">bookmark_add</span> <span>Save Program</span>`;
+        btn.className = 'px-3.5 py-1.5 rounded-xl bg-secondary text-white font-bold hover:opacity-90 shadow-xs transition-all inline-flex items-center gap-1.5 cursor-pointer';
+        showNotificationToast(`Removed "${collegeName} (${branchCode})" from saved dossier.`);
+      } else {
+        saved.push({ id, collegeCode, branchCode, collegeName, branchName, date: new Date().toLocaleDateString() });
+        localStorage.setItem(key, JSON.stringify(saved));
+        btn.innerHTML = `<span class="material-symbols-outlined text-sm">bookmark_added</span> <span>Saved &check;</span>`;
+        btn.className = 'px-3.5 py-1.5 rounded-xl bg-emerald-600 text-white font-bold hover:opacity-90 shadow-xs transition-all inline-flex items-center gap-1.5 cursor-pointer';
+        showNotificationToast(`Saved "${collegeName} (${branchCode})" to your dossier!`);
+      }
+    }
+
+    function showNotificationToast(msg) {
+      let toast = document.getElementById('ch-global-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'ch-global-toast';
+        toast.className = 'fixed bottom-6 right-6 z-50 transform translate-y-8 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-primary text-white text-xs font-bold shadow-xl border border-primary-container';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<span class="material-symbols-outlined text-base text-secondary-container">check_circle</span> <span>${msg}</span>`;
+      toast.classList.remove('translate-y-8', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-8', 'opacity-0', 'pointer-events-none');
+      }, 2800);
     }
 
     function resetFilters() {

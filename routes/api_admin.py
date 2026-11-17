@@ -314,6 +314,30 @@ def admin_download_import_sample():
     )
 
 
+@admin_bp.route('/import/dsy-template', methods=['GET'])
+def admin_download_dsy_template():
+    """Download official blank CSV template for Direct Second Year Engineering (DSY/DSE) cutoffs."""
+    template_path = os.path.join(os.getcwd(), 'assets', 'data', 'maharashtra_dse_cutoffs_template.csv')
+    return send_file(
+        template_path,
+        mimetype='text/csv',
+        as_attachment=True,
+        download_name='maharashtra_dse_cutoffs_template.csv'
+    )
+
+
+@admin_bp.route('/import/dsy-sample', methods=['GET'])
+def admin_download_dsy_sample():
+    """Download sample CSV with authentic Maharashtra Direct Second Year Engineering (DSY/DSE) format."""
+    sample_path = os.path.join(os.getcwd(), 'assets', 'data', 'maharashtra_dse_cutoffs_sample.csv')
+    return send_file(
+        sample_path,
+        mimetype='text/csv',
+        as_attachment=True,
+        download_name='maharashtra_dse_cutoffs_sample.csv'
+    )
+
+
 @admin_bp.route('/import/preview', methods=['POST'])
 @admin_required
 def admin_import_preview():

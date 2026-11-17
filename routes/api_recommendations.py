@@ -469,6 +469,288 @@ HISTORICAL_CUTOFFS = [
 ]
 
 
+def compute_dsy_recommendations(data):
+    """
+    Compute Direct Second Year Engineering (DSY/DSE) recommendations.
+    Strictly isolates DSY from First-Year engineering cutoffs.
+    Enforces like-for-like comparison, strict category, quota, year, round, and branch matching.
+    Does not invent cutoffs or college recommendations.
+    """
+    diploma_branch = (data.get('diploma_branch') or data.get('diploma_stream') or '').strip()
+    metric_type = (data.get('metric_type') or data.get('score_type') or '').strip().lower()
+    score_raw = data.get('score') if data.get('score') is not None else data.get('rank')
+    category = (data.get('category') or 'OPEN').strip().upper()
+    preferred_branches = data.get('preferred_engineering_branches') or data.get('preferred_branches') or []
+    preferred_districts = data.get('preferred_districts') or data.get('districts') or []
+    quota = (data.get('quota') or 'SL').strip().upper()
+    cap_round = (data.get('cap_round') or data.get('round') or 'CAP Round I').strip()
+    admission_year = (data.get('admission_year') or data.get('year') or '2024-2025').strip()
+    sort_by = (data.get('sort_by') or 'probability').strip()
+
+    if not isinstance(preferred_branches, list):
+        preferred_branches = [preferred_branches] if preferred_branches else []
+    if not isinstance(preferred_districts, list):
+        preferred_districts = [preferred_districts] if preferred_districts else []
+
+    # Validations
+    if not diploma_branch:
+        return {"status": "error", "message": "Student's diploma branch is required for Direct Second Year Engineering (DSY/DSE) admission."}, 400
+
+    if not metric_type or metric_type not in ('rank', 'marks', 'percentage'):
+        return {"status": "error", "message": "Valid metric type ('rank' or 'marks') is required for DSY/DSE evaluation."}, 400
+
+    norm_metric_type = 'marks' if metric_type in ('marks', 'percentage') else 'rank'
+
+    if score_raw is None or score_raw == '':
+        return {"status": "error", "message": f"Valid numeric score for diploma {norm_metric_type} is required."}, 400
+
+    try:
+        score = float(score_raw)
+    except (TypeError, ValueError):
+        return {"status": "error", "message": f"Valid numeric score is required for diploma {norm_metric_type}."}, 400
+
+    if norm_metric_type == 'rank':
+        if score < 1 or int(score) != score:
+            return {"status": "error", "message": "Diploma merit rank must be a positive integer greater than or equal to 1."}, 400
+        score = int(score)
+    else:
+        if score < 0.0 or score > 100.0:
+            return {"status": "error", "message": "Diploma aggregate marks percentage must be between 0.0 and 100.0."}, 400
+
+    if not preferred_branches:
+        return {"status": "error", "message": "At least one preferred engineering degree branch is required."}, 400
+
+    # Query approved DSY cutoffs from database
+    # Enforces strict isolation: NEVER uses first-year cutoffs
+    from database import db
+    dsy_candidates = db.get_approved_dsy_cutoffs(
+        diploma_branch=diploma_branch,
+        engineering_branches=preferred_branches,
+        category=category,
+        quota=quota,
+        cap_round=cap_round,
+        academic_year=admission_year,
+        districts=preferred_districts,
+        score_type=norm_metric_type,
+        score=score
+    )
+
+    # If no DSY cutoff data is provided/uploaded:
+    if not dsy_candidates:
+        return {
+            "status": "success",
+            "data_status": "matching_data_needed",
+            "message": "Matching DSY/DSE cutoff data is needed. First-year CAP cutoffs are not used for Direct Second Year admission recommendations.",
+            "student_profile": {
+                "admission_type": "Direct Second Year Engineering (DSY/DSE)",
+                "diploma_branch": diploma_branch,
+                "metric_type": norm_metric_type,
+                "score": score,
+                "category": category,
+                "preferred_engineering_branches": preferred_branches,
+                "preferred_districts": preferred_districts,
+                "quota": quota,
+                "cap_round": cap_round,
+                "admission_year": admission_year
+            },
+            "count": 0,
+            "recommendations": [],
+            "data_guidance": {
+                "status": "Cutoff data required",
+                "explanation": "No matching Direct Second Year Engineering (DSY/DSE) CAP cutoff data is currently available in the database. First-year engineering CAP cutoffs are strictly isolated and not used for Direct Second Year recommendations to maintain integrity and prevent inaccurate predictions.",
+                "data_needed": [
+                    "Official Maharashtra State CET Cell Direct Second Year Engineering (DSE) Centralized Admission Process Allotment Matrix (CAP Round 1, 2, or 3).",
+                    "Required fields: Institute Code, Institute Name, Engineering Degree Course / Branch, Seat Category (GOPEN, GOBCH, etc.), Seat Quota (HU / OHU / SL), Admission Year, CAP Round, and Closing Merit Rank (State General Merit Number) or Closing Aggregate Diploma %."
+                ],
+                "how_to_provide": "Administrators can upload DSE CAP Cutoff data in CSV format via the Admin Console using the DSE CSV Template (/api/admin/import/dsy-template), or import official State CET Cell allotment sheets."
+            },
+            "disclaimer": "Past cutoffs are guidance and do not guarantee admission."
+        }, 200
+
+    # If DSY cutoffs ARE found: match using strict like-for-like rules
+    matched_results = []
+    for rec in dsy_candidates:
+        rec_branch = rec.get("branch_code")
+        if rec_branch not in preferred_branches:
+            continue
+
+        rec_cat = str(rec.get("category") or "OPEN").upper()
+        if category != "ALL" and rec_cat != category:
+            continue
+
+        rec_quota = str(rec.get("quota") or "SL").upper()
+        if quota != "ALL" and rec_quota != quota:
+            continue
+
+        rec_year = str(rec.get("academic_year") or "2024-2025")
+        if admission_year != "ALL" and not rec_year.startswith(admission_year[:4]):
+            continue
+
+        rec_round = str(rec.get("round") or "CAP Round I")
+        if cap_round != "ALL" and cap_round.lower() not in rec_round.lower():
+            continue
+
+        if preferred_districts:
+            norm_districts = [d.strip().lower() for d in preferred_districts if d.strip().lower() not in ("all", "all districts", "all maharashtra districts")]
+            if norm_districts:
+                rec_dist = str(rec.get("district") or rec.get("city") or "").lower()
+                if not any(nd in rec_dist for nd in norm_districts):
+                    continue
+
+        rec_score_type = str(rec.get("score_type") or "rank").lower()
+        closing_rank = rec.get("closing_rank") or rec.get("rank")
+        closing_marks = rec.get("closing_marks") or (rec.get("cutoff_value") if rec_score_type in ("marks", "percentile") else None)
+
+        if norm_metric_type == "rank":
+            if closing_rank is None and rec_score_type == "rank" and rec.get("cutoff_value") is not None:
+                try:
+                    closing_rank = int(round(float(rec.get("cutoff_value"))))
+                except (ValueError, TypeError):
+                    closing_rank = None
+
+            if closing_rank is None:
+                explanation = f"Metric Mismatch: Uploaded cutoff for {rec.get('college_name')} uses {rec_score_type} rather than rank. Direct Second Year comparisons require like-for-like metrics."
+                matched_results.append({
+                    "record": rec,
+                    "college": rec.get("college_name"),
+                    "college_code": rec.get("college_code"),
+                    "engineering_branch": rec.get("branch_name") or rec.get("branch_code"),
+                    "branch_code": rec.get("branch_code"),
+                    "district": rec.get("district") or rec.get("city"),
+                    "cutoff_value": rec.get("cutoff_value"),
+                    "cutoff_type": rec_score_type,
+                    "admission_year": rec.get("academic_year"),
+                    "cap_round": rec.get("round"),
+                    "source": rec.get("source") or "Government of Maharashtra State CET Cell - Direct Second Year Engineering (DSE) Centralized Admission Process",
+                    "match_label": "Metric mismatch (like-for-like required)",
+                    "match_type": "metric_mismatch",
+                    "explanation": explanation,
+                    "disclaimer": "Past cutoffs are guidance and do not guarantee admission."
+                })
+                continue
+
+            # In rank numbers: lower number is better (e.g. #312 <= #845)
+            is_within = (score <= closing_rank)
+
+            if is_within:
+                match_label = "within the past cutoff range"
+                match_type = "within_cutoff_range"
+                explanation = f"Within Past Cutoff Range: Your Diploma State Merit Rank #{score} is lower than or equal to the closing merit rank #{int(closing_rank)} for {rec.get('branch_name', rec_branch)} at {rec.get('college_name')} ({rec.get('academic_year')}, {rec.get('round')}, Category: {rec_cat}, Quota: {rec_quota})."
+            else:
+                match_label = "more competitive than the past cutoff range"
+                match_type = "more_competitive"
+                explanation = f"More Competitive Than Past Cutoff Range: In {rec.get('academic_year')} {rec.get('round')}, allotments for {rec.get('branch_name', rec_branch)} ({rec_cat}, {rec_quota}) closed at merit rank #{int(closing_rank)}. Your Diploma State Merit Rank #{score} is higher than the historical closing rank."
+
+            cutoff_val_display = f"#{int(closing_rank)}"
+            cutoff_type_display = "State Merit Rank"
+
+        else:
+            # norm_metric_type == "marks"
+            if closing_marks is None and rec_score_type in ("marks", "percentile") and rec.get("cutoff_value") is not None:
+                try:
+                    closing_marks = float(rec.get("cutoff_value"))
+                except (ValueError, TypeError):
+                    closing_marks = None
+
+            if closing_marks is None:
+                explanation = f"Metric Mismatch: Uploaded cutoff for {rec.get('college_name')} uses rank rather than marks. Direct Second Year comparisons require like-for-like metrics."
+                matched_results.append({
+                    "record": rec,
+                    "college": rec.get("college_name"),
+                    "college_code": rec.get("college_code"),
+                    "engineering_branch": rec.get("branch_name") or rec.get("branch_code"),
+                    "branch_code": rec.get("branch_code"),
+                    "district": rec.get("district") or rec.get("city"),
+                    "cutoff_value": rec.get("cutoff_value"),
+                    "cutoff_type": rec_score_type,
+                    "admission_year": rec.get("academic_year"),
+                    "cap_round": rec.get("round"),
+                    "source": rec.get("source") or "Government of Maharashtra State CET Cell - Direct Second Year Engineering (DSE) Centralized Admission Process",
+                    "match_label": "Metric mismatch (like-for-like required)",
+                    "match_type": "metric_mismatch",
+                    "explanation": explanation,
+                    "disclaimer": "Past cutoffs are guidance and do not guarantee admission."
+                })
+                continue
+
+            # In marks percentage: higher is better (e.g. 88.5% >= 85.0%)
+            is_within = (score >= closing_marks)
+
+            if is_within:
+                match_label = "within the past cutoff range"
+                match_type = "within_cutoff_range"
+                explanation = f"Within Past Cutoff Range (Like-for-Like Marks Comparison): Your Diploma aggregate of {score:.2f}% meets or exceeds the closing cutoff of {closing_marks:.2f}% for {rec.get('branch_name', rec_branch)} at {rec.get('college_name')} ({rec.get('academic_year')}, {rec.get('round')}, Category: {rec_cat}, Quota: {rec_quota})."
+            else:
+                match_label = "more competitive than the past cutoff range"
+                match_type = "more_competitive"
+                explanation = f"More Competitive Than Past Cutoff Range (Like-for-Like Marks Comparison): In {rec.get('academic_year')} {rec.get('round')}, allotments for {rec.get('branch_name', rec_branch)} ({rec_cat}, {rec_quota}) closed at {closing_marks:.2f}%. Your Diploma aggregate of {score:.2f}% is below the historical closing cutoff."
+
+            cutoff_val_display = f"{closing_marks:.2f}%"
+            cutoff_type_display = "Diploma Aggregate Marks"
+
+        matched_results.append({
+            "record": rec,
+            "college": rec.get("college_name"),
+            "college_code": rec.get("college_code"),
+            "engineering_branch": rec.get("branch_name") or rec.get("branch_code"),
+            "branch_code": rec.get("branch_code"),
+            "district": rec.get("district") or rec.get("city"),
+            "cutoff_value": cutoff_val_display,
+            "cutoff_value_raw": closing_rank if norm_metric_type == "rank" else closing_marks,
+            "cutoff_type": cutoff_type_display,
+            "admission_year": rec.get("academic_year"),
+            "cap_round": rec.get("round"),
+            "category": rec_cat,
+            "quota": rec_quota,
+            "source": rec.get("source") or "Government of Maharashtra State CET Cell - Direct Second Year Engineering (DSE) Centralized Admission Process",
+            "match_label": match_label,
+            "match_type": match_type,
+            "explanation": explanation,
+            "disclaimer": "Past cutoffs are guidance and do not guarantee admission."
+        })
+
+    def dsy_sort_key(item):
+        m_type = item.get("match_type")
+        type_order = 0 if m_type == "within_cutoff_range" else (1 if m_type == "more_competitive" else 2)
+        b_code = item.get("branch_code")
+        p_idx = preferred_branches.index(b_code) if b_code in preferred_branches else 99
+        return (type_order, p_idx)
+
+    matched_results.sort(key=dsy_sort_key)
+
+    return {
+        "status": "success",
+        "data_status": "matched" if matched_results else "no_matches_found",
+        "student_profile": {
+            "admission_type": "Direct Second Year Engineering (DSY/DSE)",
+            "diploma_branch": diploma_branch,
+            "metric_type": norm_metric_type,
+            "score": score,
+            "category": category,
+            "preferred_engineering_branches": preferred_branches,
+            "preferred_districts": preferred_districts,
+            "quota": quota,
+            "cap_round": cap_round,
+            "admission_year": admission_year
+        },
+        "count": len(matched_results),
+        "recommendations": matched_results,
+        "disclaimer": "Past cutoffs are guidance and do not guarantee admission."
+    }, 200
+
+
+@recommendations_bp.route('/recommendations/dsy', methods=['POST'])
+def get_dsy_recommendations():
+    """
+    Dedicated endpoint for Direct Second Year Engineering (DSY/DSE) admission recommendations.
+    Strictly isolated from First-Year engineering cutoffs.
+    Does not invent cutoffs or college recommendations.
+    """
+    data = request.get_json(silent=True) or {}
+    res, code = compute_dsy_recommendations(data)
+    return jsonify(res), code
+
+
 @recommendations_bp.route('/recommendations', methods=['POST'])
 def get_college_recommendations():
     """
@@ -476,6 +758,10 @@ def get_college_recommendations():
     Strictly prevents cross-exam or mixed score-type comparisons.
     """
     data = request.get_json(silent=True) or {}
+    if data.get('admission_type') in ('dsy', 'dse') or data.get('admission_route') == 'BTECH_DSY' or data.get('diploma_branch'):
+        res, code = compute_dsy_recommendations(data)
+        return jsonify(res), code
+
     exam = data.get('exam', '').strip()
     score_type = data.get('score_type', '').strip().lower()
     score_raw = data.get('score')

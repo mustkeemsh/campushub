@@ -254,3 +254,31 @@ html.dark footer {
   transform: scale(1.05);
   transition: transform 0.15s ease;
 }
+
+/* Select options in Dark Mode */
+html.dark option {
+  background-color: #0e172a !important;
+  color: #f8fafc !important;
+}
+
+/* Sleek modern scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.65);
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(51, 65, 85, 0.6);
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(71, 85, 105, 0.9);
+}

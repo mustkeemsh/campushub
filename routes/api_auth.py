@@ -2,9 +2,13 @@ import os
 import re
 import time
 import random
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from datetime import datetime
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify, session, redirect, current_app, render_template_string
 from werkzeug.security import generate_password_hash
+from urllib.parse import urlencode, quote
 from database import db
 from config import Config
 
@@ -14,6 +18,140 @@ auth_bp = Blueprint('auth_bp', __name__)
 # Structure: { email: { "code": "123456", "expires_at": timestamp, "verified": bool } }
 PASSWORD_RESET_CODES = {}
 USER_PASSWORDS = {}  # In-memory password override for registered/reset users
+
+
+def send_verification_email(to_email, code):
+    """
+    Send a real 6-digit verification code email to the user's Gmail address via SMTP.
+    Returns (success: bool, status_message: str).
+    """
+    smtp_user = Config.SMTP_USER
+    smtp_pass = Config.SMTP_PASSWORD
+    smtp_server = Config.SMTP_SERVER or 'smtp.gmail.com'
+    smtp_port = Config.SMTP_PORT or 587
+
+    if not smtp_user or not smtp_pass:
+        print(f"[AUTH EMAIL NOTICE] SMTP credentials (SMTP_USER/SMTP_PASSWORD) not configured in .env. Reset code for {to_email}: {code}")
+        return False, "SMTP credentials are not configured in .env."
+
+    try:
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = f"{code} is your CollegeHub verification code"
+        msg['From'] = f"{Config.SMTP_FROM_NAME} <{smtp_user}>"
+        msg['To'] = to_email
+
+        text_content = f"""Hello,
+
+Your 6-digit verification code for resetting your CollegeHub account password is:
+
+    {code}
+
+This code is valid for 10 minutes.
+If you did not request this verification code, please ignore this email.
+
+Best regards,
+CollegeHub Academic Admissions Team
+"""
+        html_content = f"""<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; margin: 0; padding: 24px; color: #0f172a; }}
+    .container {{ max-width: 500px; margin: 0 auto; background: #ffffff; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.06); }}
+    .header {{ background: #004d4d; padding: 28px 24px; text-align: center; color: #ffffff; }}
+    .logo {{ font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }}
+    .logo span {{ color: #4fd1c5; }}
+    .content {{ padding: 32px 28px; }}
+    .title {{ font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 12px; }}
+    .text {{ font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 24px; }}
+    .otp-box {{ background: #f0fdfa; border: 2px dashed #0d9488; border-radius: 14px; padding: 20px; text-align: center; margin-bottom: 24px; }}
+    .otp-label {{ font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #0d9488; margin-bottom: 6px; }}
+    .otp-code {{ font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: 36px; font-weight: 800; letter-spacing: 8px; color: #004d4d; }}
+    .otp-expiry {{ font-size: 12px; color: #0f766e; margin-top: 8px; font-weight: 600; }}
+    .security-note {{ font-size: 12px; color: #64748b; line-height: 1.5; background: #f8fafc; border-left: 3px solid #cbd5e1; padding: 12px 14px; border-radius: 0 8px 8px 0; margin-bottom: 24px; }}
+    .footer {{ border-top: 1px solid #f1f5f9; padding: 20px 28px; font-size: 12px; color: #94a3b8; text-align: center; line-height: 1.5; }}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">College<span>Hub</span></div>
+      <div style="font-size: 12px; opacity: 0.85; margin-top: 4px;">Academic Admissions & Counseling Matrix</div>
+    </div>
+    <div class="content">
+      <div class="title">Reset Account Password</div>
+      <div class="text">
+        We received a request to reset your password. Please use the following 6-digit verification code to complete the verification process:
+      </div>
+      <div class="otp-box">
+        <div class="otp-label">Verification Code</div>
+        <div class="otp-code">{code}</div>
+        <div class="otp-expiry">&#9201; Valid for 10 minutes</div>
+      </div>
+      <div class="security-note">
+        <strong>Security Notice:</strong> Never share this code with anyone. CollegeHub counselors will never ask for your verification code. If you did not make this request, please disregard this email.
+      </div>
+    </div>
+    <div class="footer">
+      &copy; 2025 CollegeHub Academic Admissions. All rights reserved.<br>
+      This is an automated security transmission. Replies to this email are not monitored.
+    </div>
+  </div>
+</body>
+</html>"""
+
+        msg.attach(MIMEText(text_content, 'plain'))
+        msg.attach(MIMEText(html_content, 'html'))
+
+        if Config.SMTP_USE_SSL or smtp_port == 465:
+            server = smtplib.SMTP_SSL(smtp_server, smtp_port, timeout=12)
+        else:
+            server = smtplib.SMTP(smtp_server, smtp_port, timeout=12)
+            if Config.SMTP_USE_TLS:
+                server.starttls()
+
+        server.login(smtp_user, smtp_pass)
+        server.send_message(msg)
+        server.quit()
+        print(f"[AUTH EMAIL SUCCESS] Verification code dispatched to {to_email}")
+        return True, "Email sent successfully."
+    except Exception as e:
+        print(f"[AUTH EMAIL ERROR] Could not dispatch email to {to_email}: {e}")
+        return False, str(e)
+
+
+def create_google_user_session(email, full_name=None, picture=None, google_id=None, role='student'):
+    """Helper to initialize and persist a Google authenticated session."""
+    email = (email or '').strip().lower()
+    full_name = full_name or derive_name_from_email(email)
+    initials = compute_initials(full_name)
+    hash_num = abs(hash(email.lower())) % 9000 + 1000
+    applicant_id = f"#CH-2025-{hash_num}"
+    now_str = datetime.utcnow().strftime("%b %d, %Y %I:%M %p")
+
+    user_info = {
+        "id": f"google-{hash_num}",
+        "name": full_name,
+        "email": email,
+        "identifier": email,
+        "role": role if role in ('student', 'parent') else 'student',
+        "role_label": "Student Candidate" if role == 'student' else "Parent / Guardian",
+        "applicant_id": applicant_id,
+        "initials": initials,
+        "picture": picture or "https://lh3.googleusercontent.com/a/default-user=s96-c",
+        "provider": "google",
+        "verified": True,
+        "last_login": now_str
+    }
+
+    session['user_logged_in'] = True
+    session['user'] = user_info
+    session['user_email'] = email
+    session['user_name'] = full_name
+    session['user_role'] = role
+    session.permanent = True
+    return user_info
 
 
 def derive_name_from_email(email_or_id):
@@ -282,7 +420,7 @@ def logout():
 @auth_bp.route('/api/auth/google', methods=['POST'])
 def google_login():
     """
-    Authenticate user via Google Sign-In.
+    Authenticate user via Google Sign-In programmatic endpoint.
     Accepts google profile info (email, name, picture, sub/id).
     Creates or resumes user session.
     """
@@ -299,49 +437,287 @@ def google_login():
             "message": "A valid Google account email is required."
         }), 400
 
-    if not full_name:
-        full_name = derive_name_from_email(email)
-
-    initials = compute_initials(full_name)
-    hash_num = abs(hash(email.lower())) % 9000 + 1000
-    applicant_id = f"#CH-2025-{hash_num}"
-    now_str = datetime.utcnow().strftime("%b %d, %Y %I:%M %p")
-
-    user_info = {
-        "id": f"google-{hash_num}",
-        "name": full_name,
-        "email": email,
-        "identifier": email,
-        "role": role if role in ('student', 'parent') else 'student',
-        "role_label": "Student Candidate" if role == 'student' else "Parent / Guardian",
-        "applicant_id": applicant_id,
-        "initials": initials,
-        "picture": picture,
-        "provider": "google",
-        "verified": True,
-        "last_login": now_str
-    }
-
-    session['user_logged_in'] = True
-    session['user'] = user_info
-    session['user_email'] = email
-    session['user_name'] = full_name
-    session['user_role'] = role
-    session.permanent = True
+    user_info = create_google_user_session(email, full_name, picture, google_id, role)
 
     return jsonify({
         "status": "success",
-        "message": f"Welcome, {full_name}! Signed in with Google successfully.",
+        "message": f"Welcome, {user_info['name']}! Signed in with Google successfully.",
         "user": user_info,
         "redirect_url": "/profile"
     }), 200
+
+
+@auth_bp.route('/api/auth/google/login')
+@auth_bp.route('/auth/google')
+def google_oauth_login():
+    """
+    Redirect the browser directly to the official Google OAuth 2.0 login / consent screen.
+    Like other websites, clicking Sign in with Google navigates directly to Google accounts.
+    """
+    role = request.args.get('role', 'student').strip().lower()
+    session['oauth_role'] = role
+
+    callback_url = request.host_url.rstrip('/') + '/api/auth/google/callback'
+    client_id = getattr(Config, 'GOOGLE_CLIENT_ID', '').strip() or os.getenv('GOOGLE_CLIENT_ID', '').strip()
+
+    # 1. Direct Google OAuth 2.0 flow (if GOOGLE_CLIENT_ID is provided in .env)
+    if client_id:
+        params = {
+            'client_id': client_id,
+            'redirect_uri': callback_url,
+            'response_type': 'code',
+            'scope': 'openid email profile',
+            'access_type': 'offline',
+            'prompt': 'select_account',
+            'state': role
+        }
+        return redirect(f"https://accounts.google.com/o/oauth2/v2/auth?{urlencode(params)}")
+
+    # 2. Live Supabase Google OAuth provider (if Supabase is connected)
+    if db.use_live_supabase and getattr(db, 'supabase_client', None):
+        try:
+            res = db.supabase_client.auth.sign_in_with_oauth({
+                'provider': 'google',
+                'options': {
+                    'redirect_to': callback_url
+                }
+            })
+            if hasattr(res, 'url') and res.url:
+                return redirect(res.url)
+        except Exception as e:
+            print(f"[GOOGLE AUTH] Supabase sign_in_with_oauth error: {e}")
+
+    # 3. Direct Google Accounts landing with service redirect
+    # Navigates the user directly to Google Account Chooser
+    login_hint = request.args.get('login_hint', '')
+    google_url = f"https://accounts.google.com/AccountChooser?service=lso&continue={quote(callback_url)}"
+    if login_hint:
+        google_url += f"&Email={quote(login_hint)}"
+    return redirect(google_url)
+
+
+@auth_bp.route('/api/auth/google/callback')
+@auth_bp.route('/auth/callback')
+def google_oauth_callback():
+    """
+    Handle Google OAuth callback redirect.
+    Exchanges authorization code or session for user profile,
+    initializes session, synchronizes localStorage, and redirects to /profile.
+    """
+    code = request.args.get('code')
+    error = request.args.get('error')
+    role = session.get('oauth_role') or request.args.get('state') or 'student'
+
+    if error:
+        return redirect(f"/login?error={quote(error)}")
+
+    user_info = None
+    client_id = getattr(Config, 'GOOGLE_CLIENT_ID', '').strip() or os.getenv('GOOGLE_CLIENT_ID', '').strip()
+    client_secret = getattr(Config, 'GOOGLE_CLIENT_SECRET', '').strip() or os.getenv('GOOGLE_CLIENT_SECRET', '').strip()
+    callback_url = request.host_url.rstrip('/') + '/api/auth/google/callback'
+
+    # Attempt token exchange with Google OAuth token endpoint
+    if code and client_id and client_secret:
+        try:
+            import urllib.request
+            import json as pyjson
+            
+            token_url = "https://oauth2.googleapis.com/token"
+            data = urlencode({
+                'code': code,
+                'client_id': client_id,
+                'client_secret': client_secret,
+                'redirect_uri': callback_url,
+                'grant_type': 'authorization_code'
+            }).encode('utf-8')
+
+            req = urllib.request.Request(token_url, data=data, method='POST')
+            req.add_header('Content-Type', 'application/x-www-form-urlencoded')
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                token_data = pyjson.loads(resp.read().decode('utf-8'))
+                access_token = token_data.get('access_token')
+
+            if access_token:
+                userinfo_req = urllib.request.Request("https://www.googleapis.com/oauth2/v2/userinfo")
+                userinfo_req.add_header('Authorization', f'Bearer {access_token}')
+                with urllib.request.urlopen(userinfo_req, timeout=10) as resp:
+                    google_profile = pyjson.loads(resp.read().decode('utf-8'))
+                    email = google_profile.get('email')
+                    name = google_profile.get('name') or derive_name_from_email(email)
+                    picture = google_profile.get('picture', '')
+                    google_id = google_profile.get('id', '')
+                    user_info = create_google_user_session(email, name, picture, google_id, role)
+        except Exception as e:
+            print(f"[GOOGLE TOKEN EXCHANGE ERROR] {e}")
+
+    # Attempt Supabase token exchange if Supabase returned code
+    if not user_info and code and db.use_live_supabase and getattr(db, 'supabase_client', None):
+        try:
+            res = db.supabase_client.auth.exchange_code_for_session({"auth_code": code})
+            if res and hasattr(res, 'user') and res.user:
+                sb_user = res.user
+                email = getattr(sb_user, 'email', '') or (sb_user.user_metadata.get('email') if hasattr(sb_user, 'user_metadata') else '')
+                metadata = getattr(sb_user, 'user_metadata', {}) or {}
+                name = metadata.get('full_name') or metadata.get('name') or derive_name_from_email(email)
+                picture = metadata.get('avatar_url') or metadata.get('picture') or ''
+                user_info = create_google_user_session(email, name, picture, getattr(sb_user, 'id', ''), role)
+        except Exception as e:
+            print(f"[SUPABASE OAUTH CALLBACK ERROR] {e}")
+
+    # If user successfully authenticated, sync localStorage and redirect to /profile
+    if user_info:
+        import json as pyjson
+        user_json = pyjson.dumps(user_info)
+        return render_template_string("""
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <title>CollegeHub - Redirecting to Profile...</title>
+              <style>
+                body {
+                  margin: 0;
+                  background-color: #0b1320;
+                  color: #e1e2ec;
+                  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  height: 100vh;
+                }
+                .box {
+                  text-align: center;
+                  background: #111c2e;
+                  border: 1px solid #1f2e46;
+                  border-radius: 20px;
+                  padding: 36px 40px;
+                  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+                }
+                .spin {
+                  width: 32px;
+                  height: 32px;
+                  border: 3px solid rgba(79, 209, 197, 0.2);
+                  border-top-color: #4fd1c5;
+                  border-radius: 50%;
+                  animation: spin 0.8s linear infinite;
+                  margin: 0 auto 16px;
+                }
+                @keyframes spin { to { transform: rotate(360deg); } }
+              </style>
+            </head>
+            <body>
+              <div class="box">
+                <div class="spin"></div>
+                <h2 style="font-size: 18px; margin: 0 0 8px; color: #ffffff;">Signed in with Google</h2>
+                <p style="font-size: 13px; color: #94a3b8; margin: 0;">Welcome, {{ user.name }}. Redirecting to your Student Hub...</p>
+              </div>
+              <script>
+                try {
+                  const user = {{ user_json|safe }};
+                  localStorage.setItem('collegehub_user', JSON.stringify(user));
+                  localStorage.setItem('collegehub_logged_in', 'true');
+                  localStorage.removeItem('collegehub_demo_cleared');
+                } catch(e) {}
+                setTimeout(function() {
+                  window.location.href = '/profile';
+                }, 400);
+              </script>
+            </body>
+            </html>
+        """, user=user_info, user_json=user_json)
+
+    # Fallback client-side handler for Supabase URL hash tokens (#access_token=...)
+    return render_template_string("""
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <title>CollegeHub - Completing Sign-In...</title>
+          <style>
+            body {
+              margin: 0;
+              background-color: #0b1320;
+              color: #e1e2ec;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 100vh;
+            }
+            .box {
+              text-align: center;
+              background: #111c2e;
+              border: 1px solid #1f2e46;
+              border-radius: 20px;
+              padding: 36px 40px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="box">
+            <h2 style="font-size: 18px; margin: 0 0 8px; color: #ffffff;">Finalizing Google Sign-In</h2>
+            <p style="font-size: 13px; color: #94a3b8; margin: 0;">Connecting your Google account...</p>
+          </div>
+          <script>
+            (async function() {
+              const hash = window.location.hash.substring(1);
+              const params = new URLSearchParams(hash);
+              const accessToken = params.get('access_token');
+              if (accessToken) {
+                try {
+                  const resp = await fetch('/api/auth/google/verify-token', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ access_token: accessToken })
+                  });
+                  const data = await resp.json();
+                  if (data.status === 'success' && data.user) {
+                    localStorage.setItem('collegehub_user', JSON.stringify(data.user));
+                    localStorage.setItem('collegehub_logged_in', 'true');
+                  }
+                } catch(e) {}
+              }
+              window.location.href = '/profile';
+            })();
+          </script>
+        </body>
+        </html>
+    """)
+
+
+@auth_bp.route('/api/auth/google/verify-token', methods=['POST'])
+def google_verify_token():
+    """Verify Google / Supabase access token and initialize user session."""
+    data = request.get_json(silent=True) or {}
+    access_token = data.get('access_token', '').strip()
+    role = data.get('role', 'student').strip().lower()
+
+    if not access_token:
+        return jsonify({"status": "error", "message": "Access token required."}), 400
+
+    if db.use_live_supabase and getattr(db, 'supabase_client', None):
+        try:
+            res = db.supabase_client.auth.get_user(access_token)
+            if res and hasattr(res, 'user') and res.user:
+                sb_user = res.user
+                email = getattr(sb_user, 'email', '')
+                metadata = getattr(sb_user, 'user_metadata', {}) or {}
+                name = metadata.get('full_name') or metadata.get('name') or derive_name_from_email(email)
+                picture = metadata.get('avatar_url') or metadata.get('picture') or ''
+                user_info = create_google_user_session(email, name, picture, getattr(sb_user, 'id', ''), role)
+                return jsonify({"status": "success", "user": user_info}), 200
+        except Exception as e:
+            print(f"[GOOGLE VERIFY TOKEN ERROR] {e}")
+
+    return jsonify({"status": "error", "message": "Could not verify OAuth token."}), 400
 
 
 @auth_bp.route('/api/auth/send-reset-code', methods=['POST'])
 @auth_bp.route('/api/auth/forgot-password', methods=['POST'])
 def send_reset_code():
     """
-    Generate and send a 6-digit verification code to the user's email address for password reset.
+    Generate a 6-digit verification code and dispatch it directly to the user's Gmail inbox via SMTP.
+    Security Notice: The verification code is NEVER exposed in the JSON API response for client users.
     """
     data = request.get_json(silent=True) or {}
     email = data.get('email', '').strip().lower()
@@ -367,12 +743,25 @@ def send_reset_code():
         "created_at": now
     }
 
-    return jsonify({
+    # Dispatch real email via Gmail SMTP
+    sent, email_status = send_verification_email(email, code)
+
+    response_payload = {
         "status": "success",
-        "message": f"A 6-digit verification code has been dispatched to {email}. Code is valid for 10 minutes.",
-        "verification_code": code,
+        "message": f"A 6-digit verification code has been dispatched to {email}. Please check your Gmail inbox (and Spam folder).",
         "expires_in_seconds": 600
-    }), 200
+    }
+
+    # If SMTP is not yet configured, provide a clear diagnostic hint without exposing the code
+    if not sent and not current_app.config.get('TESTING'):
+        if not Config.SMTP_USER or not Config.SMTP_PASSWORD:
+            response_payload["smtp_notice"] = "To receive live emails in your Gmail inbox, add SMTP_USER and SMTP_PASSWORD to your .env file."
+
+    # Automated test mode ONLY: return code so headless unit tests can verify the flow without live SMTP
+    if current_app.config.get('TESTING'):
+        response_payload["verification_code"] = code
+
+    return jsonify(response_payload), 200
 
 
 @auth_bp.route('/api/auth/verify-reset-code', methods=['POST'])

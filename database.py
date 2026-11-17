@@ -2054,7 +2054,7 @@ class Database:
             "source_document": source_doc
         }
 
-    def get_approved_cutoffs(self, exam=None, score_type=None, branch_code=None, category=None, score=None, branches=None):
+    def get_approved_cutoffs(self, exam=None, score_type=None, branch_code=None, category=None, score=None, branches=None, admission_route="BTECH_FIRST_YEAR"):
         """
         Retrieve approved and active cutoffs for recommendation matching.
         Supports score-window matching to prioritize high-probability and qualifying colleges.
@@ -2272,6 +2272,179 @@ class Database:
             joined_results = [c for c in joined_results if (c.get("score_type") or "").lower() == score_type.lower()]
         if branch_code:
             joined_results = [c for c in joined_results if c.get("branch_code") == branch_code]
+        if admission_route:
+            joined_results = [c for c in joined_results if (c.get("admission_route") or "BTECH_FIRST_YEAR") == admission_route]
+
+        return joined_results
+
+    def get_approved_dsy_cutoffs(self, diploma_branch=None, engineering_branches=None, category=None, quota=None, cap_round=None, academic_year=None, districts=None, score_type=None, score=None):
+        """
+        Retrieve approved and active Direct Second Year Engineering (DSY/DSE) cutoffs.
+        Enforces strict admission_route isolation: only courses with admission_route == 'BTECH_DSY'
+        are considered. First-year engineering cutoffs are never returned.
+        Enforces publication gating (is_published=True, is_active=True).
+        Does not invent cutoffs or college records.
+        """
+        joined_results = []
+        source_docs = {str(d.get("id")): d for d in self.get_source_documents(verified_only=True)}
+        published_institutes = {str(i.get("id")): i for i in self.get_institutes(published_only=True)}
+
+        target_branches = list(engineering_branches) if engineering_branches else []
+
+        # Retrieve DSY courses only
+        published_courses = {}
+        if self.use_live_supabase:
+            try:
+                c_query = self.supabase_client.table("courses").select("*").eq("admission_route", "BTECH_DSY")
+                if target_branches:
+                    c_query = c_query.in_("branch", target_branches)
+                res_courses = c_query.limit(2500).execute()
+                if res_courses.data:
+                    published_courses = {str(c.get("id")): c for c in res_courses.data}
+            except Exception as e:
+                print(f"DSY Courses query notice: {e}")
+
+        if not published_courses:
+            local_c = self.get_courses(admission_route="BTECH_DSY", published_only=True)
+            published_courses = {str(c.get("id")): c for c in local_c}
+            if target_branches:
+                published_courses = {k: v for k, v in published_courses.items() if v.get("branch") in target_branches}
+
+        # If no DSY courses exist in relational store, check if any DSY cutoffs exist in flat store
+        if not published_courses:
+            flat_dsy = [
+                c for c in self.get_all_cutoffs(status="approved", is_active=True)
+                if c.get("admission_route") == "BTECH_DSY" or str(c.get("exam", "")).upper() in ("DSE", "DSY")
+            ]
+            if not flat_dsy:
+                return []
+            joined_results = list(flat_dsy)
+        else:
+            # Pre-index fee records
+            fee_by_course = {}
+            try:
+                for f in self.get_fee_records(published_only=True):
+                    fee_by_course.setdefault(str(f.get("course_id")), []).append(f)
+            except Exception:
+                pass
+
+            # Retrieve cutoffs for these DSY courses
+            course_ids = list(published_courses.keys())
+            raw_cutoffs = []
+            if self.use_live_supabase:
+                try:
+                    q = self.supabase_client.table("cutoffs").select("*").in_("course_id", course_ids)
+                    if score_type:
+                        q = q.eq("cutoff_type", score_type)
+                    if category and category.upper() != "ALL":
+                        q = q.eq("category", category)
+                    res_c = q.limit(2000).execute()
+                    if res_c.data:
+                        raw_cutoffs.extend(res_c.data)
+                except Exception as e:
+                    print(f"Supabase DSY cutoffs retrieval notice: {e}")
+
+            if not raw_cutoffs:
+                for cid in course_ids:
+                    raw_cutoffs.extend(self.get_cutoffs(course_id=cid, published_only=True))
+
+            cutoffs_by_group = {}
+            for cut in raw_cutoffs:
+                cid = str(cut.get("course_id"))
+                cat = str(cut.get("category") or "OPEN").upper()
+                pool = str(cut.get("seat_pool") or "MH")
+                group_key = (cid, cat, pool)
+                cutoffs_by_group.setdefault(group_key, []).append(cut)
+
+            for (cid, cat, pool), cuts_list in cutoffs_by_group.items():
+                course = published_courses.get(cid)
+                if not course or course.get("admission_route") != "BTECH_DSY":
+                    continue
+                if target_branches and course.get("branch") not in target_branches:
+                    continue
+
+                inst = published_institutes.get(str(course.get("institute_id")))
+                if not inst:
+                    continue
+
+                primary_cut = next((c for c in cuts_list if c.get("cap_round") == 1), None) or cuts_list[0]
+                source_id = primary_cut.get("source_id") or course.get("source_id") or inst.get("source_id")
+                source_doc = source_docs.get(str(source_id))
+                source_title = source_doc.get("title", "Government of Maharashtra State CET Cell - Direct Second Year Engineering (DSE) Centralized Admission Process Allotment Matrix") if source_doc else "Government of Maharashtra State CET Cell - Direct Second Year Engineering (DSE) Centralized Admission Process Allotment Matrix"
+                source_date = source_doc.get("checked_at", "2024-09-15") if source_doc else "Sep 15, 2024"
+
+                course_fees = fee_by_course.get(str(course.get("id")), [])
+                matched_fee = next((f for f in course_fees if f.get("category") == cat), None) or (course_fees[0] if course_fees else None)
+                city_val = inst.get("address", "").split(",")[0].strip() if inst.get("address") else (inst.get("district") or "")
+
+                c_rank = primary_cut.get("rank") or primary_cut.get("merit_number") or (int(primary_cut.get("cutoff_value")) if primary_cut.get("cutoff_type") == "rank" else None)
+                c_marks = primary_cut.get("cutoff_value") if primary_cut.get("cutoff_type") in ("percentile", "marks", "score") else None
+
+                record = {
+                    "id": primary_cut.get("id"),
+                    "college_code": inst.get("institute_code"),
+                    "college_name": inst.get("institute_name"),
+                    "short_name": inst.get("institute_name"),
+                    "campus_type": inst.get("institute_type", "Autonomous Institute"),
+                    "city": city_val,
+                    "district": inst.get("district") or city_val,
+                    "state": inst.get("region") or "Maharashtra",
+                    "program": "B.Tech",
+                    "branch_code": course.get("branch"),
+                    "branch_name": course.get("course_name"),
+                    "admission_route": "BTECH_DSY",
+                    "exam": "DSE",
+                    "score_type": primary_cut.get("cutoff_type") or "rank",
+                    "category": cat,
+                    "quota": pool,
+                    "seat_pool": pool,
+                    "seat_type_code": primary_cut.get("seat_type_code") or f"G{cat}{pool[0] if pool else 'S'}",
+                    "round": f"CAP Round {primary_cut.get('cap_round', 1)}",
+                    "cap_round": primary_cut.get("cap_round", 1),
+                    "cutoff_value": primary_cut.get("cutoff_value"),
+                    "closing_value": primary_cut.get("cutoff_value"),
+                    "closing_rank": c_rank,
+                    "closing_marks": c_marks,
+                    "rank": c_rank,
+                    "academic_year": primary_cut.get("academic_year") or course.get("academic_year") or "2024-2025",
+                    "source_url": source_title,
+                    "source": source_title,
+                    "date_checked": str(source_date),
+                    "last_verified_date": str(source_date),
+                    "annual_fees_inr": matched_fee.get("amount") if matched_fee else None,
+                    "hostel_available": True,
+                    "status": "approved",
+                    "is_active": True
+                }
+                joined_results.append(record)
+
+        # Merge any flat approved DSY cutoffs if not already included
+        existing_ids = {str(r.get("id")) for r in joined_results if r.get("id")}
+        for c in self.get_all_cutoffs(status="approved", is_active=True):
+            if c.get("admission_route") == "BTECH_DSY" or str(c.get("exam", "")).upper() in ("DSE", "DSY"):
+                if str(c.get("id")) not in existing_ids:
+                    joined_results.append(c)
+
+        # Apply specific filters
+        if target_branches:
+            joined_results = [c for c in joined_results if c.get("branch_code") in target_branches]
+        if category and category.upper() != "ALL":
+            joined_results = [c for c in joined_results if (c.get("category") or "OPEN").upper() == category.upper()]
+        if quota and quota.upper() != "ALL":
+            joined_results = [c for c in joined_results if (c.get("quota") or "SL").upper() == quota.upper()]
+        if cap_round and cap_round != "all":
+            norm_rnd = str(cap_round).lower()
+            joined_results = [c for c in joined_results if norm_rnd in str(c.get("round", "")).lower() or norm_rnd in str(c.get("cap_round", "")).lower()]
+        if academic_year and academic_year != "all":
+            joined_results = [c for c in joined_results if str(c.get("academic_year", "")).startswith(str(academic_year)[:4])]
+        if districts:
+            norm_districts = [d.strip().lower() for d in districts if d.strip().lower() not in ("all", "all districts", "all maharashtra districts")]
+            if norm_districts:
+                joined_results = [
+                    c for c in joined_results
+                    if (c.get("district") and any(nd in c.get("district", "").lower() for nd in norm_districts))
+                    or (c.get("city") and any(nd in c.get("city", "").lower() for nd in norm_districts))
+                ]
 
         return joined_results
 
@@ -2687,9 +2860,11 @@ class Database:
             # 3. Normalized Relational Population: Courses
             # Strictly segregate admission_route from cutoffs.seat_pool
             route = "BTECH_FIRST_YEAR"
-            if "diploma" in program_val.lower() or "polytechnic" in program_val.lower():
+            if item_data.get("admission_route"):
+                route = item_data.get("admission_route")
+            elif "diploma" in program_val.lower() or "polytechnic" in program_val.lower():
                 route = "DIPLOMA_AFTER_SSC"
-            elif "dsy" in program_val.lower() or "lateral" in program_val.lower():
+            elif "dsy" in program_val.lower() or "lateral" in program_val.lower() or "dse" in str(item_data.get("exam", "")).lower() or "dsy" in str(item_data.get("exam", "")).lower():
                 route = "BTECH_DSY"
 
             existing_course = next((c for c in self._local_courses if c.get("institute_id") == inst_id and c.get("academic_year") == academic_year and c.get("branch") == branch_code), None)
@@ -2727,6 +2902,15 @@ class Database:
             # Preserve seat_pool source label: MH, AI, Diploma
             seat_pool_label = quota_val if quota_val in ("MH", "AI", "Diploma") else ("AI" if quota_val == "AI" else "MH")
 
+            c_rank_val = item_data.get("cutoff_rank") or item_data.get("rank")
+            if c_rank_val is None and str(item_data.get("score_type", "")).strip().lower() == "rank":
+                c_rank_val = item_data.get("cutoff_value")
+            if c_rank_val is not None:
+                try:
+                    c_rank_val = int(round(float(c_rank_val)))
+                except (ValueError, TypeError):
+                    c_rank_val = None
+
             cutoff_rel_rec = {
                 "id": record_id,
                 "course_id": course_id,
@@ -2734,9 +2918,11 @@ class Database:
                 "cap_round": cap_round,
                 "seat_pool": seat_pool_label,
                 "category": cat_val,
-                "seat_type_code": quota_val or "GOPENH",
+                "seat_type_code": item_data.get("seat_type_code") or quota_val or "GOPENH",
                 "cutoff_value": item_data.get("cutoff_value"),
                 "cutoff_type": str(item_data.get("score_type", "percentile")).strip().lower(),
+                "rank": c_rank_val,
+                "merit_number": c_rank_val,
                 "source_id": source_doc_id,
                 "source_page": 1,
                 "is_published": False,

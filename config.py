@@ -12,6 +12,19 @@ class Config:
     ADMIN_USERNAME = os.getenv('ADMIN_USERNAME', 'admin').strip()
     ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', 'admincollegehub').strip()
 
+    # Google OAuth 2.0 Credentials
+    GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '').strip()
+    GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', '').strip()
+
+    # Mail & Gmail SMTP Configuration
+    SMTP_SERVER = os.getenv('SMTP_SERVER', 'smtp.gmail.com').strip()
+    SMTP_PORT = int(os.getenv('SMTP_PORT', '587'))
+    SMTP_USER = os.getenv('SMTP_USER', '').strip()
+    SMTP_PASSWORD = os.getenv('SMTP_PASSWORD', '').strip()
+    SMTP_FROM_NAME = os.getenv('SMTP_FROM_NAME', 'CollegeHub Admissions').strip()
+    SMTP_USE_TLS = os.getenv('SMTP_USE_TLS', 'true').strip().lower() in ('true', '1', 'yes')
+    SMTP_USE_SSL = os.getenv('SMTP_USE_SSL', 'false').strip().lower() in ('true', '1', 'yes')
+
     # The 8 authorized FAQ categories required by CollegeHub
     CATEGORIES = [
         'admissions',
