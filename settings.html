@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>CollegeHub - Account Settings &amp; Security</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed": "#d7e3ff",
+            "surface-container-low": "#f3f4f3",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "secondary-container": "#a8ece5",
+            "surface-container-high": "#e8e8e7",
+            "on-error": "#ffffff",
+            "tertiary": "#020500",
+            "on-background": "#1a1c1c",
+            "inverse-primary": "#b8c7e6",
+            "on-tertiary-fixed": "#102000",
+            "error-container": "#ffdad6",
+            "on-primary-container": "#7886a3",
+            "surface-dim": "#dadad9",
+            "surface-bright": "#f9f9f8",
+            "outline": "#75777e",
+            "on-secondary-fixed-variant": "#00504b",
+            "on-tertiary-fixed-variant": "#304f00",
+            "secondary-fixed": "#abefe8",
+            "surface-container": "#eeeeed",
+            "tertiary-container": "#122200",
+            "primary": "#000412",
+            "tertiary-fixed-dim": "#91db2a",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#515f7a",
+            "tertiary-fixed": "#acf847",
+            "surface-container-highest": "#e2e2e2",
+            "inverse-on-surface": "#f1f1f0",
+            "secondary-fixed-dim": "#8fd3cc",
+            "on-surface-variant": "#44474d",
+            "primary-container": "#102341",
+            "on-error-container": "#93000a",
+            "on-primary": "#ffffff",
+            "surface": "#f9f9f8",
+            "on-secondary-container": "#00625d",
+            "outline-variant": "#c5c6ce",
+            "background": "#f9f9f8",
+            "inverse-surface": "#2f3130",
+            "on-surface": "#1a1c1c",
+            "on-primary-fixed": "#091c39",
+            "secondary": "#216963",
+            "on-primary-fixed-variant": "#3a4862",
+            "on-secondary-fixed": "#00201d"
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #c5c6ce; border-radius: 9999px; }
+    .dark ::-webkit-scrollbar-thumb { background: #44474d; }
+  </style>
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('collegehub-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+</head>
+<body class="bg-[#f9f9f8] text-[#1a1c1c] dark:bg-[#0d1320] dark:text-[#f1f5f9] min-h-screen font-sans flex flex-col antialiased selection:bg-secondary/20 selection:text-secondary">
+
+  <!-- Global Header -->
+  <header class="sticky top-0 z-40 bg-surface/90 dark:bg-[#0d1320]/90 backdrop-blur-md border-b border-outline-variant/40 dark:border-slate-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      
+      <!-- Logo & Wordmark -->
+      <a href="index.html" class="flex items-center gap-3 group focus:outline-none">
+        <div class="w-10 h-10 rounded-xl bg-primary-container dark:bg-primary-fixed/20 text-on-primary dark:text-sky-300 flex items-center justify-center font-bold text-lg shadow-sm border border-primary/10 group-hover:scale-105 transition-transform">
+          CH
+        </div>
+        <div>
+          <span class="font-bold text-lg tracking-tight text-primary dark:text-white block leading-tight">CollegeHub</span>
+          <span class="text-[11px] font-medium text-on-surface-variant dark:text-slate-400 block -mt-0.5">Admissions &amp; Academic Assistance</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-1 p-1 bg-surface-container-low/70 dark:bg-slate-800/60 rounded-2xl border border-surface-container-high/60 dark:border-slate-700/50">
+        <a href="index.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all">Home</a>
+        <a href="recommendations.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all">College Predictor</a>
+        <a href="faqs.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all">FAQs &amp; Chatbot</a>
+        <a href="profile.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-bold bg-secondary-container text-on-secondary-container dark:bg-slate-900 dark:text-secondary-fixed rounded-xl shadow-xs transition-all">Student Hub</a>
+        <a href="about.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all">About</a>
+      </nav>
+
+      <!-- Right Controls: Theme Toggle & User Pill -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <button id="themeToggleBtn" onclick="CollegeHubData.toggleTheme()" title="Switch Light/Dark mode" class="w-9 h-9 rounded-xl bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-200 hover:bg-surface-container-high dark:hover:bg-slate-700 flex items-center justify-center transition-colors">
+          <span class="material-symbols-outlined text-base dark:hidden">dark_mode</span>
+          <span class="material-symbols-outlined text-base hidden dark:inline">light_mode</span>
+        </button>
+
+        <!-- User Menu Pill -->
+        <div class="relative group">
+          <button class="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 hover:bg-surface-container transition-colors">
+            <div data-user-initials class="w-7 h-7 rounded-full bg-secondary text-on-secondary font-bold text-xs flex items-center justify-center shadow-xs">
+              ST
+            </div>
+            <div class="text-left hidden sm:block">
+              <span data-user-name class="block text-xs font-bold text-primary dark:text-white leading-tight">Student Profile</span>
+              <span data-user-id class="block text-[10px] text-on-surface-variant dark:text-slate-400">#CH-2025-0001</span>
+            </div>
+            <span class="material-symbols-outlined text-sm text-on-surface-variant">expand_more</span>
+          </button>
+          
+          <!-- Dropdown menu -->
+          <div class="absolute right-0 mt-1 w-48 bg-surface-container-lowest dark:bg-[#111a2e] border border-outline-variant/40 dark:border-slate-800 rounded-2xl shadow-lg py-1.5 hidden group-hover:block transition-all z-50">
+            <div class="px-3 py-2 border-b border-outline-variant/30 dark:border-slate-800 text-xs text-on-surface-variant dark:text-slate-400">
+              Signed in as <strong data-user-email class="text-primary dark:text-white">student@example.com</strong>
+            </div>
+            <a href="profile.html" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800">
+              <span class="material-symbols-outlined text-base">dashboard</span> Applicant Overview
+            </a>
+            <a href="recommendations.html" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800">
+              <span class="material-symbols-outlined text-base text-secondary">auto_awesome</span> College Recommendations
+            </a>
+            <a href="saved.html" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800">
+              <span class="material-symbols-outlined text-base">bookmark</span> Saved FAQs &amp; Chats
+            </a>
+            <a href="settings.html" class="flex items-center gap-2 px-3 py-2 text-xs font-bold text-secondary dark:text-secondary-fixed bg-surface-container-low dark:bg-slate-800">
+              <span class="material-symbols-outlined text-base">settings</span> Account Settings
+            </a>
+            <div class="border-t border-outline-variant/30 dark:border-slate-800 my-1"></div>
+            <a href="signin.html" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-error hover:bg-error-container/20">
+              <span class="material-symbols-outlined text-base">logout</span> Sign Out
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Unsaved Changes Amber Alert Banner (Shown when form is dirty) -->
+  <div id="unsavedBanner" class="hidden sticky top-16 z-30 bg-amber-500/10 dark:bg-amber-950/40 backdrop-blur-md border-b border-amber-300/80 dark:border-amber-700/60 px-4 py-2.5 transition-all">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2.5 text-amber-900 dark:text-amber-200">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+        </span>
+        <span class="font-bold">You have uncommitted modifications in Personal &amp; Contact Profile.</span>
+        <span class="hidden md:inline text-amber-800/80 dark:text-amber-300/80">Don't forget to save before navigating away.</span>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="triggerUnsavedModal('profile.html')" class="px-3 py-1 rounded-xl bg-amber-100 dark:bg-amber-900/50 text-amber-900 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-amber-900 font-semibold transition-colors">
+          Discard Edits
+        </button>
+        <button onclick="saveProfileChanges()" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl bg-secondary text-on-secondary font-bold hover:bg-secondary/90 transition-transform active:scale-95 shadow-xs">
+          <span class="material-symbols-outlined text-sm">save</span>
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Top Action & Navigation Row -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-outline-variant/40 dark:border-slate-800 pb-5">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <!-- Back to Previous Step Button -->
+          <button onclick="handleBackNavigation()" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-surface-container dark:bg-slate-800 hover:bg-surface-container-high dark:hover:bg-slate-700 text-xs font-semibold text-primary dark:text-white transition-colors border border-outline-variant/30 dark:border-slate-700">
+            <span class="material-symbols-outlined text-sm">arrow_back</span>
+            Back to Previous Step
+          </button>
+          <span class="text-outline-variant dark:text-slate-700">/</span>
+          <span class="text-xs text-on-surface-variant dark:text-slate-400">Applicant Portal Settings</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-primary dark:text-white flex items-center gap-3">
+          Account Settings &amp; Security
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span> 2FA Secured
+          </span>
+        </h1>
+        <p class="text-xs sm:text-sm text-on-surface-variant dark:text-slate-400 mt-1 max-w-3xl">
+          Manage your personal dossier, authentication credentials, family proxy access waivers, and institutional notification alerts.
+        </p>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-2 self-start sm:self-auto">
+        <button onclick="triggerUnsavedModal('profile.html')" id="topDiscardBtn" class="hidden px-3.5 py-2 rounded-xl text-xs font-semibold text-on-surface-variant dark:text-slate-400 hover:bg-surface-container dark:hover:bg-slate-800 transition-colors">
+          Discard
+        </button>
+        <button onclick="saveProfileChanges()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:bg-secondary/90 transition-colors shadow-sm">
+          <span class="material-symbols-outlined text-base">save</span>
+          Save Profile Changes
+        </button>
+      </div>
+    </div>
+
+    <!-- Student Dashboard Sub-Navigation Tabs (Unified across Portal) -->
+    <nav class="flex items-center gap-1 overflow-x-auto pb-1 border-b border-outline-variant/30 dark:border-slate-800" aria-label="Portal sub tabs">
+      <a href="profile.html" onclick="return interceptTabClick(event, 'profile.html')" class="px-4 py-2.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-400 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-800/60 rounded-xl transition-all whitespace-nowrap flex items-center gap-2">
+        <span class="material-symbols-outlined text-base">dashboard</span>
+        Overview &amp; Application Status
+      </a>
+      <a href="recommendations.html" onclick="return interceptTabClick(event, 'recommendations.html')" class="px-4 py-2.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-400 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-800/60 rounded-xl transition-all whitespace-nowrap flex items-center gap-2">
+        <span class="material-symbols-outlined text-base text-secondary">auto_awesome</span>
+        College Predictor
+        <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold">CAP 2025</span>
+      </a>
+      <a href="saved.html" onclick="return interceptTabClick(event, 'saved.html')" class="px-4 py-2.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-400 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-800/60 rounded-xl transition-all whitespace-nowrap flex items-center gap-2">
+        <span class="material-symbols-outlined text-base">bookmark</span>
+        Saved FAQs &amp; Counselor Chats
+      </a>
+      <a href="settings.html" class="px-4 py-2.5 text-xs sm:text-sm font-bold text-secondary dark:text-secondary-fixed bg-surface-container-lowest dark:bg-slate-900 border border-outline-variant/40 dark:border-slate-700 shadow-xs rounded-xl transition-all whitespace-nowrap flex items-center gap-2">
+        <span class="material-symbols-outlined text-base text-secondary">settings</span>
+        Account Settings &amp; Security
+        <span class="w-2 h-2 rounded-full bg-secondary"></span>
+      </a>
+    </nav>
+
+    <!-- Main Layout: Sidebar Navigation + Settings Sections -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+      <!-- LEFT SIDEBAR: Anchor Navigation (4 Cols on desktop) -->
+      <aside class="lg:col-span-4 sticky top-28 space-y-4">
+        
+        <!-- Navigation Menu Card -->
+        <div class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-2xl p-3 border border-outline-variant/40 dark:border-slate-800 shadow-xs space-y-1">
+          <p class="px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-on-surface-variant dark:text-slate-500">Settings Sections</p>
+          
+          <a href="#personalProfile" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-secondary dark:text-secondary-fixed bg-secondary/10 transition-colors">
+            <span class="material-symbols-outlined text-lg">badge</span>
+            Personal &amp; Contact Profile
+          </a>
+
+          <a href="#securityAuth" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800 transition-colors">
+            <span class="material-symbols-outlined text-lg">lock</span>
+            Security &amp; Authentication
+          </a>
+
+          <a href="#privacyProxy" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800 transition-colors">
+            <span class="material-symbols-outlined text-lg">supervisor_account</span>
+            Privacy &amp; Family Proxy Access
+          </a>
+
+          <a href="#notificationsAlerts" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800 transition-colors">
+            <span class="material-symbols-outlined text-lg">notifications</span>
+            Notification &amp; Deadline Alerts
+          </a>
+
+          <a href="#linkedAccounts" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800 transition-colors">
+            <span class="material-symbols-outlined text-lg">link</span>
+            Linked Campus Accounts &amp; SSO
+          </a>
+
+          <div class="border-t border-outline-variant/30 dark:border-slate-800 my-1"></div>
+
+          <a href="#dangerZone" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-error hover:bg-error-container/20 transition-colors">
+            <span class="material-symbols-outlined text-lg">warning</span>
+            Danger Zone &amp; Account Actions
+          </a>
+        </div>
+
+        <!-- Assigned Advisor Support Card -->
+        <div class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-2xl p-4 border border-outline-variant/40 dark:border-slate-800 shadow-xs space-y-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-secondary text-on-secondary font-bold text-xs flex items-center justify-center shrink-0">
+              EC
+            </div>
+            <div>
+              <p class="text-xs font-bold text-primary dark:text-white">Need Profile Help?</p>
+              <p class="text-[11px] text-on-surface-variant dark:text-slate-400">Dr. Elena Chen is your assigned advisor</p>
+            </div>
+          </div>
+          <p class="text-[11px] text-on-surface-variant dark:text-slate-400 leading-relaxed">
+            Legal name corrections or Board score updates require verified documentation through the registrar's desk.
+          </p>
+          <a href="saved.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-secondary dark:text-secondary-fixed hover:underline">
+            <span class="material-symbols-outlined text-sm">chat</span> Message Counselor
+          </a>
+        </div>
+
+      </aside>
+
+      <!-- RIGHT COLUMN: Settings Form Sections (8 Cols on desktop) -->
+      <div class="lg:col-span-8 space-y-8">
+
+        <!-- SECTION 1: Personal & Contact Profile -->
+        <section id="personalProfile" class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-3xl p-6 sm:p-7 border border-outline-variant/40 dark:border-slate-800 shadow-xs space-y-6">
+          <div class="flex items-center justify-between border-b border-outline-variant/30 dark:border-slate-800 pb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-secondary text-2xl">badge</span>
+              <div>
+                <h2 class="text-lg font-bold text-primary dark:text-white">Personal &amp; Contact Profile</h2>
+                <p class="text-xs text-on-surface-variant dark:text-slate-400">Primary student dossier information used across all centralized admissions rounds.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Avatar Row -->
+          <div class="flex items-center gap-4">
+            <div class="relative">
+              <div data-user-initials class="w-16 h-16 rounded-2xl bg-secondary text-on-secondary font-black text-xl flex items-center justify-center shadow-md">
+                ST
+              </div>
+              <button onclick="showToast('Avatar upload simulated. Image preserved in student profile.')" class="absolute -bottom-1 -right-1 w-6 h-6 rounded-lg bg-surface-container-highest dark:bg-slate-700 text-primary dark:text-white flex items-center justify-center shadow-xs hover:scale-105 transition-transform" title="Change photo">
+                <span class="material-symbols-outlined text-xs">photo_camera</span>
+              </button>
+            </div>
+            <div>
+              <h3 data-user-name class="text-sm font-bold text-primary dark:text-white">Student Profile</h3>
+              <p class="text-xs text-on-surface-variant dark:text-slate-400">Applicant ID: <span data-user-id>#CH-2025-0001</span> • Candidate</p>
+              <button onclick="showToast('Avatar selection opened.')" class="text-[11px] font-bold text-secondary dark:text-secondary-fixed hover:underline mt-1">
+                Upload New Photo
+              </button>
+            </div>
+          </div>
+
+          <!-- Profile Input Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+              <label class="block font-semibold text-primary dark:text-white mb-1">Full Legal Name (as on Board Marksheet)</label>
+              <input 
+                id="inputLegalName" 
+                type="text" 
+                value="" 
+                placeholder="e.g. Legal Full Name"
+                class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary/40"
+                oninput="markFormDirty('Full Legal Name')"
+              >
+            </div>
+
+            <div>
+              <label class="block font-semibold text-primary dark:text-white mb-1">Preferred First Name</label>
+              <input 
+                id="inputPreferredName" 
+                type="text" 
+                value="" 
+                placeholder="e.g. First Name"
+                class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary/40"
+                oninput="markFormDirty('Preferred Name')"
+              >
+            </div>
+
+            <div>
+              <label class="block font-semibold text-primary dark:text-white mb-1">Primary Email Address</label>
+              <div class="relative">
+                <input 
+                  id="inputEmail" 
+                  type="email" 
+                  value="" 
+                  placeholder="student@example.com"
+                  class="w-full p-2.5 pr-20 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary/40"
+                  oninput="markFormDirty('Primary Email')"
+                >
+                <span class="absolute right-2.5 top-2.5 inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">
+                  <span class="material-symbols-outlined text-[12px]">verified</span> Verified
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-primary dark:text-white mb-1">Mobile Phone Number (SMS Alerts)</label>
+              <div class="relative">
+                <input 
+                  id="inputPhone" 
+                  type="tel" 
+                  value="" 
+                  placeholder="+91 00000 00000"
+                  class="w-full p-2.5 pr-20 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary/40"
+                  oninput="markFormDirty('Phone Number')"
+                >
+                <span class="absolute right-2.5 top-2.5 inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">
+                  <span class="material-symbols-outlined text-[12px]">check</span> Verified
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-primary dark:text-white mb-1">Date of Birth</label>
+              <input 
+                id="inputDob" 
+                type="date" 
+                value="" 
+                class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary/40"
+                oninput="markFormDirty('Date of Birth')"
+              >
+            </div>
+
+            <div>
+              <label class="block font-semibold text-primary dark:text-white mb-1">State of Domicile &amp; Quota</label>
+              <select 
+                id="inputDomicile" 
+                class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary/40"
+                onchange="markFormDirty('State of Domicile')"
+              >
+                <option selected>Maharashtra, India (Home State Quota)</option>
+                <option>Karnataka, India</option>
+                <option>Delhi NCR, India</option>
+                <option>Other State / All India Quota</option>
+                <option>Non-Resident / Overseas Quota</option>
+              </select>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block font-semibold text-primary dark:text-white mb-1">Permanent Residential Address</label>
+              <textarea 
+                id="inputAddress" 
+                rows="2" 
+                class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary/40 leading-relaxed"
+                oninput="markFormDirty('Permanent Address')"
+              >Flat 402, Green Meadows Enclave, Kothrud, Pune, Maharashtra 411038</textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 2: Security & Authentication -->
+        <section id="securityAuth" class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-3xl p-6 sm:p-7 border border-outline-variant/40 dark:border-slate-800 shadow-xs space-y-6">
+          <div class="flex items-center justify-between border-b border-outline-variant/30 dark:border-slate-800 pb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-secondary text-2xl">lock</span>
+              <div>
+                <h2 class="text-lg font-bold text-primary dark:text-white">Security &amp; Authentication</h2>
+                <p class="text-xs text-on-surface-variant dark:text-slate-400">Password protection, two-factor verification, and active browser sessions.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password Row -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-surface-container-low dark:bg-slate-800/60 border border-outline-variant/40 dark:border-slate-700">
+            <div>
+              <h3 class="text-xs font-bold text-primary dark:text-white">Account Password</h3>
+              <p class="text-[11px] text-on-surface-variant dark:text-slate-400 mt-0.5">
+                Last updated 28 days ago. Strong 14-character passphrase.
+              </p>
+            </div>
+            <button onclick="openPasswordModal()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-surface-container dark:bg-slate-700 hover:bg-surface-container-high dark:hover:bg-slate-600 text-xs font-semibold text-primary dark:text-white transition-colors border border-outline-variant/40 dark:border-slate-600">
+              <span class="material-symbols-outlined text-sm">key</span>
+              Update Password
+            </button>
+          </div>
+
+          <!-- 2FA Row -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-surface-container-low dark:bg-slate-800/60 border border-outline-variant/40 dark:border-slate-700">
+            <div class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-xl mt-0.5">shield</span>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h3 class="text-xs font-bold text-primary dark:text-white">Two-Factor Authentication (2FA)</h3>
+                  <span class="text-[10px] px-2 py-0.5 rounded font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">Enabled</span>
+                </div>
+                <p class="text-[11px] text-on-surface-variant dark:text-slate-400 mt-0.5">
+                  Authenticated via Google Authenticator (TOTP). High security protection enabled.
+                </p>
+              </div>
+            </div>
+            <button onclick="showToast('2FA settings: TOTP authenticator app active.')" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-surface-container dark:bg-slate-700 hover:bg-surface-container-high dark:hover:bg-slate-600 text-xs font-semibold text-primary dark:text-white transition-colors border border-outline-variant/40 dark:border-slate-600">
+              Manage 2FA
+            </button>
+          </div>
+
+          <!-- Active Sessions -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold text-primary dark:text-white">Active Sessions &amp; Authorized Devices</h3>
+              <button onclick="signOutAllOtherDevices()" class="text-[11px] font-bold text-error hover:underline flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">logout</span> Sign Out All Other Devices
+              </button>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 dark:border-slate-700 text-xs">
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-primary dark:text-white text-lg">laptop_windows</span>
+                  <div>
+                    <p class="font-bold text-primary dark:text-white">Windows 11 PC • Chrome Browser</p>
+                    <p class="text-[11px] text-on-surface-variant dark:text-slate-400">Pune, India • IP: 103.21.24.88</p>
+                  </div>
+                </div>
+                <span class="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-md">
+                  Current Session
+                </span>
+              </div>
+
+              <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 dark:border-slate-700 text-xs">
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-primary dark:text-white text-lg">smartphone</span>
+                  <div>
+                    <p class="font-bold text-primary dark:text-white">Apple iPhone 15 Pro • Mobile Safari</p>
+                    <p class="text-[11px] text-on-surface-variant dark:text-slate-400">Pune, India • Yesterday at 8:45 PM</p>
+                  </div>
+                </div>
+                <button onclick="revokeDeviceSession(this)" class="text-[11px] font-semibold text-on-surface-variant dark:text-slate-400 hover:text-error">
+                  Revoke
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 3: Privacy & Family Proxy Access -->
+        <section id="privacyProxy" class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-3xl p-6 sm:p-7 border border-outline-variant/40 dark:border-slate-800 shadow-xs space-y-6">
+          <div class="flex items-center justify-between border-b border-outline-variant/30 dark:border-slate-800 pb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-secondary text-2xl">supervisor_account</span>
+              <div>
+                <h2 class="text-lg font-bold text-primary dark:text-white">Student Privacy &amp; Family Proxy Access</h2>
+                <p class="text-xs text-on-surface-variant dark:text-slate-400">Institutional student record confidentiality and authorized parent proxy permissions.</p>
+              </div>
+            </div>
+            <button onclick="showToast('Exporting Institutional Privacy Release Certificate PDF...')" class="inline-flex items-center gap-1 text-xs font-bold text-secondary dark:text-secondary-fixed hover:underline">
+              <span class="material-symbols-outlined text-sm">download</span> Export Release PDF
+            </button>
+          </div>
+
+          <!-- Consent Status Box -->
+          <div class="p-4 rounded-2xl bg-secondary/10 border border-secondary/20 flex items-start gap-3">
+            <span class="material-symbols-outlined text-secondary text-xl shrink-0 mt-0.5">verified_user</span>
+            <div class="text-xs space-y-1">
+              <h3 class="font-bold text-primary dark:text-white">Institutional Privacy Consent Active</h3>
+              <p class="text-on-surface-variant dark:text-slate-300 leading-relaxed">
+                Your academic evaluations, fee receipts, and marksheet verification records remain confidential under institutional guidelines. You retain full control over parent proxy access.
+              </p>
+            </div>
+          </div>
+
+          <!-- Proxy List -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-bold text-primary dark:text-white">Authorized Parent / Guardian Proxies</h3>
+              <button onclick="openProxyModal()" class="inline-flex items-center gap-1 text-xs font-bold text-secondary dark:text-secondary-fixed hover:underline">
+                <span class="material-symbols-outlined text-sm">person_add</span> Add Authorized Proxy
+              </button>
+            </div>
+
+            <div id="proxyListContainer" class="p-6 rounded-2xl bg-surface-container-low dark:bg-slate-800/60 border border-outline-variant/40 dark:border-slate-700 text-center text-xs">
+              <span class="material-symbols-outlined text-2xl text-on-surface-variant dark:text-slate-400 mb-1">group</span>
+              <p class="font-semibold text-primary dark:text-white">No Authorized Proxies Added</p>
+              <p class="text-[11px] text-on-surface-variant dark:text-slate-400 mt-0.5">Authorize parents or guardians to manage admissions and counseling updates.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 4: Notification & Deadline Alerts -->
+        <section id="notificationsAlerts" class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-3xl p-6 sm:p-7 border border-outline-variant/40 dark:border-slate-800 shadow-xs space-y-6">
+          <div class="flex items-center justify-between border-b border-outline-variant/30 dark:border-slate-800 pb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-secondary text-2xl">notifications</span>
+              <div>
+                <h2 class="text-lg font-bold text-primary dark:text-white">Notification &amp; Deadline Alerts</h2>
+                <p class="text-xs text-on-surface-variant dark:text-slate-400">Select how and when CollegeHub notifies you about key admission milestones.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-4 text-xs">
+            <!-- Alert 1 -->
+            <div class="flex items-center justify-between p-3.5 rounded-2xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 dark:border-slate-700">
+              <div class="space-y-0.5">
+                <h3 class="font-bold text-primary dark:text-white">Admissions Cutoffs &amp; Seat Allotment Status Alerts</h3>
+                <p class="text-[11px] text-on-surface-variant dark:text-slate-400">Instant SMS and email notifications when merit lists or seat allocation rounds are published.</p>
+              </div>
+              <input type="checkbox" checked class="w-5 h-5 accent-secondary cursor-pointer" onchange="showToast('Alert preferences saved.')">
+            </div>
+
+            <!-- Alert 2 -->
+            <div class="flex items-center justify-between p-3.5 rounded-2xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 dark:border-slate-700">
+              <div class="space-y-0.5">
+                <h3 class="font-bold text-primary dark:text-white">Document Verification &amp; Deficiency Notices</h3>
+                <p class="text-[11px] text-on-surface-variant dark:text-slate-400">Urgent notifications regarding your application status or counseling deadlines.</p>
+              </div>
+              <input type="checkbox" checked class="w-5 h-5 accent-secondary cursor-pointer" onchange="showToast('Alert preferences saved.')">
+            </div>
+
+            <!-- Alert 3 -->
+            <div class="flex items-center justify-between p-3.5 rounded-2xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 dark:border-slate-700">
+              <div class="space-y-0.5">
+                <h3 class="font-bold text-primary dark:text-white">Counselor Direct Messages &amp; Meeting Reminders</h3>
+                <p class="text-[11px] text-on-surface-variant dark:text-slate-400">Push notifications and calendar reminders for 1-on-1 sessions with Dr. Elena Chen.</p>
+              </div>
+              <input type="checkbox" checked class="w-5 h-5 accent-secondary cursor-pointer" onchange="showToast('Alert preferences saved.')">
+            </div>
+
+            <!-- Alert 4 -->
+            <div class="flex items-center justify-between p-3.5 rounded-2xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 dark:border-slate-700">
+              <div class="space-y-0.5">
+                <h3 class="font-bold text-primary dark:text-white">Weekly Admissions Tips &amp; Scholarship Digest</h3>
+                <p class="text-[11px] text-on-surface-variant dark:text-slate-400">Curated weekly newsletter with counseling strategies and campus updates.</p>
+              </div>
+              <input type="checkbox" class="w-5 h-5 accent-secondary cursor-pointer" onchange="showToast('Alert preferences saved.')">
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 5: Linked Campus Accounts & SSO -->
+        <section id="linkedAccounts" class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-3xl p-6 sm:p-7 border border-outline-variant/40 dark:border-slate-800 shadow-xs space-y-6">
+          <div class="flex items-center justify-between border-b border-outline-variant/30 dark:border-slate-800 pb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-secondary text-2xl">link</span>
+              <div>
+                <h2 class="text-lg font-bold text-primary dark:text-white">Linked Campus Accounts &amp; SSO</h2>
+                <p class="text-xs text-on-surface-variant dark:text-slate-400">Single Sign-On identities and centralized entrance examination roll integrations.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <!-- Account 1 -->
+            <div class="flex items-center justify-between p-3.5 rounded-2xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 dark:border-slate-700">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary text-2xl">verified</span>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="font-bold text-primary dark:text-white">State Entrance Examination (CET) Roll</h3>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold">Verified</span>
+                  </div>
+                  <p class="text-[11px] text-on-surface-variant dark:text-slate-400">Roll #CET-2024-99482 • Score: 99.42 Percentile</p>
+                </div>
+              </div>
+              <button onclick="showToast('Entrance exam scores synchronized.')" class="px-3 py-1.5 rounded-xl bg-surface-container dark:bg-slate-700 hover:bg-surface-container-high text-xs font-semibold text-primary dark:text-white">
+                Sync Scores
+              </button>
+            </div>
+
+            <!-- Account 2 -->
+            <div class="flex items-center justify-between p-3.5 rounded-2xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 dark:border-slate-700">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary dark:text-white text-2xl">account_balance</span>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="font-bold text-primary dark:text-white">DigiLocker Academic Bank of Credits (ABC ID / APAAR)</h3>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold">Active</span>
+                  </div>
+                  <p class="text-[11px] text-on-surface-variant dark:text-slate-400">ABC-4920-1849-0021 • Automated marksheet verification</p>
+                </div>
+              </div>
+              <button onclick="showToast('DigiLocker repository synchronized.')" class="px-3 py-1.5 rounded-xl bg-surface-container dark:bg-slate-700 hover:bg-surface-container-high text-xs font-semibold text-primary dark:text-white">
+                Manage
+              </button>
+            </div>
+
+            <!-- Account 3 -->
+            <div class="flex items-center justify-between p-3.5 rounded-2xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 dark:border-slate-700">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary text-2xl">cloud_sync</span>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="font-bold text-primary dark:text-white">Campus SSO (Google Workspace)</h3>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold">Connected</span>
+                  </div>
+                  <p class="text-[11px] text-on-surface-variant dark:text-slate-400">student@campus.collegehub.edu</p>
+                </div>
+              </div>
+              <button onclick="showToast('Campus SSO connection active.')" class="px-3 py-1.5 rounded-xl bg-surface-container dark:bg-slate-700 hover:bg-surface-container-high text-xs font-semibold text-primary dark:text-white">
+                Disconnect
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 6: Danger Zone & Account Actions -->
+        <section id="dangerZone" class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-3xl p-6 sm:p-7 border border-error/30 dark:border-error/20 shadow-xs space-y-6">
+          <div class="flex items-center justify-between border-b border-error/20 pb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-error text-2xl">warning</span>
+              <div>
+                <h2 class="text-lg font-bold text-error">Danger Zone &amp; Account Actions</h2>
+                <p class="text-xs text-on-surface-variant dark:text-slate-400">Irreversible actions regarding your active application portfolio and CollegeHub identity.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-4 text-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-error-container/10 border border-error/20">
+              <div>
+                <h3 class="font-bold text-primary dark:text-white">Withdraw CollegeHub Application Portfolio</h3>
+                <p class="text-[11px] text-on-surface-variant dark:text-slate-400 mt-0.5">
+                  Cancels your active preference sheet for Computer Engineering (B.Tech Honors). Seat choice locking will be relinquished.
+                </p>
+              </div>
+              <button onclick="confirmWithdrawal()" class="px-4 py-2 rounded-xl bg-error text-on-error font-bold text-xs hover:bg-error/90 transition-colors shrink-0">
+                Request Withdrawal
+              </button>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-error-container/10 border border-error/20">
+              <div>
+                <h3 class="font-bold text-primary dark:text-white">Deactivate or Delete CollegeHub Account</h3>
+                <p class="text-[11px] text-on-surface-variant dark:text-slate-400 mt-0.5">
+                  Permanently deletes your saved queries and counseling appointment logs.
+                </p>
+              </div>
+              <button onclick="confirmDeactivation()" class="px-4 py-2 rounded-xl border border-error text-error hover:bg-error/10 font-bold text-xs transition-colors shrink-0">
+                Deactivate Account
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- UNSAVED CHANGES CONFIRMATION MODAL (Matching Stitch Reference Exactly) -->
+  <div id="unsavedModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest dark:bg-[#111a2e] w-full max-w-lg rounded-3xl border border-outline-variant/40 dark:border-slate-800 shadow-2xl p-6 sm:p-7 space-y-5 animate-in fade-in duration-200">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-2xl">warning</span>
+        </div>
+        <div class="flex-1">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Unsaved Modifications</span>
+          </div>
+          <h3 class="text-lg font-bold text-primary dark:text-white" id="modal-title">Discard unsaved changes?</h3>
+        </div>
+        <button onclick="closeUnsavedModal()" class="text-on-surface-variant dark:text-slate-400 hover:text-primary dark:hover:text-white">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <!-- Description -->
+      <p class="text-xs text-on-surface-variant dark:text-slate-300 leading-relaxed">
+        You have modified fields in <strong class="text-primary dark:text-white font-semibold">Personal &amp; Contact Profile</strong> that have not been committed to your permanent student record. Navigating back or switching tabs now will discard these modifications.
+      </p>
+
+      <!-- Changes Summary Card inside modal -->
+      <div class="p-4 rounded-2xl bg-surface-container-low/70 dark:bg-slate-800/60 border border-amber-200/80 dark:border-amber-900/50 space-y-2 text-xs">
+        <div class="flex items-center justify-between text-amber-900 dark:text-amber-300 font-bold">
+          <span>Uncommitted Field Edits:</span>
+          <span id="dirtyFieldCount" class="text-[11px] px-2 py-0.5 rounded bg-amber-500/20">1 Field</span>
+        </div>
+        <ul id="dirtyFieldList" class="space-y-1 text-on-surface-variant dark:text-slate-300 pl-4 list-disc text-[11px]">
+          <li>Full Legal Name</li>
+        </ul>
+      </div>
+
+      <!-- Modal Action Buttons (Matching Stitch) -->
+      <div class="flex flex-col-reverse sm:flex-row items-center justify-end gap-2.5 pt-2 border-t border-outline-variant/30 dark:border-slate-800">
+        <button onclick="closeUnsavedModal()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl text-on-surface-variant dark:text-slate-400 hover:bg-surface-container dark:hover:bg-slate-800 font-semibold text-xs transition-colors">
+          Stay on Page
+        </button>
+        <button onclick="discardAndNavigate()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-error/10 text-error hover:bg-error/20 font-bold text-xs transition-colors">
+          Discard &amp; Leave
+        </button>
+        <button onclick="saveAndNavigate()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-secondary text-on-secondary font-bold text-xs hover:bg-secondary/90 transition-transform active:scale-95 shadow-sm flex items-center justify-center gap-1.5">
+          <span class="material-symbols-outlined text-sm">save</span>
+          Save &amp; Proceed
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Update Password Modal -->
+  <div id="passwordModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest dark:bg-[#111a2e] w-full max-w-md rounded-3xl border border-outline-variant/40 dark:border-slate-800 shadow-2xl p-6 space-y-5">
+      <div class="flex items-center justify-between border-b border-outline-variant/30 dark:border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-primary dark:text-white flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary">key</span> Update Password
+        </h3>
+        <button onclick="closePasswordModal()" class="text-on-surface-variant hover:text-primary dark:hover:text-white">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-primary dark:text-white mb-1">Current Password</label>
+          <input type="password" placeholder="Enter current password" class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white">
+        </div>
+        <div>
+          <label class="block font-semibold text-primary dark:text-white mb-1">New Passphrase</label>
+          <input type="password" placeholder="Min. 8 characters" class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white">
+        </div>
+        <div>
+          <label class="block font-semibold text-primary dark:text-white mb-1">Confirm New Passphrase</label>
+          <input type="password" placeholder="Re-type new passphrase" class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white">
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-outline-variant/30 dark:border-slate-800">
+        <button onclick="closePasswordModal()" class="px-4 py-2 rounded-xl text-on-surface-variant font-semibold text-xs">Cancel</button>
+        <button onclick="saveNewPassword()" class="px-5 py-2 rounded-xl bg-secondary text-on-secondary font-bold text-xs hover:bg-secondary/90 shadow-sm">Update Password</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Proxy Modal -->
+  <div id="proxyModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest dark:bg-[#111a2e] w-full max-w-md rounded-3xl border border-outline-variant/40 dark:border-slate-800 shadow-2xl p-6 space-y-5">
+      <div class="flex items-center justify-between border-b border-outline-variant/30 dark:border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-primary dark:text-white flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary">person_add</span> Add Authorized Proxy
+        </h3>
+        <button onclick="closeProxyModal()" class="text-on-surface-variant hover:text-primary dark:hover:text-white">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-primary dark:text-white mb-1">Proxy Full Name</label>
+          <input id="proxyNameInput" type="text" placeholder="e.g. Parent / Guardian Name" class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white">
+        </div>
+        <div>
+          <label class="block font-semibold text-primary dark:text-white mb-1">Relationship</label>
+          <select class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white">
+            <option>Parent / Legal Guardian</option>
+            <option>Authorized Sponsor</option>
+            <option>High School Counselor</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-semibold text-primary dark:text-white mb-1">Email Address</label>
+          <input type="email" placeholder="proxy.email@example.com" class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white">
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-outline-variant/30 dark:border-slate-800">
+        <button onclick="closeProxyModal()" class="px-4 py-2 rounded-xl text-on-surface-variant font-semibold text-xs">Cancel</button>
+        <button onclick="confirmAddProxy()" class="px-5 py-2 rounded-xl bg-secondary text-on-secondary font-bold text-xs hover:bg-secondary/90 shadow-sm">Authorize Proxy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Hub -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 px-4 py-3 rounded-2xl bg-primary text-on-primary dark:bg-slate-800 dark:text-white shadow-xl border border-outline-variant/30 text-xs">
+    <span class="material-symbols-outlined text-secondary text-lg" id="toastIcon">check_circle</span>
+    <span id="toastMessage">Action completed successfully</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-outline-variant/40 dark:border-slate-800 bg-surface-container-low/50 dark:bg-[#0a0f18] py-8 text-xs text-on-surface-variant dark:text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary font-bold text-xs flex items-center justify-center">CH</div>
+        <div>
+          <span class="font-bold text-primary dark:text-white">CollegeHub Academic Guidance</span>
+          <p class="text-[11px] text-on-surface-variant/80 dark:text-slate-500">Official Smart Inquiry &amp; Assistance Portal</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold">
+        <a href="index.html" class="hover:text-primary dark:hover:text-white">Home</a>
+        <a href="faqs.html" class="hover:text-primary dark:hover:text-white">FAQs &amp; Chatbot</a>
+        <a href="profile.html" class="hover:text-primary dark:hover:text-white">Applicant Dossier</a>
+        <a href="saved.html" class="hover:text-primary dark:hover:text-white">Saved FAQs</a>
+      </div>
+      <p class="text-[11px] text-on-surface-variant/70 dark:text-slate-500">
+        &copy; 2025–2026 CollegeHub. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Include Shared Data -->
+  <script src="assets/js/demo-data.js"></script>
+  <script src="assets/js/auth-session.js"></script>
+
+  <!-- Page Logic & Unsaved Changes Workflow Script -->
+  <script>
+    let isFormDirty = false;
+    let dirtyFields = new Set();
+    let pendingNavigationTarget = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Sync theme
+      const savedTheme = localStorage.getItem('collegehub-theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    });
+
+    // Mark Form as Dirty
+    function markFormDirty(fieldName) {
+      isFormDirty = true;
+      dirtyFields.add(fieldName);
+      updateDirtyUI();
+    }
+
+    function updateDirtyUI() {
+      const banner = document.getElementById('unsavedBanner');
+      const topDiscardBtn = document.getElementById('topDiscardBtn');
+
+      if (isFormDirty) {
+        banner.classList.remove('hidden');
+        topDiscardBtn.classList.remove('hidden');
+      } else {
+        banner.classList.add('hidden');
+        topDiscardBtn.classList.add('hidden');
+      }
+    }
+
+    // Intercept Sub-Tab Clicks
+    function interceptTabClick(event, targetUrl) {
+      if (isFormDirty) {
+        event.preventDefault();
+        triggerUnsavedModal(targetUrl);
+        return false;
+      }
+      return true;
+    }
+
+    // Handle "Back to Previous Step" button
+    function handleBackNavigation() {
+      if (isFormDirty) {
+        triggerUnsavedModal('profile.html');
+      } else {
+        window.location.href = 'profile.html';
+      }
+    }
+
+    // Open Unsaved Modal with changes summary
+    function triggerUnsavedModal(targetUrl) {
+      pendingNavigationTarget = targetUrl || 'profile.html';
+      const modal = document.getElementById('unsavedModal');
+      const countEl = document.getElementById('dirtyFieldCount');
+      const listEl = document.getElementById('dirtyFieldList');
+
+      countEl.textContent = `${dirtyFields.size || 1} Field${dirtyFields.size > 1 ? 's' : ''}`;
+      
+      if (dirtyFields.size > 0) {
+        listEl.innerHTML = Array.from(dirtyFields).map(f => `<li>${f} (Modified)</li>`).join('');
+      } else {
+        listEl.innerHTML = `<li>Personal contact profile edits</li>`;
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeUnsavedModal() {
+      document.getElementById('unsavedModal').classList.add('hidden');
+      pendingNavigationTarget = null;
+    }
+
+    // Save and Proceed Action
+    function saveAndNavigate() {
+      saveProfileChanges();
+      closeUnsavedModal();
+      if (pendingNavigationTarget) {
+        setTimeout(() => {
+          window.location.href = pendingNavigationTarget;
+        }, 300);
+      }
+    }
+
+    // Discard and Leave Action
+    function discardAndNavigate() {
+      isFormDirty = false;
+      dirtyFields.clear();
+      updateDirtyUI();
+      closeUnsavedModal();
+      if (pendingNavigationTarget) {
+        window.location.href = pendingNavigationTarget;
+      }
+    }
+
+    // Save Profile Changes
+    function saveProfileChanges() {
+      isFormDirty = false;
+      dirtyFields.clear();
+      updateDirtyUI();
+      showToast("Profile modifications committed to student record.");
+    }
+
+    // Password Modal
+    function openPasswordModal() {
+      document.getElementById('passwordModal').classList.remove('hidden');
+    }
+    function closePasswordModal() {
+      document.getElementById('passwordModal').classList.add('hidden');
+    }
+    function saveNewPassword() {
+      closePasswordModal();
+      showToast("Password updated successfully. 2FA session retained.");
+    }
+
+    // Proxy Modal
+    function openProxyModal() {
+      document.getElementById('proxyModal').classList.remove('hidden');
+    }
+    function closeProxyModal() {
+      document.getElementById('proxyModal').classList.add('hidden');
+    }
+    function confirmAddProxy() {
+      const name = document.getElementById('proxyNameInput').value || 'Authorized Proxy';
+      closeProxyModal();
+      showToast(`Proxy authorization link sent to ${name}.`);
+    }
+
+    // Session actions
+    function signOutAllOtherDevices() {
+      showToast("Signed out of all other active sessions and mobile devices.");
+    }
+    function revokeDeviceSession(btn) {
+      btn.closest('.flex').remove();
+      showToast("Authorized mobile session revoked.");
+    }
+
+    // Danger Zone
+    function confirmWithdrawal() {
+      if (confirm("Are you sure you want to request withdrawal of your Computer Engineering application portfolio? This will relinquish your reserved seat choice.")) {
+        showToast("Application withdrawal request submitted to the Central Admissions Board.");
+      }
+    }
+    function confirmDeactivation() {
+      if (confirm("Deactivate CollegeHub applicant profile? This action will archive your dossier records.")) {
+        showToast("Profile deactivation request logged. Advisor confirmation required.");
+      }
+    }
+
+    // Toast Utility
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      const msgEl = document.getElementById('toastMessage');
+      msgEl.textContent = msg;
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>

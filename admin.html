@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>CollegeHub - Admin Console &amp; FAQ Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <style>
+    @layer base { 
+      html, body { margin: 0; padding: 0; } 
+      body { overscroll-behavior: none; } 
+    } 
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #c5c6ce; border-radius: 9999px; }
+    .dark ::-webkit-scrollbar-thumb { background: #44474d; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed": "#d7e3ff",
+            "surface-container-low": "#f3f4f3",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "secondary-container": "#a8ece5",
+            "surface-container-high": "#e8e8e7",
+            "on-error": "#ffffff",
+            "tertiary": "#020500",
+            "on-background": "#1a1c1c",
+            "inverse-primary": "#b8c7e6",
+            "on-tertiary-fixed": "#102000",
+            "error-container": "#ffdad6",
+            "on-primary-container": "#7886a3",
+            "surface-dim": "#dadad9",
+            "surface-bright": "#f9f9f8",
+            "outline": "#75777e",
+            "on-secondary-fixed-variant": "#00504b",
+            "on-tertiary-fixed-variant": "#304f00",
+            "secondary-fixed": "#abefe8",
+            "surface-container": "#eeeeed",
+            "tertiary-container": "#122200",
+            "primary": "#000412",
+            "tertiary-fixed-dim": "#91db2a",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#515f7a",
+            "tertiary-fixed": "#acf847",
+            "surface-container-highest": "#e2e2e2",
+            "inverse-on-surface": "#f1f1f0",
+            "secondary-fixed-dim": "#8fd3cc",
+            "on-surface-variant": "#44474d",
+            "primary-container": "#0f1e36",
+            "outline-variant": "#c5c6ce",
+            "secondary": "#216963",
+            "inverse-surface": "#2f3130",
+            "surface-variant": "#e2e2e2",
+            "on-surface": "#1a1c1c",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed": "#00201e",
+            "surface": "#f9f9f8",
+            "primary-fixed-dim": "#b8c7e6",
+            "on-tertiary-container": "#5d9400",
+            "on-primary-fixed": "#0c1b33",
+            "background": "#f9f9f8",
+            "on-primary": "#ffffff",
+            "on-primary-fixed-variant": "#394761",
+            "on-secondary-container": "#266d68"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('collegehub-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+</head>
+<body class="bg-surface font-sans text-on-surface antialiased transition-colors duration-200">
+  
+  <!-- Left Navigation Sidebar -->
+  <aside id="admin-sidebar" class="fixed left-0 top-0 h-full w-64 bg-surface-container-low border-r border-surface-container-high z-50 flex flex-col justify-between py-6 px-4 transition-transform duration-300 -translate-x-full lg:translate-x-0">
+    <div class="flex flex-col gap-6">
+      <!-- Admin Wordmark & Close Button on Mobile -->
+      <div class="flex items-center justify-between px-2">
+        <a class="flex items-center gap-3 group" href="index.html">
+          <div class="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-white shadow-xs">
+            <span class="material-symbols-outlined text-lg">admin_panel_settings</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-base font-bold text-primary tracking-tight">Admin Console</span>
+            <span class="text-[10px] text-secondary font-semibold uppercase tracking-wider">CollegeHub Suite</span>
+          </div>
+        </a>
+        <button onclick="toggleAdminSidebar()" class="lg:hidden text-on-surface-variant hover:text-on-surface p-1 rounded-lg">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <!-- Sidebar Navigation Menu -->
+      <nav class="flex flex-col gap-1">
+        <button onclick="CollegeHubImport.switchAdminTab('faqs')" id="nav-btn-faqs" class="flex items-center gap-3 px-3.5 py-2.5 transition-colors bg-secondary-container text-on-secondary-container text-xs sm:text-sm font-bold rounded-xl shadow-xs text-left w-full">
+          <span class="material-symbols-outlined text-[20px]">quiz</span>
+          <span>FAQ Management</span>
+        </button>
+        <button onclick="CollegeHubImport.switchAdminTab('import')" id="nav-btn-import" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-xs sm:text-sm font-semibold text-left w-full">
+          <span class="material-symbols-outlined text-[20px]">upload_file</span>
+          <span>Data Import &amp; Cutoffs</span>
+          <span class="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full bg-secondary text-white">CSV</span>
+        </button>
+        <button onclick="CollegeHubImport.switchAdminTab('approvals')" id="nav-btn-approvals" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-xs sm:text-sm font-semibold text-left w-full">
+          <span class="material-symbols-outlined text-[20px]">fact_check</span>
+          <span>Approval Queue</span>
+          <span class="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300">Live</span>
+        </button>
+        <a href="recommendations.html" target="_blank" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-xs sm:text-sm font-semibold">
+          <span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+          <span>College Predictor</span>
+          <span class="ml-auto text-[10px] font-mono text-outline-variant">↗</span>
+        </a>
+        <a href="admin.html" onclick="event.preventDefault(); showToast('Overview View', 'Showing current knowledge matrix statistics.');" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-xs sm:text-sm font-semibold">
+          <span class="material-symbols-outlined text-[20px]">space_dashboard</span>
+          <span>Overview</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Sidebar Bottom Actions -->
+    <div class="flex flex-col gap-3 px-2 pt-4 border-t border-surface-container-high/60">
+      <a class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors text-xs font-semibold" href="index.html">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        <span>Back to Main Portal</span>
+      </a>
+      <button onclick="handleAdminLogout()" class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-error hover:bg-error-container/30 transition-colors text-xs font-semibold text-left">
+        <span class="material-symbols-outlined text-[18px]">logout</span>
+        <span>Sign Out</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Sidebar Overlay for Mobile -->
+  <div id="sidebar-overlay" onclick="toggleAdminSidebar()" class="fixed inset-0 bg-primary/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
+
+  <!-- Main Body Content Area (Offset by 64 Tailwind units on desktop) -->
+  <div class="lg:pl-64">
+    <!-- Top Header -->
+    <header class="fixed top-0 left-0 lg:left-64 right-0 h-16 bg-surface/90 backdrop-blur-xl border-b border-surface-container-high shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-30 flex items-center justify-between px-6 lg:px-8">
+      <div class="flex items-center gap-3">
+        <button onclick="toggleAdminSidebar()" class="lg:hidden p-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center">
+          <span class="material-symbols-outlined text-xl">menu</span>
+        </button>
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-xl">admin_panel_settings</span>
+          <span class="text-sm font-bold text-on-surface hidden sm:inline">Counselor &amp; Admin Suite</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle-btn" aria-label="Toggle Color Theme" onclick="toggleTheme()" class="w-9 h-9 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors shadow-xs">
+          <span id="theme-toggle-icon" class="material-symbols-outlined text-lg">dark_mode</span>
+        </button>
+
+        <a class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-secondary text-on-secondary text-xs font-semibold hover:bg-secondary/90 transition-all gap-1 shadow-xs" href="faqs.html">
+          <span class="material-symbols-outlined text-sm">smart_toy</span>
+          <span>Ask CollegeHub</span>
+        </a>
+
+        <div class="flex items-center gap-2.5 pl-2 border-l border-surface-container-high">
+          <div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs ring-2 ring-secondary/20" id="admin-user-avatar">
+            AD
+          </div>
+          <span class="text-xs font-semibold text-on-surface hidden md:inline" id="admin-user-name">Administrator</span>
+          <button onclick="handleAdminLogout()" class="ml-1 p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-colors" title="Sign Out">
+            <span class="material-symbols-outlined text-[18px]">logout</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="relative pt-20 bg-surface w-full px-6 lg:px-8 pb-16">
+      
+      <!-- Toast Notification Banner -->
+      <div class="fixed top-20 right-6 lg:right-8 z-50 transform -translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 bg-primary text-on-primary px-5 py-3.5 rounded-xl shadow-2xl border border-outline-variant/30" id="faq-toast">
+        <span class="material-symbols-outlined text-secondary-container text-[22px]">check_circle</span>
+        <div>
+          <p class="text-xs font-bold text-surface-bright" id="toast-title">Record Updated</p>
+          <p class="text-[11px] text-outline-variant" id="toast-desc">FAQ knowledge entry updated successfully.</p>
+        </div>
+      </div>
+
+      <!-- Main Tab 1: FAQ Management Content -->
+      <div id="tab-content-faqs">
+        <!-- Header & Primary Action Buttons -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="material-symbols-outlined text-secondary text-[20px]">quiz</span>
+            <span class="text-xs uppercase tracking-wider text-secondary font-bold">Content Management</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-on-surface tracking-tight">FAQ Management</h1>
+          <p class="text-xs sm:text-sm text-on-surface-variant mt-0.5">Create, curate, and review student knowledge base entries across campus channels.</p>
+        </div>
+        <div class="flex items-center gap-3 flex-wrap">
+          <button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs sm:text-sm font-semibold transition-all border border-surface-container-high shadow-xs" id="btn-export-csv">
+            <span class="material-symbols-outlined text-[18px]">download</span>
+            <span>Export CSV</span>
+          </button>
+          <button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-secondary hover:bg-secondary/90 text-on-secondary text-xs sm:text-sm font-semibold transition-all shadow-md active:scale-95" id="btn-open-create">
+            <span class="material-symbols-outlined text-[20px]">add</span>
+            <span>Add New FAQ</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Summary Metrics Strip -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+        <!-- Metric 1: Total FAQs -->
+        <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-xs border border-surface-container-high flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold text-on-surface-variant">Total FAQs</span>
+                
+              </div>
+              <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-3xl font-extrabold text-primary" id="kpi-total">142</span>
+                <span class="inline-flex items-center text-[11px] font-bold px-2 py-0.5 rounded-full bg-secondary-container/50 text-secondary">+12 this mo</span>
+              </div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-secondary">
+              <span class="material-symbols-outlined text-[22px]">library_books</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 flex items-center justify-between text-xs text-on-surface-variant border-t border-surface-container-low">
+            <span>Across 7 categories</span>
+            <span class="font-bold text-secondary">100% indexed</span>
+          </div>
+        </div>
+
+        <!-- Metric 2: Published -->
+        <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-xs border border-surface-container-high flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold text-on-surface-variant">Published Entries</span>
+                
+              </div>
+              <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-3xl font-extrabold text-primary" id="kpi-published">118</span>
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container">83%</span>
+              </div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-secondary-container/40 flex items-center justify-center text-secondary">
+              <span class="material-symbols-outlined text-[22px]">public</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 flex items-center gap-2 border-t border-surface-container-low">
+            <div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+              <div class="bg-secondary h-1.5 rounded-full" style="width: 83%"></div>
+            </div>
+            <span class="text-xs text-on-surface-variant whitespace-nowrap font-medium">Active in portal</span>
+          </div>
+        </div>
+
+        <!-- Metric 3: Drafts -->
+        <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-xs border border-surface-container-high flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold text-on-surface-variant">Draft Entries</span>
+                
+              </div>
+              <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-3xl font-extrabold text-primary" id="kpi-drafts">16</span>
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface">Queue</span>
+              </div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+              <span class="material-symbols-outlined text-[22px]">edit_note</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 flex items-center justify-between text-xs text-on-surface-variant border-t border-surface-container-low">
+            <span>Pending advisor review</span>
+            <span class="font-bold text-outline">Action required</span>
+          </div>
+        </div>
+
+        <!-- Metric 4: Inactive -->
+        <div class="bg-surface-container-lowest p-5 rounded-2xl shadow-xs border border-surface-container-high flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold text-on-surface-variant">Inactive / Stored</span>
+                
+              </div>
+              <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-3xl font-extrabold text-on-surface-variant" id="kpi-inactive">8</span>
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded-full bg-surface-container text-outline">Archived</span>
+              </div>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-outline">
+              <span class="material-symbols-outlined text-[22px]">archive</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 flex items-center justify-between text-xs text-on-surface-variant border-t border-surface-container-low">
+            <span>Prior academic cycles</span>
+            <span class="font-bold text-outline">Hidden</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters & Controls Section -->
+      <div class="bg-surface-container-lowest rounded-2xl p-5 shadow-xs border border-surface-container-high mb-6 flex flex-col gap-4">
+        <!-- Top Filter Controls -->
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+          <!-- Search Input -->
+          <div class="relative flex-1 min-w-[280px]">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+            <input class="w-full pl-11 pr-4 py-2.5 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-secondary transition-all" id="faq-search-input" placeholder="Search questions, keywords, categories..." type="text">
+          </div>
+
+          <!-- Quick Status Filter Pills -->
+          <div class="flex items-center gap-1.5 p-1 bg-surface-container-low rounded-xl self-start lg:self-auto overflow-x-auto border border-surface-container-high/60">
+            <button class="status-filter-btn active px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-surface-container-lowest text-primary shadow-xs" data-status="All">
+              All Status
+            </button>
+            <button class="status-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-all" data-status="Published">
+              Published
+            </button>
+            <button class="status-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-all" data-status="Draft">
+              Drafts
+            </button>
+            <button class="status-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-all" data-status="Inactive">
+              Inactive
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Pills -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none border-t border-surface-container-low pt-3">
+          <span class="text-xs text-on-surface-variant font-semibold mr-1 shrink-0">Category:</span>
+          <button class="category-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-secondary text-on-secondary shadow-xs transition-all shrink-0" data-category="All">
+            All
+          </button>
+          <button class="category-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0" data-category="admissions">
+            Admissions
+          </button>
+          <button class="category-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0" data-category="courses">
+            Courses
+          </button>
+          <button class="category-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0" data-category="fees">
+            Fees &amp; Aid
+          </button>
+          <button class="category-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0" data-category="cutoffs">
+            Cutoffs
+          </button>
+          <button class="category-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0" data-category="placements">
+            Placements
+          </button>
+          <button class="category-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0" data-category="examinations">
+            Examinations
+          </button>
+          <button class="category-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0" data-category="departments">
+            Departments
+          </button>
+          <button class="category-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all shrink-0" data-category="facilities">
+            Facilities
+          </button>
+        </div>
+      </div>
+
+      <!-- Data Table Card Container -->
+      <div class="bg-surface-container-lowest rounded-2xl shadow-xs border border-surface-container-high overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-surface-container-low text-on-surface-variant border-b border-surface-container-high">
+              <tr>
+                <th class="py-3.5 px-6 font-bold uppercase tracking-wider text-[11px]">Question / Topic</th>
+                <th class="py-3.5 px-5 font-bold uppercase tracking-wider text-[11px]">Category</th>
+                <th class="py-3.5 px-5 font-bold uppercase tracking-wider text-[11px]">Status</th>
+                <th class="py-3.5 px-5 font-bold uppercase tracking-wider text-[11px]">Views</th>
+                <th class="py-3.5 px-5 font-bold uppercase tracking-wider text-[11px]">Last Updated</th>
+                <th class="py-3.5 px-6 font-bold uppercase tracking-wider text-[11px] text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-surface-container-high/60" id="faq-table-body">
+              
+              <!-- Row 1 -->
+              <tr class="faq-row hover:bg-surface-container-low/70 transition-colors group" data-category="Admissions" data-id="1" data-status="Published">
+                <td class="py-4 px-6">
+                  <div class="flex flex-col">
+                    <span class="faq-q-text font-bold text-primary group-hover:text-secondary transition-colors cursor-pointer edit-trigger">
+                      What documents are needed for admission?
+                    </span>
+                    <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">verification</span>
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">marksheets</span>
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-secondary-container/60 text-secondary font-bold">Priority #1</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-4 px-5">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-surface-container text-on-surface text-xs font-semibold">
+                    Admissions
+                  </span>
+                </td>
+                <td class="py-4 px-5">
+                  <span class="status-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
+                    <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                    <span>Published</span>
+                  </span>
+                </td>
+                <td class="py-4 px-5">
+                  <div class="flex flex-col">
+                    <span class="font-bold text-on-surface">1,842 views</span>
+                    <span class="text-[11px] text-secondary font-semibold">94% helpful</span>
+                  </div>
+                </td>
+                <td class="py-4 px-5 text-on-surface-variant">
+                  <span class="font-semibold text-on-surface">2 hours ago</span>
+                  <span class="block text-[11px] text-outline">by Lead Advisor</span>
+                </td>
+                <td class="py-4 px-6 text-right">
+                  <div class="inline-flex items-center gap-1">
+                    <button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" title="Edit FAQ">
+                      <span class="material-symbols-outlined text-[18px]">edit</span>
+                    </button>
+                    <button class="toggle-status-btn p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Toggle Publish/Draft">
+                      <span class="material-symbols-outlined text-[18px]">sync</span>
+                    </button>
+                    <button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-colors" title="Delete FAQ">
+                      <span class="material-symbols-outlined text-[18px]">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 2 -->
+              <tr class="faq-row hover:bg-surface-container-low/70 transition-colors group" data-category="Fees" data-id="2" data-status="Published">
+                <td class="py-4 px-6">
+                  <div class="flex flex-col">
+                    <span class="faq-q-text font-bold text-primary group-hover:text-secondary transition-colors cursor-pointer edit-trigger">
+                      Undergraduate fee structure and installment schedule
+                    </span>
+                    <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">tuition</span>
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">installments</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-4 px-5">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-surface-container text-on-surface text-xs font-semibold">
+                    Fees
+                  </span>
+                </td>
+                <td class="py-4 px-5">
+                  <span class="status-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
+                    <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                    <span>Published</span>
+                  </span>
+                </td>
+                <td class="py-4 px-5">
+                  <div class="flex flex-col">
+                    <span class="font-bold text-on-surface">1,210 views</span>
+                    <span class="text-[11px] text-secondary font-semibold">91% helpful</span>
+                  </div>
+                </td>
+                <td class="py-4 px-5 text-on-surface-variant">
+                  <span class="font-semibold text-on-surface">Yesterday</span>
+                  <span class="block text-[11px] text-outline">by Bursar Desk</span>
+                </td>
+                <td class="py-4 px-6 text-right">
+                  <div class="inline-flex items-center gap-1">
+                    <button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" title="Edit FAQ">
+                      <span class="material-symbols-outlined text-[18px]">edit</span>
+                    </button>
+                    <button class="toggle-status-btn p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Toggle Publish/Draft">
+                      <span class="material-symbols-outlined text-[18px]">sync</span>
+                    </button>
+                    <button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-colors" title="Delete FAQ">
+                      <span class="material-symbols-outlined text-[18px]">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 3 -->
+              <tr class="faq-row hover:bg-surface-container-low/70 transition-colors group" data-category="Courses" data-id="3" data-status="Draft">
+                <td class="py-4 px-6">
+                  <div class="flex flex-col">
+                    <span class="faq-q-text font-bold text-primary group-hover:text-secondary transition-colors cursor-pointer edit-trigger">
+                      Direct second year engineering lateral entry criteria
+                    </span>
+                    <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">diploma transfer</span>
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">curriculum</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-4 px-5">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-surface-container text-on-surface text-xs font-semibold">
+                    Courses
+                  </span>
+                </td>
+                <td class="py-4 px-5">
+                  <span class="status-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-surface-container-high text-on-surface">
+                    <span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                    <span>Draft</span>
+                  </span>
+                </td>
+                <td class="py-4 px-5">
+                  <div class="flex flex-col">
+                    <span class="font-bold text-on-surface">0 views</span>
+                    <span class="text-[11px] text-outline">Unpublished draft</span>
+                  </div>
+                </td>
+                <td class="py-4 px-5 text-on-surface-variant">
+                  <span class="font-semibold text-on-surface">3 days ago</span>
+                  <span class="block text-[11px] text-outline">by Curriculum Lead</span>
+                </td>
+                <td class="py-4 px-6 text-right">
+                  <div class="inline-flex items-center gap-1">
+                    <button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" title="Edit FAQ">
+                      <span class="material-symbols-outlined text-[18px]">edit</span>
+                    </button>
+                    <button class="toggle-status-btn p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Toggle Publish/Draft">
+                      <span class="material-symbols-outlined text-[18px]">sync</span>
+                    </button>
+                    <button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-colors" title="Delete FAQ">
+                      <span class="material-symbols-outlined text-[18px]">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 4 -->
+              <tr class="faq-row hover:bg-surface-container-low/70 transition-colors group" data-category="Facilities" data-id="4" data-status="Published">
+                <td class="py-4 px-6">
+                  <div class="flex flex-col">
+                    <span class="faq-q-text font-bold text-primary group-hover:text-secondary transition-colors cursor-pointer edit-trigger">
+                      Hostel allotment procedure for non-resident freshmen
+                    </span>
+                    <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">dorms</span>
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">curfew rules</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-4 px-5">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-surface-container text-on-surface text-xs font-semibold">
+                    Facilities
+                  </span>
+                </td>
+                <td class="py-4 px-5">
+                  <span class="status-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
+                    <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                    <span>Published</span>
+                  </span>
+                </td>
+                <td class="py-4 px-5">
+                  <div class="flex flex-col">
+                    <span class="font-bold text-on-surface">940 views</span>
+                    <span class="text-[11px] text-secondary font-semibold">96% helpful</span>
+                  </div>
+                </td>
+                <td class="py-4 px-5 text-on-surface-variant">
+                  <span class="font-semibold text-on-surface">5 days ago</span>
+                  <span class="block text-[11px] text-outline">by Warden Office</span>
+                </td>
+                <td class="py-4 px-6 text-right">
+                  <div class="inline-flex items-center gap-1">
+                    <button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" title="Edit FAQ">
+                      <span class="material-symbols-outlined text-[18px]">edit</span>
+                    </button>
+                    <button class="toggle-status-btn p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Toggle Publish/Draft">
+                      <span class="material-symbols-outlined text-[18px]">sync</span>
+                    </button>
+                    <button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-colors" title="Delete FAQ">
+                      <span class="material-symbols-outlined text-[18px]">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 5 -->
+              <tr class="faq-row hover:bg-surface-container-low/70 transition-colors group" data-category="Cutoffs" data-id="5" data-status="Published">
+                <td class="py-4 px-6">
+                  <div class="flex flex-col">
+                    <span class="faq-q-text font-bold text-primary group-hover:text-secondary transition-colors cursor-pointer edit-trigger">
+                      Previous cutoff percentiles for Computer &amp; Data Science
+                    </span>
+                    <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">engineering</span>
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">round 4 ranks</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-4 px-5">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-surface-container text-on-surface text-xs font-semibold">
+                    Cutoffs
+                  </span>
+                </td>
+                <td class="py-4 px-5">
+                  <span class="status-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
+                    <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                    <span>Published</span>
+                  </span>
+                </td>
+                <td class="py-4 px-5">
+                  <div class="flex flex-col">
+                    <span class="font-bold text-on-surface">2,410 views</span>
+                    <span class="text-[11px] text-secondary font-semibold">97% helpful</span>
+                  </div>
+                </td>
+                <td class="py-4 px-5 text-on-surface-variant">
+                  <span class="font-semibold text-on-surface">1 week ago</span>
+                  <span class="block text-[11px] text-outline">by Admissions Cell</span>
+                </td>
+                <td class="py-4 px-6 text-right">
+                  <div class="inline-flex items-center gap-1">
+                    <button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" title="Edit FAQ">
+                      <span class="material-symbols-outlined text-[18px]">edit</span>
+                    </button>
+                    <button class="toggle-status-btn p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Toggle Publish/Draft">
+                      <span class="material-symbols-outlined text-[18px]">sync</span>
+                    </button>
+                    <button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-colors" title="Delete FAQ">
+                      <span class="material-symbols-outlined text-[18px]">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- Row 6 -->
+              <tr class="faq-row hover:bg-surface-container-low/70 transition-colors group opacity-75" data-category="Admissions" data-id="6" data-status="Inactive">
+                <td class="py-4 px-6">
+                  <div class="flex flex-col">
+                    <span class="faq-q-text font-bold text-outline-variant group-hover:text-primary transition-colors cursor-pointer edit-trigger line-through">
+                      COVID-19 vaccination reporting protocols (Archived)
+                    </span>
+                    <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">legacy</span>
+                      <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">archived cycle</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-4 px-5">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-surface-container text-on-surface text-xs font-semibold">
+                    Admissions
+                  </span>
+                </td>
+                <td class="py-4 px-5">
+                  <span class="status-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-surface-container text-outline">
+                    <span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                    <span>Inactive</span>
+                  </span>
+                </td>
+                <td class="py-4 px-5">
+                  <div class="flex flex-col">
+                    <span class="font-bold text-outline">320 views</span>
+                    <span class="text-[11px] text-outline">Hidden</span>
+                  </div>
+                </td>
+                <td class="py-4 px-5 text-on-surface-variant">
+                  <span class="font-semibold text-on-surface">2 months ago</span>
+                  <span class="block text-[11px] text-outline">by Health Center</span>
+                </td>
+                <td class="py-4 px-6 text-right">
+                  <div class="inline-flex items-center gap-1">
+                    <button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" title="Edit FAQ">
+                      <span class="material-symbols-outlined text-[18px]">edit</span>
+                    </button>
+                    <button class="toggle-status-btn p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Toggle Publish/Draft">
+                      <span class="material-symbols-outlined text-[18px]">sync</span>
+                    </button>
+                    <button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-colors" title="Delete FAQ">
+                      <span class="material-symbols-outlined text-[18px]">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State (hidden by default) -->
+        <div class="hidden py-12 px-6 text-center" id="no-faq-results">
+          <span class="material-symbols-outlined text-4xl text-outline mb-2">search_off</span>
+          <h3 class="text-base font-bold text-on-surface mb-1">No FAQs match your search filters</h3>
+          <p class="text-xs text-on-surface-variant mb-4">Try adjusting your keyword query, category selection, or status filter.</p>
+          <button class="px-4 py-2 rounded-xl bg-surface-container text-on-surface text-xs font-semibold hover:bg-surface-container-high transition-colors" id="reset-filters-btn">
+            Reset All Filters
+          </button>
+        </div>
+
+        <!-- Table Footer / Pagination -->
+        <div class="p-4 bg-surface-container-low/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-on-surface-variant border-t border-surface-container-high">
+          <div>
+            Showing <span class="font-bold text-on-surface" id="visible-count">6</span> active filtered records
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-medium disabled:opacity-40 transition-colors shadow-xs" disabled="">
+              Previous
+            </button>
+            <span class="px-2.5 py-1 rounded-lg bg-secondary-container text-on-secondary-container font-bold">1</span>
+            <button class="px-2.5 py-1 rounded-lg hover:bg-surface-container transition-colors">2</button>
+            <button class="px-2.5 py-1 rounded-lg hover:bg-surface-container transition-colors">3</button>
+            <button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-medium transition-colors shadow-xs">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+      </div> <!-- End tab-content-faqs -->
+
+      <!-- Main Tab 2: Maharashtra Colleges & Cutoff CSV Data Import -->
+      <div id="tab-content-import" class="hidden space-y-8">
+        
+        <!-- Header & Quick Actions Strip -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="material-symbols-outlined text-secondary text-[20px]">upload_file</span>
+              <span class="text-xs uppercase tracking-wider text-secondary font-bold">Data Ingestion Engine</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-on-surface tracking-tight">Maharashtra Colleges &amp; Cutoff Import</h1>
+            <p class="text-xs sm:text-sm text-on-surface-variant mt-0.5">
+              Upload verified institutional records, fee structures, and CAP cutoffs. Validates required columns, catches duplicate records, and stages data for approval.
+            </p>
+          </div>
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <a href="/api/admin/import/template" download="maharashtra_colleges_cutoffs_template.csv" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-semibold transition-all border border-surface-container-high shadow-xs">
+              <span class="material-symbols-outlined text-base text-secondary">download</span>
+              <span>Blank CSV Template</span>
+            </a>
+            <button onclick="CollegeHubImport.loadSampleCsvIntoForm()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-semibold transition-all border border-surface-container-high shadow-xs">
+              <span class="material-symbols-outlined text-base text-secondary">file_present</span>
+              <span>Load Sample CSV</span>
+            </button>
+            <button onclick="CollegeHubImport.openColumnGuide()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:bg-secondary/90 transition-all shadow-xs">
+              <span class="material-symbols-outlined text-base">menu_book</span>
+              <span>Column Dictionary</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 1: Verification Metadata Card -->
+        <div class="bg-surface-container-lowest p-6 rounded-3xl shadow-xs border border-surface-container-high">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center font-bold text-xs">1</span>
+              <div>
+                <h3 class="text-sm font-bold text-primary">Source Verification &amp; Audit Metadata</h3>
+                <p class="text-[11px] text-on-surface-variant">Required source provenance for institutional auditability.</p>
+              </div>
+            </div>
+            <button type="button" onclick="CollegeHubImport.prefillSampleSource()" class="text-xs text-secondary hover:underline font-bold flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">auto_fix_high</span>
+              <span>Autofill Official CET Cell Source</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Source URL -->
+            <div class="lg:col-span-2">
+              <label class="block text-xs font-bold text-primary mb-1">
+                Source URL <span class="text-error">*</span>
+              </label>
+              <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-2.5 text-base text-on-surface-variant">link</span>
+                <input type="url" id="import-source-url" placeholder="https://fe2024.mahacet.org/StaticPages/HomePage" class="w-full pl-9 pr-3 py-2 rounded-xl bg-surface border border-surface-container-high text-xs font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary transition-all" required>
+              </div>
+              <span class="text-[10px] text-on-surface-variant mt-0.5 block">Official authority URL (DTE Maharashtra, State CET Cell, or JoSAA).</span>
+            </div>
+
+            <!-- Academic Year -->
+            <div>
+              <label class="block text-xs font-bold text-primary mb-1">
+                Academic Year <span class="text-error">*</span>
+              </label>
+              <select id="import-academic-year" class="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-xs font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary transition-all">
+                <option value="2024-2025" selected>2024-2025 (Current CAP)</option>
+                <option value="2023-2024">2023-2024 (Previous Cycle)</option>
+                <option value="2025-2026">2025-2026 (Upcoming Intake)</option>
+              </select>
+            </div>
+
+            <!-- Date Checked -->
+            <div>
+              <label class="block text-xs font-bold text-primary mb-1">
+                Date Checked <span class="text-error">*</span>
+              </label>
+              <input type="date" id="import-date-checked" class="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-xs font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary transition-all" required>
+            </div>
+
+            <!-- Custom Batch Title (Optional) -->
+            <div class="lg:col-span-4 pt-1">
+              <label class="block text-xs font-bold text-primary mb-1">
+                Batch Description / Label <span class="text-on-surface-variant font-normal">(Optional)</span>
+              </label>
+              <input type="text" id="import-batch-name" placeholder="e.g., MHT-CET 2024 Engineering CAP Round II Closing Cutoffs" class="w-full px-3 py-2 rounded-xl bg-surface border border-surface-container-high text-xs font-medium text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary transition-all">
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: CSV File Upload Zone -->
+        <div class="bg-surface-container-lowest p-6 rounded-3xl shadow-xs border border-surface-container-high">
+          <div class="flex items-center gap-2.5 mb-4">
+            <span class="w-7 h-7 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center font-bold text-xs">2</span>
+            <div>
+              <h3 class="text-sm font-bold text-primary">Upload Maharashtra Colleges &amp; Cutoffs CSV</h3>
+              <p class="text-[11px] text-on-surface-variant">Select or drag &amp; drop a formatted .csv file according to CollegeHub standards.</p>
+            </div>
+          </div>
+
+          <div id="csv-drop-zone" onclick="document.getElementById('csv-file-input').click()" ondragover="event.preventDefault(); this.classList.add('border-secondary', 'bg-secondary-container/10');" ondragleave="this.classList.remove('border-secondary', 'bg-secondary-container/10');" ondrop="event.preventDefault(); this.classList.remove('border-secondary', 'bg-secondary-container/10'); CollegeHubImport.handleCsvFileSelect(event);" class="border-2 border-dashed border-surface-container-high hover:border-secondary/60 rounded-2xl p-8 text-center cursor-pointer transition-colors flex flex-col items-center justify-center gap-3 bg-surface/40">
+            <div class="w-12 h-12 rounded-2xl bg-secondary-container text-secondary flex items-center justify-center shadow-xs">
+              <span class="material-symbols-outlined text-2xl">cloud_upload</span>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-primary">Click to select CSV file, or drag and drop here</p>
+              <p class="text-[11px] text-on-surface-variant mt-0.5">Supports UTF-8 encoded .csv files with 18 standard columns</p>
+            </div>
+            <input type="file" id="csv-file-input" accept=".csv" class="hidden" onchange="CollegeHubImport.handleCsvFileSelect(event)">
+          </div>
+
+          <!-- Selected File Pill -->
+          <div id="csv-file-info" class="hidden mt-4 p-3 bg-surface-container rounded-2xl flex items-center justify-between border border-surface-container-high">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-secondary text-xl">description</span>
+              <div>
+                <span id="csv-file-name" class="text-xs font-bold text-primary block leading-tight">file.csv</span>
+                <span id="csv-file-size" class="text-[10px] text-on-surface-variant block">0 KB</span>
+              </div>
+            </div>
+            <button onclick="document.getElementById('csv-file-input').click()" class="text-xs font-semibold text-secondary hover:underline">Change File</button>
+          </div>
+
+          <!-- Parse Action Button -->
+          <div class="mt-5 flex items-center justify-end">
+            <button id="btn-parse-csv" onclick="CollegeHubImport.parseAndPreviewCsv()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-white text-xs sm:text-sm font-bold shadow-sm hover:bg-primary-container transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+              <span class="material-symbols-outlined text-base">rule</span>
+              <span>Parse &amp; Validate CSV</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Validation Preview & Error Diagnostics (Hidden by Default) -->
+        <div id="import-preview-section" class="hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-secondary text-white flex items-center justify-center font-bold text-xs shadow-xs">3</span>
+              <div>
+                <h3 class="text-base font-extrabold text-primary tracking-tight">Validation Preview &amp; Duplicate Check</h3>
+                <p class="text-xs text-on-surface-variant">Review row-by-row diagnostic results before staging to the approval queue.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 KPI Summary Cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-surface-container-lowest p-4 rounded-2xl border border-surface-container-high shadow-xs">
+              <span class="text-[11px] font-semibold text-on-surface-variant block uppercase">Total Rows</span>
+              <span id="preview-kpi-total" class="text-2xl font-extrabold text-primary block mt-1">0</span>
+            </div>
+            <div class="bg-surface-container-lowest p-4 rounded-2xl border border-emerald-500/30 shadow-xs">
+              <span class="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 block uppercase">Valid Records (🟢)</span>
+              <span id="preview-kpi-valid" class="text-2xl font-extrabold text-emerald-600 block mt-1">0</span>
+            </div>
+            <div class="bg-surface-container-lowest p-4 rounded-2xl border border-rose-500/30 shadow-xs">
+              <span class="text-[11px] font-semibold text-rose-700 dark:text-rose-400 block uppercase">Errors Detected (🔴)</span>
+              <span id="preview-kpi-errors" class="text-2xl font-extrabold text-rose-600 block mt-1">0</span>
+            </div>
+            <div class="bg-surface-container-lowest p-4 rounded-2xl border border-amber-500/30 shadow-xs">
+              <span class="text-[11px] font-semibold text-amber-700 dark:text-amber-400 block uppercase">Duplicates Detected (🟡)</span>
+              <span id="preview-kpi-duplicates" class="text-2xl font-extrabold text-amber-600 block mt-1">0</span>
+            </div>
+          </div>
+
+          <!-- Filter Pills -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-1">
+            <button id="filter-btn-all" onclick="CollegeHubImport.setPreviewFilter('all')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-secondary-container text-on-secondary-container transition-all">
+              All Rows <span id="filter-count-all" class="text-[10px] opacity-80">(0)</span>
+            </button>
+            <button id="filter-btn-valid" onclick="CollegeHubImport.setPreviewFilter('valid')" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all">
+              Valid Only <span id="filter-count-valid" class="text-[10px] opacity-80">(0)</span>
+            </button>
+            <button id="filter-btn-error" onclick="CollegeHubImport.setPreviewFilter('error')" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all">
+              Errors Only <span id="filter-count-errors" class="text-[10px] opacity-80">(0)</span>
+            </button>
+            <button id="filter-btn-duplicate" onclick="CollegeHubImport.setPreviewFilter('duplicate')" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all">
+              Duplicates Only <span id="filter-count-duplicates" class="text-[10px] opacity-80">(0)</span>
+            </button>
+          </div>
+
+          <!-- Preview Table Card -->
+          <div class="bg-surface-container-lowest rounded-3xl shadow-xs border border-surface-container-high overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-surface-container-low text-[11px] uppercase tracking-wider text-on-surface-variant border-b border-surface-container-high font-bold">
+                    <th class="py-3 px-4">#</th>
+                    <th class="py-3 px-4">Status</th>
+                    <th class="py-3 px-4">College</th>
+                    <th class="py-3 px-4">Program &amp; Branch</th>
+                    <th class="py-3 px-4">Exam / Category</th>
+                    <th class="py-3 px-4">Round</th>
+                    <th class="py-3 px-4">Cutoff &amp; Fees</th>
+                    <th class="py-3 px-4">Diagnostic / Errors</th>
+                  </tr>
+                </thead>
+                <tbody id="import-preview-tbody" class="divide-y divide-surface-container-high/60">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Staging Notice & Commit Footer -->
+            <div class="p-6 bg-surface-container-low/40 border-t border-surface-container-high flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-secondary text-xl mt-0.5 shrink-0">verified_user</span>
+                <div>
+                  <h4 class="text-xs font-bold text-primary">Staging Guarantee &amp; Unapproved Isolation</h4>
+                  <p class="text-[11px] text-on-surface-variant max-w-xl">
+                    Imported records are committed in <strong class="text-primary font-semibold">Pending Approval</strong> status. They are strictly invisible to students and the recommendation engine until an administrator approves the batch. Missing fees or cutoffs are preserved as null and never invented.
+                  </p>
+                </div>
+              </div>
+
+              <button id="btn-commit-import" onclick="CollegeHubImport.commitImportBatch()" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-secondary text-on-secondary text-xs sm:text-sm font-bold shadow-md hover:bg-secondary/90 transition-all shrink-0 disabled:opacity-50 disabled:cursor-not-allowed">
+                <span class="material-symbols-outlined text-base">cloud_upload</span>
+                <span>Import <span id="commit-valid-count">0</span> Valid Records (Pending Approval)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- End tab-content-import -->
+
+      <!-- Main Tab 3: Admissions & Cutoffs Approval Queue -->
+      <div id="tab-content-approvals" class="hidden space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="material-symbols-outlined text-secondary text-[20px]">fact_check</span>
+              <span class="text-xs uppercase tracking-wider text-secondary font-bold">Governance &amp; Authorization</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-on-surface tracking-tight">Admissions &amp; Cutoffs Approval Queue</h1>
+            <p class="text-xs sm:text-sm text-on-surface-variant mt-0.5">
+              Review imported institutional batches. Approved records are published immediately to active student recommendations.
+            </p>
+          </div>
+          <button onclick="CollegeHubImport.loadImportBatches()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-semibold transition-all border border-surface-container-high shadow-xs">
+            <span class="material-symbols-outlined text-base">refresh</span>
+            <span>Refresh Batches</span>
+          </button>
+        </div>
+
+        <!-- Batches List Container -->
+        <div id="approval-batches-list" class="space-y-4">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div> <!-- End tab-content-approvals -->
+
+    </main>
+  </div>
+
+  <!-- Interactive Modal Dialog: Add / Edit FAQ -->
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-sm hidden" id="faq-modal">
+    <div class="bg-surface-container-lowest w-full max-w-2xl rounded-3xl shadow-2xl border border-surface-container-high overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Modal Header -->
+      <div class="p-6 bg-surface-container-lowest border-b border-surface-container-high flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-secondary-container flex items-center justify-center text-secondary">
+            <span class="material-symbols-outlined text-xl" id="modal-icon">quiz</span>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-on-surface" id="modal-title">Add New Knowledge FAQ</h3>
+            <p class="text-xs text-on-surface-variant">Fill in the question, response details, and publish status.</p>
+          </div>
+        </div>
+        <button class="p-2 text-on-surface-variant hover:text-on-surface rounded-xl hover:bg-surface-container transition-colors" id="modal-close-btn" type="button" aria-label="Close modal">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <!-- Modal Body Form -->
+      <form class="p-6 overflow-y-auto space-y-5 flex-1" id="faq-form" onsubmit="event.preventDefault();">
+        <input type="hidden" id="faq-edit-id" value="">
+        
+        <!-- Question Field -->
+        <div>
+          <label class="block text-xs font-bold text-on-surface mb-1.5">Question Title *</label>
+          <input required class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-secondary transition-all" id="faq-question-input" placeholder="e.g. What documents are needed for admission?" type="text">
+        </div>
+
+        <!-- Two Column: Category & Status -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-on-surface mb-1.5">Category *</label>
+            <select class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-secondary transition-all" id="faq-category-select">
+              <option value="admissions">Admissions</option>
+              <option value="courses">Courses &amp; Majors</option>
+              <option value="fees">Fees &amp; Financial Aid</option>
+              <option value="cutoffs">Cutoffs &amp; Merit Lists</option>
+              <option value="placements">Placements &amp; Careers</option>
+              <option value="examinations">Examinations</option>
+              <option value="departments">Academic Departments</option>
+              <option value="facilities">Campus &amp; Facilities</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-on-surface mb-1.5">Initial Status *</label>
+            <div class="flex items-center gap-2 p-1 bg-surface-container-low rounded-xl border border-surface-container-high/60">
+              <label class="flex-1 text-center py-1.5 rounded-lg text-xs font-semibold cursor-pointer has-[:checked]:bg-secondary-container has-[:checked]:text-on-secondary-container has-[:checked]:font-bold transition-all">
+                <input class="sr-only" name="faq-status" type="radio" value="Published" checked>
+                <span>Published</span>
+              </label>
+              <label class="flex-1 text-center py-1.5 rounded-lg text-xs font-semibold cursor-pointer has-[:checked]:bg-surface-container-high has-[:checked]:text-on-surface has-[:checked]:font-bold transition-all">
+                <input class="sr-only" name="faq-status" type="radio" value="Draft">
+                <span>Draft</span>
+              </label>
+              <label class="flex-1 text-center py-1.5 rounded-lg text-xs font-semibold cursor-pointer has-[:checked]:bg-surface-container-high has-[:checked]:text-on-surface has-[:checked]:font-bold transition-all">
+                <input class="sr-only" name="faq-status" type="radio" value="Inactive">
+                <span>Inactive</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keywords / Tags -->
+        <div>
+          <label class="block text-xs font-bold text-on-surface mb-1.5">Search Keywords &amp; Tags</label>
+          <input class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-secondary transition-all" id="faq-keywords-input" placeholder="e.g. documents, eligibility, deadline, marksheets" type="text">
+          <span class="text-[11px] text-on-surface-variant mt-1 block">Comma-separated tags for chatbot and search indexing.</span>
+        </div>
+
+        <!-- Comprehensive Answer with Formatting Bar Preview -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="text-xs font-bold text-on-surface">Verified Answer Content *</label>
+            <!-- Rich Text Format bar preview -->
+            <div class="flex items-center gap-1 text-outline">
+              <button type="button" onclick="formatAnswer('bold')" class="p-1 hover:text-on-surface rounded hover:bg-surface-container" title="Bold">
+                <span class="material-symbols-outlined text-[16px]">format_bold</span>
+              </button>
+              <button type="button" onclick="formatAnswer('italic')" class="p-1 hover:text-on-surface rounded hover:bg-surface-container" title="Italic">
+                <span class="material-symbols-outlined text-[16px]">format_italic</span>
+              </button>
+              <button type="button" onclick="formatAnswer('list')" class="p-1 hover:text-on-surface rounded hover:bg-surface-container" title="Bullet List">
+                <span class="material-symbols-outlined text-[16px]">format_list_bulleted</span>
+              </button>
+            </div>
+          </div>
+          <textarea required rows="4" class="w-full p-4 rounded-xl bg-surface-container-low text-on-surface text-xs sm:text-sm placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-secondary transition-all" id="faq-answer-input" placeholder="Enter clear, comprehensive instructions for prospective students..."></textarea>
+        </div>
+
+        <!-- Sandbox Checkbox -->
+        <div class="flex items-center gap-2 p-3 rounded-xl bg-surface-container-low border border-surface-container-high">
+          <input checked="" class="w-4 h-4 rounded text-secondary focus:ring-secondary" id="faq-verify-check" type="checkbox">
+          <label class="text-xs text-on-surface-variant font-medium cursor-pointer" for="faq-verify-check">
+            Mark as counselor-vetted and index in AI assistant recommendations
+          </label>
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="pt-4 border-t border-surface-container-high flex items-center justify-end gap-3">
+          <button class="px-5 py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container font-semibold text-xs sm:text-sm transition-colors" id="modal-cancel-btn" type="button">
+            Cancel
+          </button>
+          <button class="px-5 py-2.5 rounded-xl bg-surface-container text-on-surface hover:bg-surface-container-high font-semibold text-xs sm:text-sm transition-colors" id="btn-save-draft" type="button">
+            Save as Draft
+          </button>
+          <button class="px-6 py-2.5 rounded-xl bg-secondary text-on-secondary hover:bg-secondary/90 font-bold text-xs sm:text-sm shadow-md transition-all" id="btn-save-publish" type="button">
+            Publish FAQ
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Accessible Confirmation Modal: Deactivate / Remove FAQ -->
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/50 backdrop-blur-sm hidden" id="deactivate-confirm-modal">
+    <div class="bg-surface-container-lowest w-full max-w-md rounded-3xl shadow-2xl border border-surface-container-high overflow-hidden animate-in fade-in zoom-in-95 duration-200 p-6 sm:p-7">
+      <div class="w-12 h-12 rounded-2xl bg-error-container text-on-error-container flex items-center justify-center mb-4">
+        <span class="material-symbols-outlined text-2xl">warning</span>
+      </div>
+      <h3 class="text-lg font-bold text-primary tracking-tight">Confirm Deactivation</h3>
+      <p class="text-xs text-on-surface-variant mt-1.5 leading-relaxed">
+        Are you sure you want to deactivate or remove this entry? Deactivated items are removed immediately from the public student portal and will not be indexed by the CollegeHub AI Copilot.
+      </p>
+
+      <div class="my-4 p-3.5 bg-surface-container-low rounded-xl border border-surface-container-high text-xs font-semibold text-primary" id="deactivate-target-title">
+        <!-- Target question populated here -->
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button type="button" onclick="closeDeactivateModal()" class="px-4 py-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container font-semibold text-xs sm:text-sm transition-colors">
+          Cancel
+        </button>
+        <button type="button" onclick="confirmDeactivateAction()" class="px-5 py-2.5 rounded-xl bg-error text-white font-bold text-xs sm:text-sm shadow-md hover:bg-error/90 transition-all flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-base">delete</span>
+          <span>Confirm &amp; Deactivate</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Full-Stack JavaScript Logic -->
+  <script>
+    // State variables
+    let currentFilterStatus = 'All';
+    let currentFilterCategory = 'All';
+    let searchQuery = '';
+    let faqsData = [];
+    let faqToDeactivateId = null;
+
+    // Toggle Admin Mobile Sidebar
+    function toggleAdminSidebar() {
+      const sidebar = document.getElementById('admin-sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      const isClosed = sidebar.classList.contains('-translate-x-full');
+      if (isClosed) {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+      }
+    }
+
+    // Toast helper
+    function showToast(title, msg, isError = false) {
+      const toast = document.getElementById('faq-toast');
+      const toastTitle = document.getElementById('toast-title');
+      const toastDesc = document.getElementById('toast-desc');
+      if (!toast) return;
+      toastTitle.textContent = title;
+      toastDesc.textContent = msg;
+      
+      const toastIcon = toast.querySelector('.material-symbols-outlined');
+      if (toastIcon) {
+        toastIcon.textContent = isError ? 'error' : 'check_circle';
+        toastIcon.className = isError 
+          ? 'material-symbols-outlined text-error text-[22px]' 
+          : 'material-symbols-outlined text-secondary-container text-[22px]';
+      }
+
+      toast.classList.remove('-translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('-translate-y-24', 'opacity-0');
+      }, 3500);
+    }
+
+    function formatAnswer(type) {
+      const textarea = document.getElementById('faq-answer-input');
+      if (!textarea) return;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selected = textarea.value.substring(start, end);
+      let replacement = '';
+      if (type === 'bold') replacement = `**${selected || 'bold text'}**`;
+      else if (type === 'italic') replacement = `*${selected || 'italic text'}*`;
+      else if (type === 'list') replacement = `\n• ${selected || 'list item'}`;
+      textarea.setRangeText(replacement, start, end, 'select');
+      textarea.focus();
+    }
+
+    // Admin Logout
+    async function handleAdminLogout() {
+      try {
+        await fetch('/api/admin/logout', { method: 'POST' });
+      } catch (e) {
+        console.error('Logout request error:', e);
+      }
+      window.location.href = '/admin-login';
+    }
+
+    // Check Auth Session
+    async function checkAuth() {
+      try {
+        const res = await fetch('/api/admin/session');
+        const data = await res.json();
+        if (!data || !data.authenticated) {
+          window.location.href = '/admin-login';
+          return false;
+        }
+        if (data.username) {
+          const nameEl = document.getElementById('admin-user-name');
+          const avatarEl = document.getElementById('admin-user-avatar');
+          if (nameEl) nameEl.textContent = data.username;
+          if (avatarEl) avatarEl.textContent = data.username.substring(0, 2).toUpperCase();
+        }
+        return true;
+      } catch (err) {
+        console.error('Session check failed:', err);
+        return true;
+      }
+    }
+
+    // Fetch and render metrics
+    async function loadMetrics() {
+      try {
+        const res = await fetch('/api/admin/metrics');
+        if (!res.ok) return;
+        const result = await res.json();
+        if (result.status === 'success' && result.data) {
+          const m = result.data;
+          const totalEl = document.getElementById('kpi-total');
+          const pubEl = document.getElementById('kpi-published');
+          const draftEl = document.getElementById('kpi-drafts');
+          const inactEl = document.getElementById('kpi-inactive');
+
+          if (totalEl) totalEl.textContent = m.total;
+          if (pubEl) pubEl.textContent = m.published;
+          if (draftEl) draftEl.textContent = m.drafts;
+          if (inactEl) inactEl.textContent = m.inactive;
+        }
+      } catch (e) {
+        console.error('Error loading metrics:', e);
+      }
+    }
+
+    // Fetch and render FAQ data
+    async function loadFAQs() {
+      const visibleCount = document.getElementById('visible-count');
+      const noResults = document.getElementById('no-faq-results');
+
+      let url = '/api/admin/faqs?';
+      if (currentFilterStatus && currentFilterStatus !== 'All') {
+        url += `status=${encodeURIComponent(currentFilterStatus.toLowerCase())}&`;
+      }
+      if (currentFilterCategory && currentFilterCategory !== 'All') {
+        url += `category=${encodeURIComponent(currentFilterCategory.toLowerCase())}&`;
+      }
+      if (searchQuery) {
+        url += `q=${encodeURIComponent(searchQuery)}&`;
+      }
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) {
+          if (res.status === 401) {
+            window.location.href = '/admin-login';
+            return;
+          }
+          throw new Error('Failed to load FAQs');
+        }
+        const result = await res.json();
+        faqsData = result.data || [];
+
+        renderTable(faqsData);
+      } catch (err) {
+        console.error('Error fetching FAQs:', err);
+      }
+    }
+
+    function renderTable(faqs) {
+      const tableBody = document.getElementById('faq-table-body');
+      const visibleCount = document.getElementById('visible-count');
+      const noResults = document.getElementById('no-faq-results');
+      if (!tableBody) return;
+
+      tableBody.innerHTML = '';
+
+      if (!faqs || faqs.length === 0) {
+        if (noResults) noResults.classList.remove('hidden');
+        if (visibleCount) visibleCount.textContent = '0';
+        return;
+      }
+
+      if (noResults) noResults.classList.add('hidden');
+      if (visibleCount) visibleCount.textContent = faqs.length;
+
+      faqs.forEach(faq => {
+        const tr = document.createElement('tr');
+        tr.className = 'faq-row hover:bg-surface-container-low/70 transition-colors group';
+        tr.setAttribute('data-id', faq.id);
+        tr.setAttribute('data-category', faq.category);
+        tr.setAttribute('data-status', faq.status);
+
+        const statusLower = (faq.status || 'published').toLowerCase();
+        let statusPillHtml = '';
+        if (statusLower === 'published') {
+          statusPillHtml = `
+            <span class="status-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
+              <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+              <span>Published</span>
+            </span>
+          `;
+        } else if (statusLower === 'draft') {
+          statusPillHtml = `
+            <span class="status-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-surface-container-high text-on-surface">
+              <span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+              <span>Draft</span>
+            </span>
+          `;
+        } else {
+          statusPillHtml = `
+            <span class="status-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-surface-container text-outline">
+              <span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+              <span>Inactive</span>
+            </span>
+          `;
+        }
+
+        const isInactive = statusLower === 'inactive';
+        const titleClass = isInactive 
+          ? 'faq-q-text font-bold text-outline line-through group-hover:text-primary transition-colors cursor-pointer edit-trigger' 
+          : 'faq-q-text font-bold text-primary group-hover:text-secondary transition-colors cursor-pointer edit-trigger';
+
+        const keywordsList = (faq.keywords || '').split(',').map(k => k.trim()).filter(Boolean);
+        const tagsHtml = keywordsList.slice(0, 3).map(k => `
+          <span class="text-[11px] px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">${escapeHtml(k)}</span>
+        `).join('');
+
+        const formattedDate = faq.updated_at ? faq.updated_at.substring(0, 10) : 'Recent';
+
+        tr.innerHTML = `
+          <td class="py-4 px-6">
+            <div class="flex flex-col">
+              <span class="${titleClass}" title="Click to edit">
+                ${escapeHtml(faq.question)}
+              </span>
+              <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                <span class="text-[11px] px-2 py-0.5 rounded bg-secondary-container/40 text-secondary font-bold uppercase tracking-wider">${escapeHtml(faq.category)}</span>
+                ${tagsHtml}
+              </div>
+            </div>
+          </td>
+          <td class="py-4 px-5">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-surface-container text-on-surface text-xs font-semibold capitalize">
+              ${escapeHtml(faq.category)}
+            </span>
+          </td>
+          <td class="py-4 px-5">
+            ${statusPillHtml}
+          </td>
+          <td class="py-4 px-5">
+            <div class="flex flex-col">
+              <span class="font-bold text-on-surface">${(faq.views_count || 0).toLocaleString()} views</span>
+              <span class="text-[11px] text-secondary font-semibold">${(faq.upvotes_count || 0)} upvotes</span>
+            </div>
+          </td>
+          <td class="py-4 px-5 text-on-surface-variant">
+            <span class="font-semibold text-on-surface">${escapeHtml(formattedDate)}</span>
+            <span class="block text-[11px] text-outline">verified</span>
+          </td>
+          <td class="py-4 px-6 text-right">
+            <div class="inline-flex items-center gap-1">
+              <button class="edit-btn p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" title="Edit FAQ">
+                <span class="material-symbols-outlined text-[18px]">edit</span>
+              </button>
+              <button class="toggle-status-btn p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" title="Toggle Publish/Draft/Inactive">
+                <span class="material-symbols-outlined text-[18px]">sync</span>
+              </button>
+              <button class="delete-btn p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-colors" title="Deactivate or Remove FAQ">
+                <span class="material-symbols-outlined text-[18px]">delete</span>
+              </button>
+            </div>
+          </td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text).replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+      });
+    }
+
+    // Modal Handling
+    function openModal(mode = 'create', data = null) {
+      const modal = document.getElementById('faq-modal');
+      const modalTitle = document.getElementById('modal-title');
+      const editIdInput = document.getElementById('faq-edit-id');
+      const qInput = document.getElementById('faq-question-input');
+      const catSelect = document.getElementById('faq-category-select');
+      const answerInput = document.getElementById('faq-answer-input');
+      const kwInput = document.getElementById('faq-keywords-input');
+
+      if (mode === 'edit' && data) {
+        modalTitle.textContent = 'Edit Knowledge Base Entry';
+        editIdInput.value = data.id || '';
+        qInput.value = data.question || '';
+        catSelect.value = (data.category || 'admissions').toLowerCase();
+        answerInput.value = data.answer || '';
+        kwInput.value = data.keywords || '';
+
+        const statusCap = (data.status || 'published').toLowerCase();
+        const radio = document.querySelector(`input[name="faq-status"][value="${statusCap.charAt(0).toUpperCase() + statusCap.slice(1)}"]`);
+        if (radio) radio.checked = true;
+      } else {
+        modalTitle.textContent = 'Add New Knowledge FAQ';
+        editIdInput.value = '';
+        qInput.value = '';
+        answerInput.value = '';
+        kwInput.value = '';
+        const radio = document.querySelector('input[name="faq-status"][value="Published"]');
+        if (radio) radio.checked = true;
+      }
+
+      modal.classList.remove('hidden');
+      setTimeout(() => qInput.focus(), 100);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('faq-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // Deactivation confirmation modal
+    function openDeactivateModal(faqId, questionText) {
+      faqToDeactivateId = faqId;
+      const targetEl = document.getElementById('deactivate-target-title');
+      if (targetEl) targetEl.textContent = `"${questionText}" (ID: ${faqId})`;
+      const modal = document.getElementById('deactivate-confirm-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeDeactivateModal() {
+      faqToDeactivateId = null;
+      const modal = document.getElementById('deactivate-confirm-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    async function confirmDeactivateAction() {
+      if (!faqToDeactivateId) return;
+      try {
+        const res = await fetch(`/api/admin/faqs/${faqToDeactivateId}`, {
+          method: 'DELETE'
+        });
+        const result = await res.json();
+        if (res.ok && result.status === 'success') {
+          showToast('FAQ Deactivated', 'The FAQ has been deactivated and removed from the active student portal.');
+          closeDeactivateModal();
+          loadFAQs();
+          loadMetrics();
+        } else {
+          showToast('Action Failed', result.message || 'Could not deactivate FAQ.', true);
+        }
+      } catch (err) {
+        console.error('Error deactivating FAQ:', err);
+        showToast('Network Error', 'Could not reach server to deactivate FAQ.', true);
+      }
+    }
+
+    // Save Form
+    async function handleFormSave(forceDraft = false) {
+      const qInput = document.getElementById('faq-question-input');
+      const catSelect = document.getElementById('faq-category-select');
+      const answerInput = document.getElementById('faq-answer-input');
+      const kwInput = document.getElementById('faq-keywords-input');
+      const editId = document.getElementById('faq-edit-id')?.value;
+      const statusRadio = document.querySelector('input[name="faq-status"]:checked');
+
+      const question = (qInput?.value || '').trim();
+      const answer = (answerInput?.value || '').trim();
+      const category = (catSelect?.value || 'admissions').trim().toLowerCase();
+      const keywords = (kwInput?.value || '').trim();
+      const status = forceDraft ? 'draft' : (statusRadio ? statusRadio.value.toLowerCase() : 'published');
+
+      if (!question) {
+        alert('Please specify the question title.');
+        qInput?.focus();
+        return;
+      }
+
+      if (!answer) {
+        alert('Please provide verified answer content.');
+        answerInput?.focus();
+        return;
+      }
+
+      const payload = { question, answer, category, keywords, status };
+
+      try {
+        let res;
+        if (editId) {
+          res = await fetch(`/api/admin/faqs/${editId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          res = await fetch('/api/admin/faqs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        const result = await res.json();
+        if (res.ok && result.status === 'success') {
+          showToast(editId ? 'FAQ Updated' : 'FAQ Published', result.message || 'Record successfully updated.');
+          closeModal();
+          loadFAQs();
+          loadMetrics();
+        } else {
+          showToast('Save Failed', result.message || 'Validation error while saving FAQ.', true);
+        }
+      } catch (err) {
+        console.error('Save error:', err);
+        showToast('Error', 'Could not communicate with the backend API.', true);
+      }
+    }
+
+    // Toggle Status Quick Button
+    async function toggleFaqStatus(faqId, currentStatus) {
+      let nextStatus = 'published';
+      if (currentStatus === 'published') nextStatus = 'draft';
+      else if (currentStatus === 'draft') nextStatus = 'inactive';
+      else nextStatus = 'published';
+
+      try {
+        const res = await fetch(`/api/admin/faqs/${faqId}/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: nextStatus })
+        });
+        const result = await res.json();
+        if (res.ok && result.status === 'success') {
+          showToast('Status Updated', `FAQ status switched to '${nextStatus}'.`);
+          loadFAQs();
+          loadMetrics();
+        } else {
+          showToast('Error', result.message || 'Could not change status.', true);
+        }
+      } catch (err) {
+        console.error('Status toggle error:', err);
+      }
+    }
+
+    // Initialize Event Listeners
+    (function init() {
+      const openCreateBtn = document.getElementById('btn-open-create');
+      const closeBtn = document.getElementById('modal-close-btn');
+      const cancelBtn = document.getElementById('modal-cancel-btn');
+      const savePublishBtn = document.getElementById('btn-save-publish');
+      const saveDraftBtn = document.getElementById('btn-save-draft');
+      const searchInput = document.getElementById('faq-search-input');
+      const statusFilterBtns = document.querySelectorAll('.status-filter-btn');
+      const categoryFilterBtns = document.querySelectorAll('.category-filter-btn');
+      const tableBody = document.getElementById('faq-table-body');
+      const resetFiltersBtn = document.getElementById('reset-filters-btn');
+      const exportCsvBtn = document.getElementById('btn-export-csv');
+
+      if (openCreateBtn) openCreateBtn.addEventListener('click', () => openModal('create'));
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+
+      if (savePublishBtn) savePublishBtn.addEventListener('click', () => handleFormSave(false));
+      if (saveDraftBtn) saveDraftBtn.addEventListener('click', () => handleFormSave(true));
+
+      // Search input with debouncing
+      let searchTimeout;
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => {
+            searchQuery = e.target.value.trim().toLowerCase();
+            loadFAQs();
+          }, 250);
+        });
+      }
+
+      // Status filters
+      statusFilterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          statusFilterBtns.forEach(b => {
+            b.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-xs', 'font-bold', 'active');
+            b.classList.add('text-on-surface-variant');
+          });
+          btn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-xs', 'font-bold', 'active');
+          btn.classList.remove('text-on-surface-variant');
+          currentFilterStatus = btn.getAttribute('data-status');
+          loadFAQs();
+        });
+      });
+
+      // Category filters
+      categoryFilterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          categoryFilterBtns.forEach(b => {
+            b.classList.remove('bg-secondary', 'text-on-secondary', 'font-bold');
+            b.classList.add('bg-surface-container', 'text-on-surface-variant');
+          });
+          btn.classList.add('bg-secondary', 'text-on-secondary', 'font-bold');
+          btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
+          currentFilterCategory = btn.getAttribute('data-category');
+          loadFAQs();
+        });
+      });
+
+      if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener('click', () => {
+          searchQuery = '';
+          if (searchInput) searchInput.value = '';
+          currentFilterStatus = 'All';
+          currentFilterCategory = 'All';
+          statusFilterBtns[0]?.click();
+          categoryFilterBtns[0]?.click();
+        });
+      }
+
+      // Table Action Delegation
+      if (tableBody) {
+        tableBody.addEventListener('click', (e) => {
+          const row = e.target.closest('.faq-row');
+          if (!row) return;
+          const faqId = row.getAttribute('data-id');
+          const faq = faqsData.find(f => String(f.id) === String(faqId));
+
+          if (e.target.closest('.edit-btn') || e.target.closest('.edit-trigger')) {
+            if (faq) {
+              openModal('edit', faq);
+            } else {
+              const qText = row.querySelector('.faq-q-text')?.textContent?.trim() || '';
+              const category = row.getAttribute('data-category') || 'admissions';
+              const status = row.getAttribute('data-status') || 'published';
+              openModal('edit', { id: faqId, question: qText, category, status, answer: '' });
+            }
+          } else if (e.target.closest('.toggle-status-btn')) {
+            const current = (row.getAttribute('data-status') || 'published').toLowerCase();
+            toggleFaqStatus(faqId, current);
+          } else if (e.target.closest('.delete-btn')) {
+            const qText = row.querySelector('.faq-q-text')?.textContent?.trim() || '';
+            openDeactivateModal(faqId, qText);
+          }
+        });
+      }
+
+      // Export CSV
+      if (exportCsvBtn) {
+        exportCsvBtn.addEventListener('click', () => {
+          if (!faqsData || faqsData.length === 0) {
+            alert('No FAQs available to export.');
+            return;
+          }
+          let csvContent = 'data:text/csv;charset=utf-8,ID,Question,Category,Status,Views,Upvotes,Updated_At\n';
+          faqsData.forEach(f => {
+            const id = f.id || '';
+            const q = (f.question || '').replace(/"/g, '""');
+            const cat = f.category || '';
+            const st = f.status || '';
+            const views = f.views_count || 0;
+            const upvotes = f.upvotes_count || 0;
+            const updated = f.updated_at || '';
+            csvContent += `"${id}","${q}","${cat}","${st}",${views},${upvotes},"${updated}"\n`;
+          });
+          const encodedUri = encodeURI(csvContent);
+          const link = document.createElement('a');
+          link.setAttribute('href', encodedUri);
+          link.setAttribute('download', 'collegehub_approved_faqs.csv');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          showToast('Export Complete', 'Exported approved FAQs to CSV.');
+        });
+      }
+
+      // Initial auth & data load
+      checkAuth().then(isAuth => {
+        loadMetrics();
+        loadFAQs();
+      });
+    })();
+
+    // Color theme logic
+    function applyTheme(theme) {
+      const icon = document.getElementById('theme-toggle-icon');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        if (icon) {
+          icon.textContent = 'light_mode';
+          icon.classList.add('text-tertiary-fixed');
+        }
+      } else {
+        document.documentElement.classList.remove('dark');
+        if (icon) {
+          icon.textContent = 'dark_mode';
+          icon.classList.remove('text-tertiary-fixed');
+        }
+      }
+    }
+
+    function toggleTheme() {
+      const current = localStorage.getItem('collegehub-theme') || (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      const newTheme = current === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('collegehub-theme', newTheme);
+      applyTheme(newTheme);
+      window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: newTheme } }));
+    }
+
+    (function initTheme() {
+      const saved = localStorage.getItem('collegehub-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = saved || (prefersDark ? 'dark' : 'light');
+      applyTheme(theme);
+    })();
+
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'collegehub-theme') {
+        applyTheme(e.newValue || 'light');
+      }
+    });
+  </script>
+
+  <!-- Interactive Modal Dialog: Batch Details Inspection -->
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-sm hidden" id="batch-details-modal">
+    <div class="bg-surface-container-lowest w-full max-w-4xl rounded-3xl shadow-2xl border border-surface-container-high overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-6 bg-surface-container-lowest border-b border-surface-container-high flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-secondary-container flex items-center justify-center text-secondary">
+            <span class="material-symbols-outlined text-xl">inventory_2</span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-primary" id="batch-modal-title">Batch Records Inspection</h3>
+            <p class="text-xs text-on-surface-variant">Review all staged cutoff records in this import batch.</p>
+          </div>
+        </div>
+        <button onclick="CollegeHubImport.closeBatchDetailsModal()" class="p-2 text-on-surface-variant hover:text-on-surface rounded-xl hover:bg-surface-container transition-colors" type="button" aria-label="Close modal">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <div class="overflow-y-auto max-h-[60vh] p-6">
+        <div class="overflow-x-auto rounded-2xl border border-surface-container-high">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-surface-container-low text-[11px] uppercase tracking-wider text-on-surface-variant border-b border-surface-container-high font-bold">
+                <th class="py-2.5 px-3">#</th>
+                <th class="py-2.5 px-3">College &amp; Code</th>
+                <th class="py-2.5 px-3">Branch</th>
+                <th class="py-2.5 px-3">Exam / Cat (Quota)</th>
+                <th class="py-2.5 px-3">Round</th>
+                <th class="py-2.5 px-3">Cutoff</th>
+                <th class="py-2.5 px-3">Status</th>
+              </tr>
+            </thead>
+            <tbody id="batch-modal-tbody" class="divide-y divide-surface-container-high/60">
+              <!-- Populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="p-4 bg-surface-container-low/50 border-t border-surface-container-high flex items-center justify-end">
+        <button onclick="CollegeHubImport.closeBatchDetailsModal()" class="px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-xs font-semibold text-primary transition-colors">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Modal Dialog: Column Specifications & Guide -->
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-primary/40 backdrop-blur-sm hidden" id="column-guide-modal">
+    <div class="bg-surface-container-lowest w-full max-w-4xl rounded-3xl shadow-2xl border border-surface-container-high overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200">
+      <div class="p-6 bg-surface-container-lowest border-b border-surface-container-high flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-secondary-container flex items-center justify-center text-secondary">
+            <span class="material-symbols-outlined text-xl">menu_book</span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-primary">Maharashtra Colleges &amp; Cutoffs CSV Column Specifications</h3>
+            <p class="text-xs text-on-surface-variant">Comprehensive schema dictionary and validation requirements for data imports.</p>
+          </div>
+        </div>
+        <button onclick="CollegeHubImport.closeColumnGuide()" class="p-2 text-on-surface-variant hover:text-on-surface rounded-xl hover:bg-surface-container transition-colors" type="button" aria-label="Close modal">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <div class="overflow-y-auto max-h-[60vh] p-6 space-y-4">
+        <div class="p-4 bg-secondary-container/20 rounded-2xl border border-secondary/30 flex items-start gap-3">
+          <span class="material-symbols-outlined text-secondary text-xl shrink-0 mt-0.5">info</span>
+          <div class="text-xs text-on-surface">
+            <strong class="text-primary font-bold">Data Integrity Principle:</strong>
+            Never invent or interpolate missing numbers. If annual fees, hostels, or closing cutoffs are not yet published, leave the field blank. The system will safely register the record as <em>Insufficient Cutoff Data</em> rather than misleading students with estimated figures.
+          </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-2xl border border-surface-container-high">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-surface-container-low text-[11px] uppercase tracking-wider text-on-surface-variant border-b border-surface-container-high font-bold">
+                <th class="py-2.5 px-3">Column Header</th>
+                <th class="py-2.5 px-2">Req?</th>
+                <th class="py-2.5 px-3">Data Type &amp; Constraints</th>
+                <th class="py-2.5 px-3">Accepted Values</th>
+                <th class="py-2.5 px-3">Maharashtra Example</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-surface-container-high/60">
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">college_code</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-600">Yes</span></td>
+                <td class="py-2 px-3">Text / 4-digit DTE Code</td>
+                <td class="py-2 px-3">Official DTE Maharashtra 4-digit code</td>
+                <td class="py-2 px-3 font-mono">6006, 3012, 6271</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">college_name</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-600">Yes</span></td>
+                <td class="py-2 px-3">Text (max 255 chars)</td>
+                <td class="py-2 px-3">Full institutional title</td>
+                <td class="py-2 px-3">COEP Technological University</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">campus_type</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-surface-container text-on-surface-variant">Opt</span></td>
+                <td class="py-2 px-3">Text</td>
+                <td class="py-2 px-3">State University, Government, Private Autonomous</td>
+                <td class="py-2 px-3">State University &amp; Autonomous Institute</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">district</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-surface-container text-on-surface-variant">Opt</span></td>
+                <td class="py-2 px-3">Text</td>
+                <td class="py-2 px-3">Maharashtra District</td>
+                <td class="py-2 px-3">Pune, Mumbai City, Nagpur</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">city</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-600">Yes</span></td>
+                <td class="py-2 px-3">Text</td>
+                <td class="py-2 px-3">City Name</td>
+                <td class="py-2 px-3">Pune, Mumbai, Nagpur</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">state</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-600">Yes</span></td>
+                <td class="py-2 px-3">Text (Defaults to Maharashtra)</td>
+                <td class="py-2 px-3">State Name</td>
+                <td class="py-2 px-3">Maharashtra</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">program</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-600">Yes</span></td>
+                <td class="py-2 px-3">Text</td>
+                <td class="py-2 px-3">Degree title: B.Tech, B.E., B.Arch, MBA</td>
+                <td class="py-2 px-3">B.Tech</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">branch_code</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-600">Yes</span></td>
+                <td class="py-2 px-3">Standard Branch Code</td>
+                <td class="py-2 px-3">CSE, AIDS, IT, ENTC, MECH, CIVIL, QUANT</td>
+                <td class="py-2 px-3 font-mono">CSE, AIDS</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">branch_name</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-600">Yes</span></td>
+                <td class="py-2 px-3">Text</td>
+                <td class="py-2 px-3">Full Branch Name</td>
+                <td class="py-2 px-3">Computer Science &amp; Engineering</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">exam</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-600">Yes</span></td>
+                <td class="py-2 px-3">Standard Exam Name</td>
+                <td class="py-2 px-3">MHT-CET, JEE Main, GATE, CAT</td>
+                <td class="py-2 px-3 font-mono">MHT-CET</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">score_type</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-600">Yes</span></td>
+                <td class="py-2 px-3">percentile, rank, marks</td>
+                <td class="py-2 px-3">percentile, rank, or marks</td>
+                <td class="py-2 px-3 font-mono">percentile</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">category</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-600">Yes</span></td>
+                <td class="py-2 px-3">Reservation Category</td>
+                <td class="py-2 px-3">OPEN, OBC-NCL, EWS, SC, ST, TFWS, VJNT</td>
+                <td class="py-2 px-3 font-mono">OPEN, OBC-NCL</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">quota</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-600">Yes</span></td>
+                <td class="py-2 px-3">Counseling Quota</td>
+                <td class="py-2 px-3">SL (State Level), HU (Home Univ), OHU, AI</td>
+                <td class="py-2 px-3 font-mono">SL, HU</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">round</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-600">Yes</span></td>
+                <td class="py-2 px-3">Counseling Round</td>
+                <td class="py-2 px-3">CAP Round I, CAP Round II, CAP Round III</td>
+                <td class="py-2 px-3">CAP Round II</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">cutoff_value</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-surface-container text-on-surface-variant">Opt</span></td>
+                <td class="py-2 px-3">Decimal or Integer</td>
+                <td class="py-2 px-3">Percentile (0-100), Rank (&ge;1), Marks (&ge;0)</td>
+                <td class="py-2 px-3 font-mono">99.8512</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">annual_fees_inr</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-surface-container text-on-surface-variant">Opt</span></td>
+                <td class="py-2 px-3">Numeric (&ge; 0)</td>
+                <td class="py-2 px-3">Annual Tuition &amp; Development in INR</td>
+                <td class="py-2 px-3 font-mono">92000</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">hostel_available</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-surface-container text-on-surface-variant">Opt</span></td>
+                <td class="py-2 px-3">Boolean</td>
+                <td class="py-2 px-3">true, false, yes, no</td>
+                <td class="py-2 px-3 font-mono">true</td>
+              </tr>
+              <tr class="hover:bg-surface-container-low/50">
+                <td class="py-2 px-3 font-mono font-bold text-primary">remarks</td>
+                <td class="py-2 px-2"><span class="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-surface-container text-on-surface-variant">Opt</span></td>
+                <td class="py-2 px-3">Text</td>
+                <td class="py-2 px-3">Administrative / counseling notes</td>
+                <td class="py-2 px-3">Final merit closing allotment</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="p-4 bg-surface-container-low/50 border-t border-surface-container-high flex items-center justify-between">
+        <a href="/api/admin/import/template" download="maharashtra_colleges_cutoffs_template.csv" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:bg-secondary/90 transition-all shadow-xs">
+          <span class="material-symbols-outlined text-sm">download</span>
+          <span>Download Blank Template (.csv)</span>
+        </a>
+        <button onclick="CollegeHubImport.closeColumnGuide()" class="px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-xs font-semibold text-primary transition-colors">
+          Close Guide
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/admin-import.js"></script>
+  <script src="assets/js/demo-data.js"></script>
+</body>
+</html>

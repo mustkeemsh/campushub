@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>CollegeHub - About Our Mission &amp; Purpose</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <style>
+    @layer base { 
+      html, body { margin: 0; padding: 0; } 
+      body { overscroll-behavior: none; } 
+    } 
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #c5c6ce; border-radius: 9999px; }
+    .dark ::-webkit-scrollbar-thumb { background: #44474d; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed": "#d7e3ff",
+            "surface-container-low": "#f3f4f3",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "secondary-container": "#a8ece5",
+            "surface-container-high": "#e8e8e7",
+            "on-error": "#ffffff",
+            "tertiary": "#020500",
+            "on-background": "#1a1c1c",
+            "inverse-primary": "#b8c7e6",
+            "on-tertiary-fixed": "#102000",
+            "error-container": "#ffdad6",
+            "on-primary-container": "#7886a3",
+            "surface-dim": "#dadad9",
+            "surface-bright": "#f9f9f8",
+            "outline": "#75777e",
+            "on-secondary-fixed-variant": "#00504b",
+            "on-tertiary-fixed-variant": "#304f00",
+            "secondary-fixed": "#abefe8",
+            "surface-container": "#eeeeed",
+            "tertiary-container": "#122200",
+            "primary": "#000412",
+            "tertiary-fixed-dim": "#91db2a",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#515f7a",
+            "tertiary-fixed": "#acf847",
+            "surface-container-highest": "#e2e2e2",
+            "inverse-on-surface": "#f1f1f0",
+            "secondary-fixed-dim": "#8fd3cc",
+            "on-surface-variant": "#44474d",
+            "primary-container": "#0f1e36",
+            "outline-variant": "#c5c6ce",
+            "secondary": "#216963",
+            "inverse-surface": "#2f3130",
+            "surface-variant": "#e2e2e2",
+            "on-surface": "#1a1c1c",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed": "#00201e",
+            "surface": "#f9f9f8",
+            "primary-fixed-dim": "#b8c7e6",
+            "on-tertiary-container": "#5d9400",
+            "on-primary-fixed": "#0c1b33",
+            "background": "#f9f9f8",
+            "on-primary": "#ffffff",
+            "on-primary-fixed-variant": "#394761",
+            "on-secondary-container": "#266d68"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('collegehub-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+</head>
+<body class="bg-surface font-sans text-on-surface antialiased transition-colors duration-200">
+  <!-- Top Navigation Header -->
+  <header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-surface-container-high/60">
+    <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-4">
+      
+      <!-- Brand Wordmark & Logo -->
+      <div class="flex items-center gap-8">
+        <a class="flex items-center gap-3 group focus:outline-none" href="index.html">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary to-[#0d9488] flex items-center justify-center text-white shadow-sm shrink-0 transition-transform group-hover:scale-105">
+            <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">school</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xl font-bold text-primary tracking-tight group-hover:text-secondary transition-colors">CollegeHub</span>
+            <span class="text-[10px] text-secondary tracking-widest uppercase font-semibold -mt-1 hidden sm:block">Academic Matrix</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-1 p-1 bg-surface-container-low/70 rounded-2xl border border-surface-container-high/60">
+          <a href="index.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all">Home</a>
+          <a href="recommendations.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all">College Predictor</a>
+          <a href="faqs.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all">FAQs &amp; Chatbot</a>
+          <a href="profile.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all">Student Hub</a>
+          <a href="about.html" class="px-3.5 py-1.5 transition-all bg-secondary-container text-on-secondary-container text-xs sm:text-sm font-bold rounded-xl shadow-xs">About</a>
+        </nav>
+      </div>
+
+      <!-- Header Right Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle-btn" aria-label="Toggle Color Theme" onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors shadow-xs">
+          <span id="theme-toggle-icon" class="material-symbols-outlined text-xl">dark_mode</span>
+        </button>
+
+        <!-- Ask CollegeHub CTA Button -->
+        <a href="faqs.html" class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl bg-secondary text-on-secondary text-sm font-semibold shadow-sm hover:bg-secondary/90 transition-all gap-1.5">
+          <span class="material-symbols-outlined text-[18px]">smart_toy</span>
+          <span>Ask CollegeHub</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden w-10 h-10 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors" aria-label="Toggle Menu">
+          <span id="mobile-menu-icon" class="material-symbols-outlined text-2xl">menu</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobile-menu" class="hidden md:hidden px-6 pb-6 pt-2 bg-surface/95 border-b border-surface-container-high backdrop-blur-xl">
+      <nav class="flex flex-col gap-2">
+        <a href="index.html" class="px-4 py-2.5 text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-semibold rounded-xl text-sm flex items-center gap-2">
+          <span class="material-symbols-outlined text-lg">home</span>
+          <span>Home</span>
+        </a>
+        <a href="faqs.html" class="px-4 py-2.5 text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-semibold rounded-xl text-sm flex items-center gap-2">
+          <span class="material-symbols-outlined text-lg">quiz</span>
+          <span>FAQs &amp; Chatbot</span>
+        </a>
+        <a href="about.html" class="px-4 py-2.5 bg-secondary-container text-on-secondary-container font-semibold rounded-xl text-sm flex items-center gap-2">
+          <span class="material-symbols-outlined text-lg">info</span>
+          <span>About CollegeHub</span>
+        </a>
+        <a href="profile.html" class="px-4 py-2.5 text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-semibold rounded-xl text-sm flex items-center gap-2">
+          <span class="material-symbols-outlined text-lg">school</span>
+          <span>Applicant Portal</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="w-full pt-20 bg-surface">
+    <!-- Hero Section -->
+    <section class="max-w-7xl mx-auto px-6 lg:px-12 pt-12 pb-16 lg:pb-24 w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div class="lg:col-span-7 flex flex-col items-start">
+          <!-- Overline Badge -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-secondary-container/60 text-on-secondary-container text-xs font-bold mb-6 shadow-xs border border-secondary/20">
+            <span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+            <span class="tracking-wide uppercase text-[11px]">Our Mission &amp; Purpose</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-tight mb-6">
+            Democratizing Higher Education Guidance for Every Student &amp; Family.
+          </h1>
+
+          <p class="text-base sm:text-lg text-on-surface-variant max-w-2xl mb-8 leading-relaxed">
+            CollegeHub bridges the information asymmetry in college admissions, degree selection, tuition structures, and campus readiness with verified, transparent, and counselor-vetted data.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="faqs.html" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-secondary text-on-secondary text-xs sm:text-sm font-bold shadow-md hover:bg-secondary/90 transition-all">
+              <span class="material-symbols-outlined text-[20px]">smart_toy</span>
+              <span>Ask the Verified AI</span>
+            </a>
+            <a href="index.html#faqAccordionSection" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-surface-container text-primary text-xs sm:text-sm font-semibold hover:bg-surface-container-high transition-all border border-surface-container-high shadow-xs">
+              <span>Explore Common FAQs</span>
+              <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero Visual Collage / Stats Card -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative w-full rounded-2xl overflow-hidden shadow-xl bg-surface-container-lowest p-3 border border-surface-container-high">
+            <div class="relative h-80 rounded-xl overflow-hidden">
+              <img class="w-full h-full object-cover" alt="University library study" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH7GAedtRojUxB11Yjq7WICG4VZ1XqujjpDff2DJacXUlqlWshOx-7vwC9H21CevhW_vMO1SucvI7y0TmfGCpaUckJgp1n7BLhGgf9_chGhcz-VV0NzGEj19TRhh9dWikP7GRrHi3SKoJ8ou3zjxUVEbir2k0gpFJ0YgBJYJ44QoR79KdPbVppblgcT44cQpLHoWHCoQR_tdYPHpztOgXJbbCaj8LoLMXJsM-CL9c" onerror="this.style.display='none'">
+              <div class="absolute inset-0 bg-gradient-to-t from-primary-container/85 via-primary-container/25 to-transparent flex flex-col justify-end p-6">
+                <span class="inline-flex items-center gap-1.5 text-secondary-fixed text-xs font-semibold mb-1">
+                  <span class="inline-block w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span> Registrar Verified Ledger
+                </span>
+                <p class="text-base sm:text-lg font-bold text-on-primary">Trusted by 120+ Public University Consortia</p>
+              </div>
+            </div>
+            <!-- Floating Micro Accent Card -->
+            <div class="absolute -bottom-4 -left-4 sm:left-4 bg-surface-container-lowest p-4 rounded-xl shadow-lg border border-surface-container-high flex items-center gap-3.5 max-w-xs">
+              <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+                <span class="material-symbols-outlined text-[24px]">school</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-xs font-bold text-on-surface">100% Free Core Tools</span>
+                <span class="text-[11px] text-on-surface-variant">Zero hidden counselor paywalls</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Stats Row -->
+      <div class="mt-16 pt-10 grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8 bg-surface-container-lowest rounded-2xl p-6 lg:p-8 shadow-xs border border-surface-container-high">
+        <div class="flex flex-col">
+          <div class="flex items-baseline gap-1">
+            <span class="text-3xl lg:text-4xl font-extrabold text-primary">150,000</span>
+            <span class="text-secondary font-bold text-2xl">+</span>
+          </div>
+          <span class="text-xs sm:text-sm font-semibold text-on-surface mt-1">Students Guided</span>
+          <span class="text-[11px] text-on-surface-variant mt-0.5">Across undergraduate inquiries</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-baseline gap-1">
+            <span class="text-3xl lg:text-4xl font-extrabold text-primary">450</span>
+            <span class="text-secondary font-bold text-2xl">+</span>
+          </div>
+          <span class="text-xs sm:text-sm font-semibold text-on-surface mt-1">Partner High Schools</span>
+          <span class="text-[11px] text-on-surface-variant mt-0.5">Empowering counseling offices</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-baseline gap-1">
+            <span class="text-3xl lg:text-4xl font-extrabold text-primary">99.2</span>
+            <span class="text-secondary font-bold text-2xl">%</span>
+          </div>
+          <span class="text-xs sm:text-sm font-semibold text-on-surface mt-1">Data Verification Rate</span>
+          <span class="text-[11px] text-on-surface-variant mt-0.5">Double-audited against registrar criteria</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-baseline gap-1">
+            <span class="text-3xl lg:text-4xl font-extrabold text-primary">24/7</span>
+            <span class="text-secondary font-bold text-lg ml-1">Live</span>
+          </div>
+          <span class="text-xs sm:text-sm font-semibold text-on-surface mt-1">AI Assistant Coverage</span>
+          <span class="text-[11px] text-on-surface-variant mt-0.5">Instant procedural support</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 Pillars Section -->
+    <section class="w-full py-16 px-6 lg:px-12 bg-surface-container-low border-t border-surface-container-high/60">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="text-xs text-secondary uppercase tracking-widest font-bold">Our Philosophy</span>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary tracking-tight mt-1">The Three Pillars of CollegeHub</h2>
+          <p class="text-xs sm:text-sm text-on-surface-variant mt-2">Engineered to eliminate administrative friction and institutional opacity.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-xs border border-surface-container-high flex flex-col">
+            <div class="w-12 h-12 rounded-xl bg-secondary-container flex items-center justify-center text-secondary mb-6">
+              <span class="material-symbols-outlined text-2xl">visibility</span>
+            </div>
+            <h3 class="text-lg font-bold text-primary mb-2">1. Radical Transparency</h3>
+            <p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+              No hidden admission formulas or paywalled placement outcomes. Cutoffs, actual fee components, and criteria are published in plain, digestible language.
+            </p>
+          </div>
+
+          <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-xs border border-surface-container-high flex flex-col">
+            <div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-on-primary-fixed mb-6">
+              <span class="material-symbols-outlined text-2xl">verified_user</span>
+            </div>
+            <h3 class="text-lg font-bold text-primary mb-2">2. Counselor-Audited Integrity</h3>
+            <p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+              Every FAQ knowledge record is cross-checked by university admissions deans and high school guidance officers before being indexed in search and conversational copilot responses.
+            </p>
+          </div>
+
+          <div class="bg-surface-container-lowest p-8 rounded-2xl shadow-xs border border-surface-container-high flex flex-col">
+            <div class="w-12 h-12 rounded-xl bg-secondary-container/40 flex items-center justify-center text-secondary mb-6">
+              <span class="material-symbols-outlined text-2xl">accessibility_new</span>
+            </div>
+            <h3 class="text-lg font-bold text-primary mb-2">3. Universal Accessibility</h3>
+            <p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+              Designed from the ground up for high schoolers, collegiate applicants, parents, and transfer candidates. Highly responsive, lightweight, and accessible on any device.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA Banner -->
+    <section class="w-full py-16 px-6 lg:px-12 bg-surface">
+      <div class="max-w-5xl mx-auto bg-primary-container text-on-primary p-8 lg:p-12 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold mb-2">Ready to explore answers to your college questions?</h2>
+          <p class="text-xs sm:text-sm text-primary-fixed max-w-lg">
+            Ask our AI advisor 24/7 or browse our structured FAQ knowledge matrix.
+          </p>
+        </div>
+        <div class="flex items-center gap-3 shrink-0">
+          <a href="faqs.html" class="px-6 py-3.5 bg-secondary text-on-secondary font-bold text-xs sm:text-sm rounded-xl hover:bg-secondary/90 transition-all shadow-md">
+            Ask CollegeHub AI
+          </a>
+          <a href="recommendations.html" class="px-5 py-3.5 bg-surface-container-lowest/15 hover:bg-surface-container-lowest/25 text-on-primary font-semibold text-xs sm:text-sm rounded-xl transition-colors">
+            Recommendations
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Public Footer -->
+  <footer class="w-full bg-surface-container-low border-t border-surface-container-high/70">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-white">
+          <span class="material-symbols-outlined text-lg">school</span>
+        </div>
+        <span class="text-lg font-bold text-primary tracking-tight">CollegeHub</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-6 text-sm">
+        <a class="font-medium text-on-surface-variant hover:text-on-surface transition-colors" href="index.html">Home</a>
+        <a class="font-medium text-on-surface-variant hover:text-on-surface transition-colors" href="faqs.html">Assistance &amp; AI Chatbot</a>
+        <a class="font-medium text-on-surface-variant hover:text-on-surface transition-colors" href="about.html">Mission &amp; About</a>
+        <a class="font-medium text-on-surface-variant hover:text-on-surface transition-colors" href="profile.html">Student Portal</a>
+      </div>
+      <p class="text-xs text-on-surface-variant text-center md:text-right">
+        &copy; 2025 CollegeHub Inc. Guiding every student toward higher education clarity.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const icon = document.getElementById('mobile-menu-icon');
+      const isHidden = menu.classList.contains('hidden');
+      if (isHidden) {
+        menu.classList.remove('hidden');
+        icon.textContent = 'close';
+      } else {
+        menu.classList.add('hidden');
+        icon.textContent = 'menu';
+      }
+    }
+
+    function applyTheme(theme) {
+      const icon = document.getElementById('theme-toggle-icon');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        if (icon) {
+          icon.textContent = 'light_mode';
+          icon.classList.add('text-tertiary-fixed');
+        }
+      } else {
+        document.documentElement.classList.remove('dark');
+        if (icon) {
+          icon.textContent = 'dark_mode';
+          icon.classList.remove('text-tertiary-fixed');
+        }
+      }
+    }
+
+    function toggleTheme() {
+      const current = localStorage.getItem('collegehub-theme') || (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      const newTheme = current === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('collegehub-theme', newTheme);
+      applyTheme(newTheme);
+      window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: newTheme } }));
+    }
+
+    (function initTheme() {
+      const saved = localStorage.getItem('collegehub-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = saved || (prefersDark ? 'dark' : 'light');
+      applyTheme(theme);
+    })();
+
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'collegehub-theme') {
+        applyTheme(e.newValue || 'light');
+      }
+    });
+  </script>
+  <script src="assets/js/demo-data.js"></script>
+</body>
+</html>

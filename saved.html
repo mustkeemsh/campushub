@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>CollegeHub - Saved FAQs &amp; Counselor Chats</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed": "#d7e3ff",
+            "surface-container-low": "#f3f4f3",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "secondary-container": "#a8ece5",
+            "surface-container-high": "#e8e8e7",
+            "on-error": "#ffffff",
+            "tertiary": "#020500",
+            "on-background": "#1a1c1c",
+            "inverse-primary": "#b8c7e6",
+            "on-tertiary-fixed": "#102000",
+            "error-container": "#ffdad6",
+            "on-primary-container": "#7886a3",
+            "surface-dim": "#dadad9",
+            "surface-bright": "#f9f9f8",
+            "outline": "#75777e",
+            "on-secondary-fixed-variant": "#00504b",
+            "on-tertiary-fixed-variant": "#304f00",
+            "secondary-fixed": "#abefe8",
+            "surface-container": "#eeeeed",
+            "tertiary-container": "#122200",
+            "primary": "#000412",
+            "tertiary-fixed-dim": "#91db2a",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#515f7a",
+            "tertiary-fixed": "#acf847",
+            "surface-container-highest": "#e2e2e2",
+            "inverse-on-surface": "#f1f1f0",
+            "secondary-fixed-dim": "#8fd3cc",
+            "on-surface-variant": "#44474d",
+            "primary-container": "#102341",
+            "on-error-container": "#93000a",
+            "on-primary": "#ffffff",
+            "surface": "#f9f9f8",
+            "on-secondary-container": "#00625d",
+            "outline-variant": "#c5c6ce",
+            "background": "#f9f9f8",
+            "inverse-surface": "#2f3130",
+            "on-surface": "#1a1c1c",
+            "on-primary-fixed": "#091c39",
+            "secondary": "#216963",
+            "on-primary-fixed-variant": "#3a4862",
+            "on-secondary-fixed": "#00201d"
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #c5c6ce; border-radius: 9999px; }
+    .dark ::-webkit-scrollbar-thumb { background: #44474d; }
+  </style>
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('collegehub-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+</head>
+<body class="bg-[#f9f9f8] text-[#1a1c1c] dark:bg-[#0d1320] dark:text-[#f1f5f9] min-h-screen font-sans flex flex-col antialiased selection:bg-secondary/20 selection:text-secondary">
+
+  <!-- Global Header -->
+  <header class="sticky top-0 z-40 bg-surface/90 dark:bg-[#0d1320]/90 backdrop-blur-md border-b border-outline-variant/40 dark:border-slate-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      
+      <!-- Logo & Wordmark -->
+      <a href="index.html" class="flex items-center gap-3 group focus:outline-none">
+        <div class="w-10 h-10 rounded-xl bg-primary-container dark:bg-primary-fixed/20 text-on-primary dark:text-sky-300 flex items-center justify-center font-bold text-lg shadow-sm border border-primary/10 group-hover:scale-105 transition-transform">
+          CH
+        </div>
+        <div>
+          <span class="font-bold text-lg tracking-tight text-primary dark:text-white block leading-tight">CollegeHub</span>
+          <span class="text-[11px] font-medium text-on-surface-variant dark:text-slate-400 block -mt-0.5">Admissions &amp; Academic Assistance</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-1 p-1 bg-surface-container-low/70 dark:bg-slate-800/60 rounded-2xl border border-surface-container-high/60 dark:border-slate-700/50">
+        <a href="index.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all">Home</a>
+        <a href="recommendations.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all">College Predictor</a>
+        <a href="faqs.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all">FAQs &amp; Chatbot</a>
+        <a href="profile.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-bold bg-secondary-container text-on-secondary-container dark:bg-slate-900 dark:text-secondary-fixed rounded-xl shadow-xs transition-all">Student Hub</a>
+        <a href="about.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all">About</a>
+      </nav>
+
+      <!-- Right Controls: Theme Toggle & User Pill -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <button id="themeToggleBtn" onclick="CollegeHubData.toggleTheme()" title="Switch Light/Dark mode" class="w-9 h-9 rounded-xl bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-200 hover:bg-surface-container-high dark:hover:bg-slate-700 flex items-center justify-center transition-colors">
+          <span class="material-symbols-outlined text-base dark:hidden">dark_mode</span>
+          <span class="material-symbols-outlined text-base hidden dark:inline">light_mode</span>
+        </button>
+
+        <!-- User Menu Pill -->
+        <div class="relative group">
+          <button class="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 hover:bg-surface-container transition-colors">
+            <div data-user-initials class="w-7 h-7 rounded-full bg-secondary text-on-secondary font-bold text-xs flex items-center justify-center shadow-xs">
+              ST
+            </div>
+            <div class="text-left hidden sm:block">
+              <span data-user-name class="block text-xs font-bold text-primary dark:text-white leading-tight">Student Profile</span>
+              <span data-user-id class="block text-[10px] text-on-surface-variant dark:text-slate-400">#CH-2025-0001</span>
+            </div>
+            <span class="material-symbols-outlined text-sm text-on-surface-variant">expand_more</span>
+          </button>
+          
+          <!-- Dropdown menu -->
+          <div class="absolute right-0 mt-1 w-48 bg-surface-container-lowest dark:bg-[#111a2e] border border-outline-variant/40 dark:border-slate-800 rounded-2xl shadow-lg py-1.5 hidden group-hover:block transition-all z-50">
+            <div class="px-3 py-2 border-b border-outline-variant/30 dark:border-slate-800 text-xs text-on-surface-variant dark:text-slate-400">
+              Signed in as <strong data-user-email class="text-primary dark:text-white">student@example.com</strong>
+            </div>
+            <a href="profile.html" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800">
+              <span class="material-symbols-outlined text-base">dashboard</span> Applicant Overview
+            </a>
+            <a href="recommendations.html" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800">
+              <span class="material-symbols-outlined text-base text-secondary">auto_awesome</span> College Recommendations
+            </a>
+            <a href="saved.html" class="flex items-center gap-2 px-3 py-2 text-xs font-bold text-secondary dark:text-secondary-fixed bg-surface-container-low dark:bg-slate-800">
+              <span class="material-symbols-outlined text-base">bookmark</span> Saved FAQs &amp; Chats
+            </a>
+            <a href="settings.html" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800">
+              <span class="material-symbols-outlined text-base">settings</span> Account Settings
+            </a>
+            <div class="border-t border-outline-variant/30 dark:border-slate-800 my-1"></div>
+            <a href="signin.html" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-error hover:bg-error-container/20">
+              <span class="material-symbols-outlined text-base">logout</span> Sign Out
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Breadcrumb & Applicant Title Strip -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-outline-variant/40 dark:border-slate-800 pb-5">
+      <div>
+        <nav class="flex items-center gap-2 text-xs text-on-surface-variant dark:text-slate-400 mb-1.5" aria-label="Breadcrumb">
+          <a href="index.html" class="hover:underline">Home</a>
+          <span>/</span>
+          <a href="profile.html" class="hover:underline">Applicant Portal</a>
+          <span>/</span>
+          <span class="text-primary dark:text-white font-semibold">Saved FAQs &amp; Counselor Chats</span>
+        </nav>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-primary dark:text-white flex items-center gap-3">
+          Saved Knowledge Base &amp; Advisory Archives
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary/10 text-secondary dark:text-secondary-fixed border border-secondary/20">
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1.5 animate-pulse"></span> Synchronized
+          </span>
+        </h1>
+        <p class="text-xs sm:text-sm text-on-surface-variant dark:text-slate-400 mt-1 max-w-3xl">
+          Quick-access bookmarks from approved college FAQs and active advisory message threads with your assigned admissions counselor.
+        </p>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-2 self-start sm:self-auto">
+        <button onclick="exportDigestPDF()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-container dark:bg-slate-800 text-primary dark:text-white text-xs font-semibold hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors border border-outline-variant/40 dark:border-slate-700 shadow-xs">
+          <span class="material-symbols-outlined text-base text-secondary">picture_as_pdf</span>
+          Export Full Digest
+        </button>
+        <button onclick="openBookingModal()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:bg-secondary/90 transition-colors shadow-sm">
+          <span class="material-symbols-outlined text-base">add_circle</span>
+          Book Advisory Session
+        </button>
+      </div>
+    </div>
+
+    <!-- Student Dashboard Sub-Navigation Tabs (Unified across Portal) -->
+    <nav class="flex items-center gap-1 overflow-x-auto pb-1 border-b border-outline-variant/30 dark:border-slate-800" aria-label="Portal sub tabs">
+      <a href="profile.html" class="px-4 py-2.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-400 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-800/60 rounded-xl transition-all whitespace-nowrap flex items-center gap-2">
+        <span class="material-symbols-outlined text-base">dashboard</span>
+        Overview &amp; Application Status
+      </a>
+      <a href="recommendations.html" class="px-4 py-2.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-400 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-800/60 rounded-xl transition-all whitespace-nowrap flex items-center gap-2">
+        <span class="material-symbols-outlined text-base text-secondary">auto_awesome</span>
+        College Predictor
+        <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold">CAP 2025</span>
+      </a>
+      <a href="saved.html" class="px-4 py-2.5 text-xs sm:text-sm font-bold text-secondary dark:text-secondary-fixed bg-surface-container-lowest dark:bg-slate-900 border border-outline-variant/40 dark:border-slate-700 shadow-xs rounded-xl transition-all whitespace-nowrap flex items-center gap-2">
+        <span class="material-symbols-outlined text-base text-secondary">bookmark</span>
+        Saved FAQs &amp; Counselor Chats
+        <span class="w-2 h-2 rounded-full bg-secondary"></span>
+      </a>
+      <a href="settings.html" class="px-4 py-2.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-400 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-800/60 rounded-xl transition-all whitespace-nowrap flex items-center gap-2">
+        <span class="material-symbols-outlined text-base">settings</span>
+        Account Settings &amp; Security
+      </a>
+    </nav>
+
+    <!-- Top KPI & Stat Summary Row -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-2xl p-4 border border-outline-variant/40 dark:border-slate-800 shadow-xs flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary dark:text-secondary-fixed flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-2xl">bookmarks</span>
+        </div>
+        <div>
+          <div class="flex items-baseline gap-2">
+            <span id="savedCountStat" class="text-2xl font-black text-primary dark:text-white">8</span>
+            <span class="text-[11px] font-semibold text-secondary">Bookmarked</span>
+          </div>
+          <p class="text-xs text-on-surface-variant dark:text-slate-400">Approved FAQs across 8 categories</p>
+        </div>
+      </div>
+
+      <div class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-2xl p-4 border border-outline-variant/40 dark:border-slate-800 shadow-xs flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-primary-fixed/30 dark:bg-sky-900/30 text-primary dark:text-sky-300 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-2xl">support_agent</span>
+        </div>
+        <div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-black text-primary dark:text-white">1</span>
+            <span class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">Dr. Elena Chen</span>
+          </div>
+          <p class="text-xs text-on-surface-variant dark:text-slate-400">Assigned Lead Admissions Advisor</p>
+        </div>
+      </div>
+
+      <div class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-2xl p-4 border border-outline-variant/40 dark:border-slate-800 shadow-xs flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-2xl">schedule</span>
+        </div>
+        <div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-black text-primary dark:text-white">~15m</span>
+            <span class="text-[11px] font-semibold text-amber-600 dark:text-amber-400">Avg Response</span>
+          </div>
+          <p class="text-xs text-on-surface-variant dark:text-slate-400">Counseling desk active 9 AM – 5 PM IST</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Two-Column Layout (Desktop Grid) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- LEFT COLUMN: Saved FAQs List (7 Cols) -->
+      <section class="lg:col-span-7 space-y-4">
+        
+        <!-- Header & Category Filter Strip -->
+        <div class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-2xl p-4 sm:p-5 border border-outline-variant/40 dark:border-slate-800 shadow-xs space-y-3.5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2 class="text-base font-bold text-primary dark:text-white flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-lg">bookmark_added</span>
+                Bookmarked Knowledge Items
+              </h2>
+              <p class="text-xs text-on-surface-variant dark:text-slate-400">
+                Starred FAQs with your personal notes and admission guidance.
+              </p>
+            </div>
+            
+            <!-- Quick Search inside Saved FAQs -->
+            <div class="relative w-full sm:w-60">
+              <span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant dark:text-slate-500 text-sm">search</span>
+              <input 
+                id="savedSearchInput" 
+                type="text" 
+                placeholder="Search saved items or notes..." 
+                class="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary/40"
+                oninput="filterSavedFaqs()"
+              >
+            </div>
+          </div>
+
+          <!-- Category Filter Pills -->
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1" id="categoryPillContainer">
+            <button onclick="setCategoryFilter('all')" class="cat-pill active px-3 py-1 text-xs font-bold rounded-lg transition-all bg-secondary text-on-secondary shadow-xs" data-category="all">
+              All (8)
+            </button>
+            <button onclick="setCategoryFilter('admissions')" class="cat-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container-high dark:hover:bg-slate-700" data-category="admissions">
+              Admissions (2)
+            </button>
+            <button onclick="setCategoryFilter('fees')" class="cat-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container-high dark:hover:bg-slate-700" data-category="fees">
+              Fees (1)
+            </button>
+            <button onclick="setCategoryFilter('cutoffs')" class="cat-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container-high dark:hover:bg-slate-700" data-category="cutoffs">
+              Cutoffs (1)
+            </button>
+            <button onclick="setCategoryFilter('facilities')" class="cat-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container-high dark:hover:bg-slate-700" data-category="facilities">
+              Facilities (1)
+            </button>
+            <button onclick="setCategoryFilter('courses')" class="cat-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container-high dark:hover:bg-slate-700" data-category="courses">
+              Courses (1)
+            </button>
+            <button onclick="setCategoryFilter('placements')" class="cat-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container-high dark:hover:bg-slate-700" data-category="placements">
+              Placements (1)
+            </button>
+            <button onclick="setCategoryFilter('departments')" class="cat-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container-high dark:hover:bg-slate-700" data-category="departments">
+              Departments (1)
+            </button>
+          </div>
+        </div>
+
+        <!-- Saved FAQ Cards Container -->
+        <div id="savedFaqList" class="space-y-3.5">
+          <!-- Dynamically populated via renderSavedFaqs() -->
+        </div>
+
+        <!-- Empty Results Fallback -->
+        <div id="emptySavedState" class="hidden bg-surface-container-lowest dark:bg-[#111a2e] rounded-2xl p-8 text-center border border-dashed border-outline-variant/60 dark:border-slate-800">
+          <div class="w-12 h-12 rounded-full bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-400 flex items-center justify-center mx-auto mb-3">
+            <span class="material-symbols-outlined text-2xl">search_off</span>
+          </div>
+          <h3 class="text-sm font-bold text-primary dark:text-white">No saved items match your criteria</h3>
+          <p class="text-xs text-on-surface-variant dark:text-slate-400 mt-1 max-w-sm mx-auto">
+            Try adjusting your search keywords or select a different category pill.
+          </p>
+          <button onclick="resetSavedFilters()" class="mt-4 px-4 py-2 rounded-xl bg-secondary/10 text-secondary dark:text-secondary-fixed text-xs font-bold hover:bg-secondary/20 transition-colors">
+            Reset Filters
+          </button>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: Counselor Direct Messages & Live Thread (5 Cols) -->
+      <section class="lg:col-span-5 space-y-4">
+        
+        <!-- Chat Hub Card -->
+        <div class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-2xl border border-outline-variant/40 dark:border-slate-800 shadow-xs flex flex-col h-[700px] overflow-hidden">
+          
+          <!-- Chat Card Header with Counselor Info -->
+          <div class="p-4 border-b border-outline-variant/30 dark:border-slate-800 bg-surface-container-low/40 dark:bg-slate-800/40">
+            <div class="flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="relative">
+                  <div class="w-11 h-11 rounded-full bg-secondary text-on-secondary font-bold text-sm flex items-center justify-center shadow-xs">
+                    EC
+                  </div>
+                  <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-surface dark:border-[#111a2e]" title="Online"></span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="text-sm font-bold text-primary dark:text-white leading-tight">Dr. Elena Chen</h3>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold">Online</span>
+                  </div>
+                  <p class="text-[11px] text-on-surface-variant dark:text-slate-400">Lead Admissions &amp; Eligibility Advisor</p>
+                </div>
+              </div>
+
+              <!-- Action Menu / Video Meeting Button -->
+              <div class="flex items-center gap-1">
+                <button onclick="openBookingModal()" title="Schedule Google Meet" class="p-2 rounded-xl text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-700 transition-colors">
+                  <span class="material-symbols-outlined text-lg text-secondary dark:text-secondary-fixed">video_call</span>
+                </button>
+                <button onclick="showAdvisoryToast('Office hours: Mon-Fri, 9:00 AM - 5:00 PM IST')" title="Advisory Info" class="p-2 rounded-xl text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-700 transition-colors">
+                  <span class="material-symbols-outlined text-lg">info</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Thread Switcher Pills -->
+            <div class="flex items-center gap-1.5 mt-3 pt-3 border-t border-outline-variant/20 dark:border-slate-800 text-[11px]">
+              <button class="px-2.5 py-1 rounded-lg bg-surface-container-highest dark:bg-slate-800 font-bold text-primary dark:text-white">
+                Dr. Elena Chen
+              </button>
+              <button onclick="showAdvisoryToast('Financial Aid desk currently offline. Ticket #FA-4921 opened.')" class="px-2.5 py-1 rounded-lg hover:bg-surface-container dark:hover:bg-slate-800 text-on-surface-variant dark:text-slate-400 transition-colors">
+                Financial Aid Desk
+              </button>
+              <button onclick="showAdvisoryToast('AI Copilot transcript loaded in main FAQs page.')" class="px-2.5 py-1 rounded-lg hover:bg-surface-container dark:hover:bg-slate-800 text-on-surface-variant dark:text-slate-400 transition-colors">
+                AI Copilot Log
+              </button>
+            </div>
+          </div>
+
+          <!-- Message History Scroll Area -->
+          <div id="counselorChatMessages" class="flex-grow p-4 space-y-4 overflow-y-auto bg-surface-container-lowest/50 dark:bg-[#0f172a]/30">
+            <!-- Timestamp Divider -->
+            <div class="text-center">
+              <span class="text-[10px] font-semibold text-on-surface-variant/70 dark:text-slate-500 bg-surface-container dark:bg-slate-800 px-2.5 py-1 rounded-full">
+                Yesterday at 3:15 PM IST
+              </span>
+            </div>
+
+            <!-- Counselor Message 1 -->
+            <div class="flex items-start gap-2.5 max-w-[85%]">
+              <div class="w-7 h-7 rounded-full bg-secondary text-on-secondary text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                EC
+              </div>
+              <div class="space-y-1">
+                <div class="bg-surface-container dark:bg-slate-800 rounded-2xl rounded-tl-sm p-3 text-xs text-primary dark:text-slate-200 leading-relaxed shadow-xs">
+                  Hello! I have reviewed your academic profile and entrance scores. Everything aligns with the engineering criteria.
+                </div>
+                <span class="text-[10px] text-on-surface-variant dark:text-slate-500 pl-1">3:15 PM</span>
+              </div>
+            </div>
+
+            <!-- Student Message 1 -->
+            <div class="flex items-start gap-2.5 max-w-[85%] ml-auto flex-row-reverse">
+              <div data-user-initials class="w-7 h-7 rounded-full bg-primary-container text-on-primary text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                ST
+              </div>
+              <div class="space-y-1 text-right">
+                <div class="bg-primary-container text-on-primary dark:bg-primary-fixed/20 dark:text-sky-100 rounded-2xl rounded-tr-sm p-3 text-xs leading-relaxed text-left shadow-xs">
+                  Thank you Dr. Chen! When do I need to submit the official documents for centralized seat allotment verification?
+                </div>
+                <span class="text-[10px] text-on-surface-variant dark:text-slate-500 pr-1">3:28 PM</span>
+              </div>
+            </div>
+
+            <!-- Counselor Message 2 with Document Attachment -->
+            <div class="flex items-start gap-2.5 max-w-[85%]">
+              <div class="w-7 h-7 rounded-full bg-secondary text-on-secondary text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                EC
+              </div>
+              <div class="space-y-1.5">
+                <div class="bg-surface-container dark:bg-slate-800 rounded-2xl rounded-tl-sm p-3 text-xs text-primary dark:text-slate-200 leading-relaxed shadow-xs">
+                  Physical verification takes place during your assigned reporting window (Dec 05–08). Please ensure you bring 6 recent photographs along with 3 self-attested photocopies.
+                </div>
+                
+                <!-- Attachment Card inside chat -->
+                <div class="flex items-center gap-3 p-2.5 rounded-xl bg-surface-container-high/60 dark:bg-slate-700/50 border border-outline-variant/30 dark:border-slate-700">
+                  <span class="material-symbols-outlined text-secondary text-2xl">picture_as_pdf</span>
+                  <div class="min-w-0 flex-1">
+                    <p class="text-xs font-bold text-primary dark:text-white truncate">Verification_Checklist_2025.pdf</p>
+                    <p class="text-[10px] text-on-surface-variant dark:text-slate-400">1.4 MB • Official Checklist</p>
+                  </div>
+                </div>
+
+                <span class="text-[10px] text-on-surface-variant dark:text-slate-500 pl-1">3:35 PM</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Quick Suggestion Chips -->
+          <div class="px-4 py-2 border-t border-outline-variant/20 dark:border-slate-800 bg-surface-container-low/30 dark:bg-slate-800/30 overflow-x-auto flex items-center gap-2">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant dark:text-slate-500 shrink-0">Prompts:</span>
+            <button onclick="sendQuickPrompt('What is the fee payment deadline for Round 1?')" class="text-[11px] whitespace-nowrap px-2.5 py-1 rounded-lg bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors border border-outline-variant/30 dark:border-slate-700">
+              Fee payment deadline
+            </button>
+            <button onclick="sendQuickPrompt('Can I submit my migration certificate later?')" class="text-[11px] whitespace-nowrap px-2.5 py-1 rounded-lg bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors border border-outline-variant/30 dark:border-slate-700">
+              Migration certificate grace period
+            </button>
+            <button onclick="sendQuickPrompt('How do I apply for freshman campus hostel?')" class="text-[11px] whitespace-nowrap px-2.5 py-1 rounded-lg bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container-high dark:hover:bg-slate-700 transition-colors border border-outline-variant/30 dark:border-slate-700">
+              Hostel room allocation
+            </button>
+          </div>
+
+          <!-- Message Input Bar -->
+          <form id="counselorChatForm" onsubmit="handleCounselorSend(event)" class="p-3 border-t border-outline-variant/30 dark:border-slate-800 bg-surface-container-low/60 dark:bg-slate-900 flex items-center gap-2">
+            <button type="button" onclick="showAdvisoryToast('Counselor document sharing is active.')" class="p-2 text-on-surface-variant dark:text-slate-400 hover:text-primary dark:hover:text-white rounded-xl transition-colors">
+              <span class="material-symbols-outlined text-lg">attach_file</span>
+            </button>
+            <input 
+              id="counselorInput" 
+              type="text" 
+              placeholder="Ask Dr. Elena Chen a question..." 
+              required
+              class="flex-1 bg-surface-container-lowest dark:bg-slate-800 text-xs text-primary dark:text-white px-3.5 py-2.5 rounded-xl border border-outline-variant/40 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-secondary/40"
+            >
+            <button type="submit" class="p-2.5 bg-secondary text-on-secondary rounded-xl hover:bg-secondary/90 transition-transform active:scale-95 flex items-center justify-center shadow-xs">
+              <span class="material-symbols-outlined text-base">send</span>
+            </button>
+          </form>
+
+        </div>
+
+        <!-- Advising Office Tip Banner -->
+        <div class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-2xl p-4 border border-outline-variant/40 dark:border-slate-800 shadow-xs flex items-start gap-3">
+          <span class="material-symbols-outlined text-secondary text-xl shrink-0 mt-0.5">verified_user</span>
+          <div class="text-xs space-y-1">
+            <h4 class="font-bold text-primary dark:text-white">Institutional Advising Protocol</h4>
+            <p class="text-on-surface-variant dark:text-slate-400 leading-relaxed">
+              Counselor responses are official guidance recorded under institutional academic record policies. Never share passwords, bank OTPs, or payment credentials in chat threads.
+            </p>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- Advisory Session Booking Modal -->
+  <div id="bookingModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="bg-surface-container-lowest dark:bg-[#111a2e] w-full max-w-md rounded-3xl border border-outline-variant/40 dark:border-slate-800 shadow-2xl p-6 space-y-5">
+      <div class="flex items-center justify-between border-b border-outline-variant/30 dark:border-slate-800 pb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-secondary/15 text-secondary flex items-center justify-center">
+            <span class="material-symbols-outlined text-xl">calendar_today</span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-primary dark:text-white">Book Advisory Session</h3>
+            <p class="text-xs text-on-surface-variant dark:text-slate-400">1-on-1 Admissions Consultation</p>
+          </div>
+        </div>
+        <button onclick="closeBookingModal()" class="text-on-surface-variant dark:text-slate-400 hover:text-primary dark:hover:text-white">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-primary dark:text-white mb-1.5">Assigned Counselor</label>
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/40 dark:border-slate-700">
+            <div class="w-8 h-8 rounded-full bg-secondary text-on-secondary font-bold text-xs flex items-center justify-center">EC</div>
+            <div>
+              <p class="font-bold text-primary dark:text-white">Dr. Elena Chen</p>
+              <p class="text-[11px] text-on-surface-variant dark:text-slate-400">Lead Admissions Advisor</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-primary dark:text-white mb-1.5">Select Date &amp; Time Slot</label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-secondary bg-secondary/10 text-primary dark:text-white cursor-pointer font-semibold">
+              <input type="radio" name="slot" value="Tomorrow, 11:00 AM" checked class="accent-secondary">
+              <span>Tomorrow, 11:00 AM</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-outline-variant/40 dark:border-slate-700 hover:bg-surface-container dark:hover:bg-slate-800 text-primary dark:text-white cursor-pointer">
+              <input type="radio" name="slot" value="Thursday, 3:30 PM" class="accent-secondary">
+              <span>Thursday, 3:30 PM</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-outline-variant/40 dark:border-slate-700 hover:bg-surface-container dark:hover:bg-slate-800 text-primary dark:text-white cursor-pointer">
+              <input type="radio" name="slot" value="Friday, 10:00 AM" class="accent-secondary">
+              <span>Friday, 10:00 AM</span>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-outline-variant/40 dark:border-slate-700 hover:bg-surface-container dark:hover:bg-slate-800 text-primary dark:text-white cursor-pointer">
+              <input type="radio" name="slot" value="Monday, 2:00 PM" class="accent-secondary">
+              <span>Monday, 2:00 PM</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-primary dark:text-white mb-1.5">Session Format</label>
+          <div class="flex items-center gap-4">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="format" value="meet" checked class="accent-secondary">
+              <span class="text-primary dark:text-white">Google Meet (Video)</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="format" value="inperson" class="accent-secondary">
+              <span class="text-primary dark:text-white">In-Person (Room 204)</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-primary dark:text-white mb-1.5">Primary Consultation Topic</label>
+          <select id="bookingTopic" class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary/40">
+            <option>Class 12 Document Verification &amp; Seat Confirmation</option>
+            <option>Honors Program &amp; Minor Elective Selection</option>
+            <option>Central Merit Scholarship &amp; Fee Installment Approval</option>
+            <option>Hostel Accommodation &amp; Residential Hall Allotment</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-outline-variant/30 dark:border-slate-800">
+        <button onclick="closeBookingModal()" class="px-4 py-2 rounded-xl text-on-surface-variant dark:text-slate-400 hover:bg-surface-container dark:hover:bg-slate-800 font-semibold text-xs transition-colors">
+          Cancel
+        </button>
+        <button onclick="confirmBooking()" class="px-5 py-2 rounded-xl bg-secondary text-on-secondary font-bold text-xs hover:bg-secondary/90 transition-colors shadow-sm">
+          Confirm Appointment
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Hub -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 px-4 py-3 rounded-2xl bg-primary text-on-primary dark:bg-slate-800 dark:text-white shadow-xl border border-outline-variant/30 text-xs">
+    <span class="material-symbols-outlined text-secondary text-lg" id="toastIcon">check_circle</span>
+    <span id="toastMessage">Action completed successfully</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-outline-variant/40 dark:border-slate-800 bg-surface-container-low/50 dark:bg-[#0a0f18] py-8 text-xs text-on-surface-variant dark:text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary font-bold text-xs flex items-center justify-center">CH</div>
+        <div>
+          <span class="font-bold text-primary dark:text-white">CollegeHub Academic Guidance</span>
+          <p class="text-[11px] text-on-surface-variant/80 dark:text-slate-500">Official Smart Inquiry &amp; Assistance Portal</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold">
+        <a href="index.html" class="hover:text-primary dark:hover:text-white">Home</a>
+        <a href="faqs.html" class="hover:text-primary dark:hover:text-white">FAQs &amp; Chatbot</a>
+        <a href="profile.html" class="hover:text-primary dark:hover:text-white">Applicant Dossier</a>
+        <a href="settings.html" class="hover:text-primary dark:hover:text-white">Account Settings</a>
+      </div>
+      <p class="text-[11px] text-on-surface-variant/70 dark:text-slate-500">
+        &copy; 2025–2026 CollegeHub. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Include Shared Data -->
+  <script src="assets/js/demo-data.js"></script>
+
+  <!-- Page Logic Script -->
+  <script>
+    // Rich Saved FAQs Data across categories
+    let savedKnowledgeItems = [
+      {
+        id: "sf-1",
+        category: "admissions",
+        question: "What documents are needed for freshman registration and seat confirmation?",
+        answer: "To finalize registration, bring the original and 3 self-attested copies of: Class 10 & 12 Board marksheets, National / State Entrance Rank Card, Domicile/Citizenship Certificate, Category/Reservation Certificate (if applicable), Transfer/Migration Certificate, and 6 passport photographs.",
+        savedDate: "2 days ago",
+        note: "Note: Bring 3 sets of self-attested photocopies of Class X/XII and CET rank card for the Dec 05 reporting session.",
+        expanded: true
+      },
+      {
+        id: "sf-2",
+        category: "fees",
+        question: "Undergraduate fee structure, deferred payment plans, and installment schedules",
+        answer: "Annual academic fees are payable either in full at registration or in three equal installments across the academic year. Merit-cum-means fee waivers (25% to 100%) are available upon submission of verified family income certificates.",
+        savedDate: "3 days ago",
+        note: "Note: First installment due before round 1 seat lock. Central merit scholarship waiver application submitted.",
+        expanded: false
+      },
+      {
+        id: "sf-3",
+        category: "facilities",
+        question: "Hostel & residential hall allotment procedure for non-resident freshmen",
+        answer: "First-year outstation students are allocated rooms on a first-come, first-served basis post seat confirmation. Facilities include Wi-Fi enabled study rooms, dining mess, laundry facilities, and round-the-clock medical health centers.",
+        savedDate: "4 days ago",
+        note: "Note: Hostel portal opens June 20. Need medical fitness certificate signed by registered medical practitioner.",
+        expanded: false
+      },
+      {
+        id: "sf-4",
+        category: "courses",
+        question: "Honors College computer engineering curriculum credit transfer eligibility",
+        answer: "Students with advanced secondary coursework (e.g. recognized diploma certifications or advanced credit exams) may apply for prerequisite waivers in introductory programming and discrete mathematics after evaluation by the department academic board.",
+        savedDate: "5 days ago",
+        note: "Note: Submitted Java & Data Structures syllabus copy to Dean's office for prerequisite evaluation.",
+        expanded: false
+      },
+      {
+        id: "sf-5",
+        category: "cutoffs",
+        question: "What were the centralized entrance exam opening and closing cutoffs for B.Tech CSE?",
+        answer: "In the 2024 general round 1 counseling, the opening percentile was 99.2% and the closing percentile was 98.4%. Reservation category cutoffs vary according to state and central council quotas.",
+        savedDate: "1 week ago",
+        note: "Note: My CET rank is comfortably inside round 1 closing cutoff.",
+        expanded: false
+      },
+      {
+        id: "sf-6",
+        category: "placements",
+        question: "Campus placement statistics, highest CTC, and top recruiters for Computer Science",
+        answer: "For the graduating batch of 2024, the department recorded 94% placement with an average CTC of 12.8 LPA and highest domestic package of 44 LPA across 180+ participating companies.",
+        savedDate: "1 week ago",
+        note: "Note: Top tech recruiters include Google, Microsoft, Amazon, Infosys, and TCS.",
+        expanded: false
+      },
+      {
+        id: "sf-7",
+        category: "departments",
+        question: "What specialized laboratories and computing clusters are available in CSE?",
+        answer: "The department hosts 8 specialized labs including High-Performance Computing (NVIDIA DGX GPU cluster), Cloud & Distributed Systems, AI & Vision Lab, and IoT Edge Computing Center.",
+        savedDate: "2 weeks ago",
+        note: "Note: HPC cluster has 24/7 student access with faculty advisor approval.",
+        expanded: false
+      },
+      {
+        id: "sf-8",
+        category: "admissions",
+        question: "What is the procedure if class 12 re-evaluation marks change after seat allotment?",
+        answer: "If Board re-evaluation raises your score, submit the revised official marksheet to the admissions registrar within 7 days of issue. Your merit position will be updated for subsequent seat allotment rounds.",
+        savedDate: "2 weeks ago",
+        note: "Note: Keep official Board verification receipt handy.",
+        expanded: false
+      }
+    ];
+
+    let currentCategoryFilter = 'all';
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Sync theme
+      const savedTheme = localStorage.getItem('collegehub-theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      renderSavedFaqs();
+    });
+
+    // Render Saved FAQs
+    function renderSavedFaqs() {
+      const container = document.getElementById('savedFaqList');
+      const emptyState = document.getElementById('emptySavedState');
+      const searchVal = (document.getElementById('savedSearchInput').value || '').toLowerCase().trim();
+
+      const filtered = savedKnowledgeItems.filter(item => {
+        const matchesCat = currentCategoryFilter === 'all' || item.category === currentCategoryFilter;
+        const matchesQuery = !searchVal || 
+          item.question.toLowerCase().includes(searchVal) || 
+          item.answer.toLowerCase().includes(searchVal) || 
+          (item.note && item.note.toLowerCase().includes(searchVal));
+        return matchesCat && matchesQuery;
+      });
+
+      // Update stat count
+      document.getElementById('savedCountStat').textContent = savedKnowledgeItems.length;
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      container.innerHTML = filtered.map(item => `
+        <article class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-2xl border border-outline-variant/40 dark:border-slate-800 shadow-xs transition-all overflow-hidden" id="${item.id}">
+          <div class="p-4 sm:p-5 space-y-3">
+            
+            <!-- Category & Date Strip -->
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-secondary/10 text-secondary dark:text-secondary-fixed border border-secondary/20">
+                  ${item.category}
+                </span>
+                <span class="text-[11px] text-on-surface-variant dark:text-slate-400">
+                  Saved ${item.savedDate}
+                </span>
+              </div>
+
+              <!-- Top Actions: Unstar & Share -->
+              <div class="flex items-center gap-1">
+                <button onclick="toggleFaqExpansion('${item.id}')" title="Expand / Collapse" class="p-1.5 rounded-lg text-on-surface-variant dark:text-slate-400 hover:bg-surface-container dark:hover:bg-slate-800 transition-colors">
+                  <span class="material-symbols-outlined text-lg">${item.expanded ? 'expand_less' : 'expand_more'}</span>
+                </button>
+                <button onclick="removeBookmark('${item.id}')" title="Remove Bookmark" class="p-1.5 rounded-lg text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 transition-colors">
+                  <span class="material-symbols-outlined text-lg">bookmark</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Question Heading (Click to toggle) -->
+            <h3 onclick="toggleFaqExpansion('${item.id}')" class="text-sm sm:text-base font-bold text-primary dark:text-white cursor-pointer hover:text-secondary dark:hover:text-secondary-fixed transition-colors leading-snug">
+              ${item.question}
+            </h3>
+
+            <!-- Expandable Answer Body -->
+            <div class="${item.expanded ? 'block' : 'hidden'} text-xs text-on-surface-variant dark:text-slate-300 leading-relaxed pt-1 border-t border-outline-variant/20 dark:border-slate-800">
+              <p>${item.answer}</p>
+            </div>
+
+            <!-- Personal Student Note Callout -->
+            <div class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-900/50 flex items-start gap-2.5">
+              <span class="material-symbols-outlined text-amber-600 dark:text-amber-400 text-base shrink-0 mt-0.5">edit_note</span>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs text-amber-900 dark:text-amber-200 font-medium leading-relaxed" id="note-text-${item.id}">
+                  ${item.note}
+                </p>
+              </div>
+              <button onclick="editNote('${item.id}')" class="text-[10px] font-bold text-amber-700 dark:text-amber-400 hover:underline shrink-0">
+                Edit
+              </button>
+            </div>
+
+            <!-- Footer Action Row -->
+            <div class="flex items-center justify-between pt-2 border-t border-outline-variant/20 dark:border-slate-800 text-xs">
+              <span class="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">verified</span> Verified Institutional FAQ
+              </span>
+              <div class="flex items-center gap-2">
+                <button onclick="copyFaqText('${item.id}')" class="text-on-surface-variant dark:text-slate-400 hover:text-primary dark:hover:text-white font-medium flex items-center gap-1 text-[11px]">
+                  <span class="material-symbols-outlined text-sm">content_copy</span> Copy
+                </button>
+                <a href="faqs.html" class="text-secondary dark:text-secondary-fixed hover:underline font-bold text-[11px] flex items-center gap-1">
+                  View Full Category <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </article>
+      `).join('');
+    }
+
+    // Toggle FAQ Expansion
+    function toggleFaqExpansion(id) {
+      const item = savedKnowledgeItems.find(x => x.id === id);
+      if (item) {
+        item.expanded = !item.expanded;
+        renderSavedFaqs();
+      }
+    }
+
+    // Filter by Category
+    function setCategoryFilter(category) {
+      currentCategoryFilter = category;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        if (btn.dataset.category === category) {
+          btn.className = "cat-pill active px-3 py-1 text-xs font-bold rounded-lg transition-all bg-secondary text-on-secondary shadow-xs";
+        } else {
+          btn.className = "cat-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all bg-surface-container dark:bg-slate-800 text-on-surface-variant dark:text-slate-300 hover:bg-surface-container-high dark:hover:bg-slate-700";
+        }
+      });
+      renderSavedFaqs();
+    }
+
+    // Filter Saved FAQs on input
+    function filterSavedFaqs() {
+      renderSavedFaqs();
+    }
+
+    // Reset Filters
+    function resetSavedFilters() {
+      document.getElementById('savedSearchInput').value = '';
+      setCategoryFilter('all');
+    }
+
+    // Remove Bookmark with Undo Toast
+    function removeBookmark(id) {
+      const idx = savedKnowledgeItems.findIndex(x => x.id === id);
+      if (idx !== -1) {
+        const removed = savedKnowledgeItems.splice(idx, 1)[0];
+        renderSavedFaqs();
+        showAdvisoryToast(`Removed "${removed.question.slice(0, 30)}..." from saved items.`);
+      }
+    }
+
+    // Edit Note Prompt
+    function editNote(id) {
+      const item = savedKnowledgeItems.find(x => x.id === id);
+      if (item) {
+        const newNote = prompt("Edit your personal note for this FAQ:", item.note.replace(/^Note:\s*/i, ''));
+        if (newNote !== null && newNote.trim() !== '') {
+          item.note = "Note: " + newNote.trim();
+          renderSavedFaqs();
+          showAdvisoryToast("Personal note updated successfully.");
+        }
+      }
+    }
+
+    // Copy FAQ Text
+    function copyFaqText(id) {
+      const item = savedKnowledgeItems.find(x => x.id === id);
+      if (item) {
+        const text = `Q: ${item.question}\n\nA: ${item.answer}\n\n[CollegeHub Verified FAQ]`;
+        navigator.clipboard.writeText(text).then(() => {
+          showAdvisoryToast("FAQ copied to clipboard.");
+        }).catch(() => {
+          showAdvisoryToast("FAQ content ready for copy.");
+        });
+      }
+    }
+
+    // Counselor Chat Sending Logic
+    function handleCounselorSend(e) {
+      e.preventDefault();
+      const input = document.getElementById('counselorInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const userName = (typeof CollegeHubAuth !== 'undefined' && CollegeHubAuth.getUser() && CollegeHubAuth.getUser().name) || 'Student';
+      appendChatMessage('student', userName, text, 'Just now');
+      input.value = '';
+
+      // Simulate typing indicator and response
+      simulateCounselorReply(text);
+    }
+
+    function sendQuickPrompt(promptText) {
+      const userName = (typeof CollegeHubAuth !== 'undefined' && CollegeHubAuth.getUser() && CollegeHubAuth.getUser().name) || 'Student';
+      appendChatMessage('student', userName, promptText, 'Just now');
+      simulateCounselorReply(promptText);
+    }
+
+    function appendChatMessage(sender, name, message, time) {
+      const chatContainer = document.getElementById('counselorChatMessages');
+      const isStudent = sender === 'student';
+      const studentInitials = (typeof CollegeHubAuth !== 'undefined' && CollegeHubAuth.getUser() && CollegeHubAuth.getUser().initials) || 'ST';
+
+      const bubble = document.createElement('div');
+      bubble.className = `flex items-start gap-2.5 max-w-[85%] ${isStudent ? 'ml-auto flex-row-reverse' : ''}`;
+      bubble.innerHTML = `
+        <div class="w-7 h-7 rounded-full ${isStudent ? 'bg-primary-container text-on-primary' : 'bg-secondary text-on-secondary'} text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+          ${isStudent ? studentInitials : 'EC'}
+        </div>
+        <div class="space-y-1 ${isStudent ? 'text-right' : ''}">
+          <div class="${isStudent ? 'bg-primary-container text-on-primary dark:bg-primary-fixed/20 dark:text-sky-100 rounded-2xl rounded-tr-sm' : 'bg-surface-container dark:bg-slate-800 rounded-2xl rounded-tl-sm text-primary dark:text-slate-200'} p-3 text-xs leading-relaxed text-left shadow-xs">
+            ${message}
+          </div>
+          <span class="text-[10px] text-on-surface-variant dark:text-slate-500 ${isStudent ? 'pr-1' : 'pl-1'}">${time}</span>
+        </div>
+      `;
+
+      chatContainer.appendChild(bubble);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function simulateCounselorReply(query) {
+      const chatContainer = document.getElementById('counselorChatMessages');
+      
+      // Add typing indicator
+      const typingEl = document.createElement('div');
+      typingEl.id = 'typingIndicator';
+      typingEl.className = 'flex items-center gap-2 max-w-[85%] text-xs text-on-surface-variant dark:text-slate-400 pl-9';
+      typingEl.innerHTML = `
+        <div class="flex items-center gap-1 bg-surface-container dark:bg-slate-800 px-3 py-1.5 rounded-full">
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-bounce"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-bounce [animation-delay:0.2s]"></span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-bounce [animation-delay:0.4s]"></span>
+          <span class="text-[11px] font-medium ml-1">Dr. Chen is reviewing...</span>
+        </div>
+      `;
+      chatContainer.appendChild(typingEl);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      setTimeout(() => {
+        const ind = document.getElementById('typingIndicator');
+        if (ind) ind.remove();
+
+        let reply = "Thank you for asking. I have noted this in your admission file. Please ensure all related receipts and certificates are submitted before the reporting window.";
+        const q = query.toLowerCase();
+
+        if (q.includes('fee') || q.includes('payment') || q.includes('deadline')) {
+          reply = "For Round 1 seat confirmation, the initial academic fee of ₹85,000 must be remitted before December 04, 5:00 PM IST via the candidate portal payment gateway.";
+        } else if (q.includes('migration') || q.includes('grace period') || q.includes('transfer')) {
+          reply = "Under university guidelines, you are granted a 14-day provisional grace period to submit the original migration certificate, provided you submit an undertaking at the registration desk.";
+        } else if (q.includes('hostel') || q.includes('room') || q.includes('allotment')) {
+          reply = "Hostel room allocation begins immediately once your admission fee receipt is verified. You will receive an automated SMS with your hall and room number.";
+        } else if (q.includes('meet') || q.includes('video') || q.includes('call') || q.includes('appointment')) {
+          reply = "I would be glad to meet with you! Please click the 'Book Advisory Session' button above to select your preferred Google Meet time slot.";
+        }
+
+        appendChatMessage('counselor', 'Dr. Elena Chen', reply, 'Just now');
+      }, 1200);
+    }
+
+    // Modal Booking Handlers
+    function openBookingModal() {
+      document.getElementById('bookingModal').classList.remove('hidden');
+    }
+
+    function closeBookingModal() {
+      document.getElementById('bookingModal').classList.add('hidden');
+    }
+
+    function confirmBooking() {
+      const slot = document.querySelector('input[name="slot"]:checked').value;
+      const format = document.querySelector('input[name="format"]:checked').value;
+      const topic = document.getElementById('bookingTopic').value;
+
+      closeBookingModal();
+      showAdvisoryToast(`Advisory session confirmed with Dr. Elena Chen for ${slot}!`);
+
+      // Add notification message in counselor chat
+      appendChatMessage('counselor', 'Dr. Elena Chen', `Confirmed: Your 1-on-1 consultation on "${topic}" has been scheduled for ${slot} (${format === 'meet' ? 'Google Meet link sent to your email' : 'Office Room 204'}).`, 'Just now');
+    }
+
+    // Toast Notification Utility
+    function showAdvisoryToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      const msgEl = document.getElementById('toastMessage');
+      msgEl.textContent = msg;
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3500);
+    }
+
+    // PDF Export simulation
+    function exportDigestPDF() {
+      showAdvisoryToast("Compiling Saved Knowledge Digest PDF (8 FAQs & Chat Transcript)...");
+      setTimeout(() => {
+        showAdvisoryToast("CollegeHub_Saved_Digest.pdf ready for download.");
+      }, 1500);
+    }
+  </script>
+</body>
+</html>

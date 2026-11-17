@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Sign Up - CollegeHub Academic Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <style>
+    @layer base { 
+      html, body { margin: 0; padding: 0; } 
+      body { overscroll-behavior: none; } 
+    } 
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #c5c6ce; border-radius: 9999px; }
+    .dark ::-webkit-scrollbar-thumb { background: #44474d; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed": "#d7e3ff",
+            "surface-container-low": "#f3f4f3",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "secondary-container": "#a8ece5",
+            "surface-container-high": "#e8e8e7",
+            "on-error": "#ffffff",
+            "tertiary": "#020500",
+            "on-background": "#1a1c1c",
+            "inverse-primary": "#b8c7e6",
+            "on-tertiary-fixed": "#102000",
+            "error-container": "#ffdad6",
+            "on-primary-container": "#7886a3",
+            "surface-dim": "#dadad9",
+            "surface-bright": "#f9f9f8",
+            "outline": "#75777e",
+            "secondary-fixed": "#abefe8",
+            "surface-container": "#eeeeed",
+            "primary": "#000412",
+            "surface-container-lowest": "#ffffff",
+            "secondary": "#216963",
+            "on-surface": "#1a1c1c",
+            "on-surface-variant": "#44474d",
+            "primary-container": "#0f1e36",
+            "outline-variant": "#c5c6ce",
+            "surface": "#f9f9f8",
+            "background": "#f9f9f8",
+            "on-primary": "#ffffff",
+            "on-secondary-container": "#266d68"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('collegehub-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+</head>
+<body class="bg-surface font-sans text-on-surface antialiased transition-colors duration-200 min-h-screen flex flex-col justify-between selection:bg-secondary/20">
+
+  <!-- Top Navigation Header -->
+  <header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-surface-container-high/60">
+    <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-4">
+      
+      <!-- Brand Wordmark -->
+      <div class="flex items-center gap-8">
+        <a class="flex items-center gap-3 group focus:outline-none" href="index.html">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary to-[#0d9488] flex items-center justify-center text-white shadow-sm shrink-0 transition-transform group-hover:scale-105">
+            <span class="material-symbols-outlined text-2xl">school</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xl font-bold text-primary tracking-tight group-hover:text-secondary transition-colors">CollegeHub</span>
+            <span class="text-[10px] text-secondary tracking-widest uppercase font-semibold -mt-1 hidden sm:block">Academic Matrix</span>
+          </div>
+        </a>
+        <nav class="hidden md:flex items-center gap-1">
+          <a class="px-3.5 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors rounded-xl" href="index.html">Home</a>
+          <a class="px-3.5 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors rounded-xl" href="faqs.html">FAQs &amp; Chatbot</a>
+          <a class="px-3.5 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors rounded-xl" href="about.html">About</a>
+        </nav>
+      </div>
+
+      <!-- Action items -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Color Theme" class="w-10 h-10 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors shadow-xs">
+          <span id="theme-toggle-icon" class="material-symbols-outlined text-xl">dark_mode</span>
+        </button>
+        <a class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl bg-surface-container text-secondary text-xs sm:text-sm font-semibold hover:bg-surface-container-high transition-colors gap-1" href="faqs.html">
+          <span class="material-symbols-outlined text-base">smart_toy</span>
+          <span>Ask CollegeHub</span>
+        </a>
+        <a class="px-4 py-2 rounded-xl bg-secondary text-on-secondary text-xs sm:text-sm font-semibold shadow-sm hover:opacity-95 transition-opacity" href="signin.html">
+          Sign In
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Sign Up View -->
+  <main class="flex-1 w-full pt-28 pb-16 px-4 sm:px-6 flex flex-col items-center justify-center relative">
+    
+    <!-- Portal Indicator -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-secondary-container/50 text-on-secondary-container mb-6 shadow-xs border border-secondary/20">
+      <span class="w-2 h-2 rounded-full bg-secondary"></span>
+      <span class="text-[11px] tracking-wider uppercase font-bold">New Student &amp; Applicant Registration</span>
+    </div>
+
+    <!-- Centered Registration Card -->
+    <div class="w-full max-w-lg bg-surface-container-lowest rounded-3xl p-6 sm:p-9 shadow-[0_12px_40px_rgba(0,0,0,0.06)] border border-surface-container-high relative">
+      
+      <!-- Top Brand Emblem -->
+      <div class="flex flex-col items-center text-center">
+        <div class="w-12 h-12 rounded-xl bg-secondary-container/60 text-secondary flex items-center justify-center mb-3.5 shadow-xs">
+          <span class="material-symbols-outlined text-2xl">person_add</span>
+        </div>
+        <h1 class="text-2xl font-extrabold text-primary tracking-tight">Create your CollegeHub account</h1>
+        <p class="text-xs text-on-surface-variant mt-1.5 max-w-sm">
+          Get personalized admissions checklists, cutoff alerts, and direct counselor support.
+        </p>
+      </div>
+
+      <!-- Segmented Role Selector -->
+      <div class="mt-6 p-1 bg-surface-container-low rounded-xl flex items-center gap-1 border border-surface-container-high/60" id="roleSelector">
+        <button type="button" onclick="setRole('student', this)" class="role-btn flex-1 py-2 px-2 text-center rounded-lg text-xs font-bold transition-all bg-surface-container-lowest text-primary shadow-xs">
+          Prospective Student
+        </button>
+        <button type="button" onclick="setRole('parent', this)" class="role-btn flex-1 py-2 px-2 text-center rounded-lg text-xs font-semibold transition-all text-on-surface-variant hover:text-on-surface">
+          Parent / Guardian
+        </button>
+        <button type="button" onclick="setRole('counselor', this)" class="role-btn flex-1 py-2 px-2 text-center rounded-lg text-xs font-semibold transition-all text-on-surface-variant hover:text-on-surface">
+          Counselor
+        </button>
+      </div>
+
+      <!-- Quick SSO Options -->
+      <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <button type="button" onclick="simulateOAuth('Google')" class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface text-xs font-semibold transition-colors border border-surface-container-high">
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+            <path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.15z" fill="#4285F4"></path>
+            <path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.14C3.26 21.36 7.33 24 12 24z" fill="#34A853"></path>
+            <path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.59H1.25C.45 8.18 0 10.02 0 12s.45 3.82 1.25 5.41l4.03-3.14z" fill="#FBBC05"></path>
+            <path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.59l4.03 3.14c.95-2.83 3.6-4.98 6.72-4.98z" fill="#EA4335"></path>
+          </svg>
+          <span>Google</span>
+        </button>
+        <button type="button" onclick="simulateOAuth('Campus SSO')" class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface text-xs font-semibold transition-colors border border-surface-container-high">
+          <span class="material-symbols-outlined text-base text-secondary">account_balance</span>
+          <span>Campus SSO</span>
+        </button>
+      </div>
+
+      <!-- Divider -->
+      <div class="relative my-6 flex items-center justify-center">
+        <div class="w-full h-px bg-surface-container-high"></div>
+        <span class="absolute px-3 bg-surface-container-lowest text-[10px] uppercase font-bold text-outline tracking-wider">
+          or register with details
+        </span>
+      </div>
+
+      <!-- Form Section -->
+      <form class="space-y-4" onsubmit="handleRegistrationSubmit(event)">
+        <!-- Full Name -->
+        <div>
+          <label class="block text-xs font-bold text-primary mb-1.5" for="fullName">Full Name</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">person</span>
+            <input 
+              class="w-full pl-10 pr-3.5 py-2.5 bg-surface border border-outline-variant rounded-xl text-xs sm:text-sm text-primary placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition-all" 
+              id="fullName" 
+              placeholder="e.g., Full Name" 
+              required 
+              type="text"
+            >
+          </div>
+        </div>
+
+        <!-- Email Address -->
+        <div>
+          <label class="block text-xs font-bold text-primary mb-1.5" for="regEmail">Email Address</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">mail</span>
+            <input 
+              class="w-full pl-10 pr-3.5 py-2.5 bg-surface border border-outline-variant rounded-xl text-xs sm:text-sm text-primary placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition-all" 
+              id="regEmail" 
+              placeholder="e.g., student@example.com" 
+              required 
+              type="email"
+            >
+          </div>
+        </div>
+
+        <!-- Target Program -->
+        <div>
+          <label class="block text-xs font-bold text-primary mb-1.5" for="programSelect">Target Program of Interest</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">school</span>
+            <select class="w-full pl-10 pr-10 py-2.5 bg-surface border border-outline-variant rounded-xl text-xs sm:text-sm text-primary focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary appearance-none cursor-pointer transition-all" id="programSelect">
+              <option value="cs" selected>B.S. Computer Science &amp; Engineering</option>
+              <option value="ai">B.Tech Data Science &amp; Artificial Intelligence</option>
+              <option value="ece">B.S. Electronics &amp; Communication</option>
+              <option value="mech">B.S. Mechanical &amp; Robotics Engineering</option>
+              <option value="bus">B.B.A. Business Analytics &amp; Management</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-base pointer-events-none">expand_more</span>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label class="block text-xs font-bold text-primary mb-1.5" for="regPassword">Password</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">lock</span>
+            <input 
+              class="w-full pl-10 pr-10 py-2.5 bg-surface border border-outline-variant rounded-xl text-xs sm:text-sm text-primary placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition-all" 
+              id="regPassword" 
+              placeholder="••••••••••••" 
+              required 
+              type="password"
+            >
+          </div>
+          <!-- Strength Meter Preview -->
+          <div class="mt-2 flex items-center gap-2">
+            <div class="flex-1 h-1.5 rounded-full bg-secondary"></div>
+            <div class="flex-1 h-1.5 rounded-full bg-secondary"></div>
+            <div class="flex-1 h-1.5 rounded-full bg-secondary"></div>
+            <div class="flex-1 h-1.5 rounded-full bg-surface-container-high"></div>
+            <span class="text-[10px] text-secondary font-bold">Strong</span>
+          </div>
+        </div>
+
+        <!-- Terms checkbox -->
+        <div class="flex items-start gap-2.5 pt-1">
+          <input checked class="w-4 h-4 rounded text-secondary focus:ring-secondary mt-0.5" id="termsCheck" type="checkbox" required>
+          <label class="text-[11px] text-on-surface-variant leading-relaxed" for="termsCheck">
+            I agree to the CollegeHub Terms of Service and Institutional Academic Verification Policies.
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          class="w-full py-3.5 px-6 rounded-xl bg-secondary hover:bg-secondary/90 text-on-secondary font-bold text-xs sm:text-sm shadow-md active:scale-[0.99] transition-all flex items-center justify-center gap-2 group cursor-pointer mt-3" 
+          id="regSubmitBtn" 
+          type="submit"
+        >
+          <span>Complete Registration</span>
+          <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </button>
+      </form>
+
+      <!-- Bottom link -->
+      <div class="mt-6 pt-5 border-t border-surface-container text-center text-xs text-on-surface-variant">
+        Already have an account? 
+        <a class="text-secondary font-bold hover:underline" href="signin.html">Sign In</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Simple Footer -->
+  <footer class="py-6 text-center text-xs text-on-surface-variant border-t border-surface-container-high/40">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <span>&copy; 2025–2026 CollegeHub Academic Portal. All rights reserved.</span>
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="hover:text-secondary transition-colors">Home</a>
+        <a href="faqs.html" class="hover:text-secondary transition-colors">FAQs &amp; Copilot</a>
+        <a href="profile.html" class="hover:text-secondary transition-colors">Student Hub</a>
+        <a href="signin.html" class="hover:text-secondary transition-colors">Sign In</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/demo-data.js"></script>
+  <script src="assets/js/auth-session.js"></script>
+  <script>
+    function setRole(role, btn) {
+      document.querySelectorAll('.role-btn').forEach(b => {
+        b.className = 'role-btn flex-1 py-2 px-2 text-center rounded-lg text-xs font-semibold transition-all text-on-surface-variant hover:text-on-surface';
+      });
+      btn.className = 'role-btn flex-1 py-2 px-2 text-center rounded-lg text-xs font-bold transition-all bg-surface-container-lowest text-primary shadow-xs';
+    }
+
+    function simulateOAuth(provider) {
+      if (provider === 'Google' && typeof CollegeHubAuth !== 'undefined') {
+        CollegeHubAuth.openGoogleChooserModal();
+        return;
+      }
+      alert(`Authenticating with ${provider}. Redirecting to your Student Hub...`);
+      window.location.href = 'profile.html';
+    }
+
+    function handleRegistrationSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('regSubmitBtn');
+      btn.innerHTML = `<span class="material-symbols-outlined text-base animate-spin">progress_activity</span><span>Setting up applicant profile...</span>`;
+      btn.disabled = true;
+
+      setTimeout(() => {
+        window.location.href = 'profile.html';
+      }, 600);
+    }
+  </script>
+</body>
+</html>

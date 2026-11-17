@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>College Predictor | Admission Probability & Cutoffs - CollegeHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <style>
+    @layer base { 
+      html, body { margin: 0; padding: 0; } 
+      body { overscroll-behavior: none; } 
+    } 
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #c5c6ce; border-radius: 9999px; }
+    .dark ::-webkit-scrollbar-thumb { background: #44474d; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed": "#d7e3ff",
+            "surface-container-low": "#f3f4f3",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "secondary-container": "#a8ece5",
+            "surface-container-high": "#e8e8e7",
+            "on-error": "#ffffff",
+            "tertiary": "#020500",
+            "on-background": "#1a1c1c",
+            "inverse-primary": "#b8c7e6",
+            "on-tertiary-fixed": "#102000",
+            "error-container": "#ffdad6",
+            "on-primary-container": "#7886a3",
+            "surface-dim": "#dadad9",
+            "surface-bright": "#f9f9f8",
+            "outline": "#75777e",
+            "secondary-fixed": "#abefe8",
+            "surface-container": "#eeeeed",
+            "primary": "#000412",
+            "surface-container-lowest": "#ffffff",
+            "secondary": "#216963",
+            "on-surface": "#1a1c1c",
+            "on-surface-variant": "#44474d",
+            "primary-container": "#0f1e36",
+            "outline-variant": "#c5c6ce",
+            "surface": "#f9f9f8",
+            "background": "#f9f9f8",
+            "on-primary": "#ffffff",
+            "on-secondary-container": "#266d68"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('collegehub-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+</head>
+<body class="bg-surface font-sans text-on-surface antialiased transition-colors duration-200 selection:bg-secondary/20">
+
+  <!-- Top Navigation Header -->
+  <header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-surface-container-high/60">
+    <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-4">
+      
+      <!-- Brand Wordmark -->
+      <div class="flex items-center gap-8">
+        <a class="flex items-center gap-3 group focus:outline-none" href="index.html">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary to-[#0d9488] flex items-center justify-center text-white shadow-sm shrink-0 transition-transform group-hover:scale-105">
+            <span class="material-symbols-outlined text-2xl">school</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xl font-bold text-primary tracking-tight group-hover:text-secondary transition-colors">CollegeHub</span>
+            <span class="text-[10px] text-secondary tracking-widest uppercase font-semibold -mt-1 hidden sm:block">Academic Matrix</span>
+          </div>
+        </a>
+        <nav class="hidden md:flex items-center gap-1 p-1 bg-surface-container-low/70 rounded-2xl border border-surface-container-high/60">
+          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all" href="index.html">Home</a>
+          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-bold bg-secondary-container text-on-secondary-container rounded-xl shadow-xs transition-all" href="recommendations.html">College Predictor</a>
+          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all" href="faqs.html">FAQs &amp; Chatbot</a>
+          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all" href="profile.html">Student Hub</a>
+          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all" href="about.html">About</a>
+        </nav>
+      </div>
+
+      <!-- Action items -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Color Theme" class="w-10 h-10 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors shadow-xs">
+          <span id="theme-toggle-icon" class="material-symbols-outlined text-xl">dark_mode</span>
+        </button>
+
+        <a class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl bg-secondary text-on-secondary text-xs sm:text-sm font-semibold shadow-sm hover:opacity-95 transition-opacity gap-1" href="faqs.html">
+          <span class="material-symbols-outlined text-base">smart_toy</span>
+          <span>Ask CollegeHub</span>
+        </a>
+
+        <!-- User profile pill -->
+        <a href="settings.html" class="flex items-center gap-2 pl-2 rounded-full focus:outline-none" title="Account Settings">
+          <div data-user-initials class="w-9 h-9 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs ring-2 ring-secondary/30">
+            ST
+          </div>
+          <div class="hidden xl:flex flex-col text-left">
+            <span data-user-name class="text-xs font-bold text-on-surface">Student Profile</span>
+            <span data-user-role class="text-[10px] text-on-surface-variant">Applicant Active</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="w-full pt-20">
+    
+    <!-- Hero Header -->
+    <div class="relative w-full overflow-hidden bg-primary-container text-on-primary py-10 px-6 lg:px-12">
+      <div class="absolute inset-0 opacity-15 pointer-events-none">
+        <svg class="w-full h-full" fill="none" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+          <circle class="text-secondary" cx="160" cy="90" fill="currentColor" r="260"></circle>
+          <circle class="text-secondary-fixed" cx="1280" cy="220" fill="currentColor" r="300"></circle>
+        </svg>
+      </div>
+
+      <div class="relative max-w-7xl mx-auto space-y-3">
+        <div class="flex items-center gap-2 text-xs text-on-primary-container flex-wrap">
+          <a class="text-surface-bright hover:text-secondary-fixed transition-colors flex items-center gap-1" href="index.html">
+            <span class="material-symbols-outlined text-sm">home</span> Home
+          </a>
+          <span>/</span>
+          <a class="text-surface-bright hover:text-secondary-fixed transition-colors" href="profile.html">Student Profile</a>
+          <span>/</span>
+          <span class="text-secondary-fixed font-semibold">College Predictor</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-surface-bright tracking-tight">
+          Student Profile → College Predictor
+        </h1>
+        <p class="text-sm sm:text-base text-on-primary-container max-w-3xl">
+          Enter your entrance exam scores, academic qualifications, and prioritized branch preferences to match against verified historical centralized counseling cutoffs and calculate admission probabilities.
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 -mt-6 pb-20">
+      
+      <!-- Sub-navigation Pill Bar -->
+      <div class="w-full mb-8 overflow-x-auto scrollbar-none pb-1">
+        <div class="flex items-center gap-2 p-1.5 bg-surface-container-low rounded-2xl w-max sm:w-full border border-surface-container-high/50">
+          <a href="profile.html" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container-high flex items-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base">dashboard</span>
+            <span>Applicant Dossier</span>
+          </a>
+          <a href="recommendations.html" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-primary text-on-primary shadow-xs flex items-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base text-secondary-fixed">auto_awesome</span>
+            <span>College Predictor</span>
+            <span class="px-2 py-0.5 rounded-full bg-secondary text-white text-[11px] font-bold">CAP 2025</span>
+          </a>
+          <a href="saved.html" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container-high flex items-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base">forum</span>
+            <span>Saved FAQs &amp; Chats</span>
+          </a>
+          <a href="settings.html" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container-high flex items-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base">shield_lock</span>
+            <span>Settings</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Trust Notice Banner -->
+      <div class="mb-8 p-4 sm:p-5 rounded-2xl bg-secondary-container/30 border border-secondary/30 flex items-start gap-3.5 text-on-surface">
+        <span class="material-symbols-outlined text-secondary text-2xl shrink-0 mt-0.5">verified_user</span>
+        <div class="text-xs sm:text-sm leading-relaxed space-y-1">
+          <p class="font-bold text-secondary">
+            Verified Historical Guidance Protocol (Strict Match Guarantee)
+          </p>
+          <p class="text-on-surface-variant">
+            College recommendations evaluate your profile strictly against official historical counseling archives (CAP Rounds 1–4 2025-26 / JoSAA). Scores are compared only against matching exams and identical score types—<strong>marks are never mixed with percentiles or ranks</strong>. Historical cutoffs serve as planning guidance, not a prediction or admission guarantee.
+          </p>
+        </div>
+      </div>
+
+      <!-- FLOW CONTAINER: Form View vs Review vs Results View -->
+      <div id="flow-container">
+        
+        <!-- STEP 1: Student Profile Input Form -->
+        <div id="step-form-card" class="bg-surface-container-lowest rounded-3xl shadow-xl p-6 sm:p-10 border border-surface-container-high">
+          
+          <div class="pb-6 mb-8 border-b border-surface-container-high">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-secondary">Step 1 of 2</span>
+              <h2 class="text-xl sm:text-2xl font-extrabold text-primary mt-1">Student Academic &amp; Exam Profile</h2>
+              <p class="text-xs sm:text-sm text-on-surface-variant mt-0.5">Enter your verified exam scores and preferences. Required fields are clearly indicated with an asterisk (*).</p>
+            </div>
+          </div>
+
+          <form id="recommendation-form" onsubmit="handleFormSubmit(event)" class="space-y-8">
+            
+            <!-- Section 1: Entrance Exam & Scores -->
+            <div>
+              <h3 class="text-sm font-bold uppercase tracking-wider text-secondary flex items-center gap-2 mb-4">
+                <span class="material-symbols-outlined text-lg">fact_check</span>
+                <span>1. Entrance Examination &amp; Performance</span>
+              </h3>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Exam Selection -->
+                <div>
+                  <label for="exam-select" class="block text-xs font-bold text-primary mb-1.5">
+                    Entrance Exam <span class="text-error font-bold">*</span>
+                  </label>
+                  <select id="exam-select" onchange="handleExamChange()" required class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                    <option value="MHT-CET" selected>MHT-CET (Maharashtra State CET)</option>
+                    <option value="JEE-Main">JEE Main (National Entrance)</option>
+                    <option value="KCET">KCET (Karnataka State CET)</option>
+                  </select>
+                  <p class="text-[11px] text-on-surface-variant mt-1.5">Configured exam counseling process.</p>
+                </div>
+
+                <!-- Exam Score Type -->
+                <div>
+                  <label class="block text-xs font-bold text-primary mb-1.5">
+                    Result Score Type <span class="text-error font-bold">*</span>
+                  </label>
+                  <div id="score-type-container" class="grid grid-cols-2 gap-2">
+                    <label class="cursor-pointer">
+                      <input type="radio" name="scoreType" value="percentile" checked onchange="handleScoreTypeChange()" class="peer sr-only">
+                      <div class="px-3 py-2.5 rounded-xl border border-surface-container-high text-xs font-bold text-center peer-checked:bg-secondary peer-checked:text-white peer-checked:border-secondary transition-all">
+                        Percentile
+                      </div>
+                    </label>
+                    <label class="cursor-pointer">
+                      <input type="radio" name="scoreType" value="rank" onchange="handleScoreTypeChange()" class="peer sr-only">
+                      <div class="px-3 py-2.5 rounded-xl border border-surface-container-high text-xs font-bold text-center peer-checked:bg-secondary peer-checked:text-white peer-checked:border-secondary transition-all">
+                        Rank (Merit / AIR)
+                      </div>
+                    </label>
+                  </div>
+                  <p class="text-[11px] text-on-surface-variant mt-1.5">Matches exact score metric.</p>
+                </div>
+
+                <!-- Score Value Input -->
+                <div>
+                  <label for="score-input" class="block text-xs font-bold text-primary mb-1.5">
+                    <span id="score-label">Exam Percentile</span> <span class="text-error font-bold">*</span>
+                  </label>
+                  <div class="relative">
+                    <input type="number" id="score-input" required step="0.0001" min="0" max="100" placeholder="e.g. 98.4210" class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                    <span id="score-unit" class="absolute right-4 top-3 text-xs font-bold text-on-surface-variant pointer-events-none">%</span>
+                  </div>
+                  <p id="score-hint" class="text-[11px] text-on-surface-variant mt-1.5">Enter normalized CET percentile (0 to 100).</p>
+                  <p id="score-error" class="text-[11px] text-error font-bold mt-1 hidden"></p>
+                </div>
+
+                <!-- Class 10 Percentage -->
+                <div>
+                  <label for="class10-input" class="block text-xs font-bold text-primary mb-1.5">
+                    Class 10 Board Percentage <span class="text-error font-bold">*</span>
+                  </label>
+                  <div class="relative">
+                    <input type="number" id="class10-input" required step="0.01" min="35" max="100" placeholder="e.g. 91.40" class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                    <span class="absolute right-4 top-3 text-xs font-bold text-on-surface-variant pointer-events-none">%</span>
+                  </div>
+                  <p class="text-[11px] text-on-surface-variant mt-1.5">Secondary School Certificate aggregate.</p>
+                </div>
+
+                <!-- Class 12 Percentage -->
+                <div>
+                  <label for="class12-input" class="block text-xs font-bold text-primary mb-1.5">
+                    Class 12 / Diploma Percentage <span class="text-error font-bold">*</span>
+                  </label>
+                  <div class="relative">
+                    <input type="number" id="class12-input" required step="0.01" min="35" max="100" placeholder="e.g. 88.60" class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                    <span class="absolute right-4 top-3 text-xs font-bold text-on-surface-variant pointer-events-none">%</span>
+                  </div>
+                  <p class="text-[11px] text-on-surface-variant mt-1.5">HSC PCM / PCB aggregate percentage.</p>
+                </div>
+
+                <!-- Admission Category -->
+                <div>
+                  <label for="category-select" class="block text-xs font-bold text-primary mb-1.5">
+                    Admission Category <span class="text-error font-bold">*</span>
+                  </label>
+                  <select id="category-select" required class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                    <!-- Dynamic categories populated based on exam -->
+                    <option value="OPEN" selected>OPEN / General (GOPEN)</option>
+                    <option value="OBC-NCL">Other Backward Class (OBC-NCL)</option>
+                    <option value="EWS">Economically Weaker Section (EWS - 10%)</option>
+                    <option value="SC">Scheduled Caste (SC)</option>
+                    <option value="ST">Scheduled Tribe (ST)</option>
+                    <option value="TFWS">Tuition Fee Waiver Scheme (TFWS)</option>
+                  </select>
+                  <p class="text-[11px] text-on-surface-variant mt-1.5">Official category verified by caste/income certificate.</p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Section 2: Course & Branch Priorities -->
+            <div class="pt-6 border-t border-surface-container-high">
+              <h3 class="text-sm font-bold uppercase tracking-wider text-secondary flex items-center gap-2 mb-4">
+                <span class="material-symbols-outlined text-lg">account_tree</span>
+                <span>2. Degree Course &amp; Preferred Branches (in Priority Order)</span>
+              </h3>
+
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <!-- Course -->
+                <div>
+                  <label for="course-select" class="block text-xs font-bold text-primary mb-1.5">
+                    Preferred Course <span class="text-error font-bold">*</span>
+                  </label>
+                  <select id="course-select" onchange="handleCourseChange()" required class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                    <option value="B.Tech" selected>B.Tech / B.E. (Bachelor of Technology)</option>
+                    <option value="B.Arch">B.Arch (Bachelor of Architecture)</option>
+                    <option value="MBA">MBA (Master of Business Administration)</option>
+                  </select>
+                </div>
+
+                <div class="lg:col-span-2">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <label class="block text-xs font-bold text-primary">
+                      Select &amp; Prioritize Preferred Branches <span class="text-error font-bold">*</span>
+                    </label>
+                    <span id="saved-branches-indicator" class="text-[11px] text-secondary font-bold hidden flex items-center gap-1">
+                      <span class="material-symbols-outlined text-xs">bookmark_added</span> Restored from Saved Preferences
+                    </span>
+                  </div>
+                  <p class="text-xs text-on-surface-variant mb-3">Click branches below to add them to your preference order. Click arrows to arrange priority.</p>
+                  
+                  <!-- Selected Branch Order Chips -->
+                  <div id="priority-list" class="flex flex-wrap items-center gap-2 p-3 rounded-2xl bg-surface-container-low min-h-[52px] border border-surface-container-high">
+                    <!-- Populated dynamically via JS -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Available Branch Selection Bank -->
+              <div class="mt-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span id="branch-bank-title" class="text-xs font-bold text-on-surface-variant block">
+                      Available Engineering Branches (Click to toggle preference):
+                    </span>
+                    <span id="branch-saved-badge" class="px-2.5 py-0.5 rounded-full bg-secondary-container/80 text-on-secondary-container text-[11px] font-extrabold uppercase tracking-wider flex items-center gap-1">
+                      <span class="material-symbols-outlined text-xs">verified</span>
+                      <span>22 Saved in Database</span>
+                    </span>
+                  </div>
+                  <!-- Quick Search & Actions -->
+                  <div class="flex items-center gap-2 self-start sm:self-auto">
+                    <div class="relative">
+                      <span class="material-symbols-outlined text-sm absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                      <input type="text" id="branch-search-input" oninput="filterBranchBank()" placeholder="Search branch..." class="pl-7 pr-3 py-1.5 rounded-xl bg-surface-container border border-surface-container-high text-xs font-medium text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary w-36 sm:w-44 transition-all">
+                    </div>
+                    <button type="button" onclick="selectAllCurrentBranches()" title="Select all available branches" class="px-2.5 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-[11px] font-bold border border-surface-container-high transition-colors">Select All</button>
+                    <button type="button" onclick="clearSelectedBranches()" title="Clear branch selections" class="px-2.5 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-[11px] font-bold border border-surface-container-high transition-colors">Clear</button>
+                  </div>
+                </div>
+
+                <!-- Cluster category tabs -->
+                <div id="branch-cluster-tabs" class="flex flex-wrap items-center gap-1.5 mb-3">
+                  <!-- Populated by JS -->
+                </div>
+
+                <!-- Branch Bank Buttons -->
+                <div id="branch-bank" class="flex flex-wrap gap-2 max-h-80 overflow-y-auto pr-1">
+                  <!-- Populated dynamically via JS -->
+                </div>
+                <p id="branch-error" class="text-[11px] text-error font-bold mt-1.5 hidden"></p>
+              </div>
+            </div>
+
+            <!-- Section 3: Geographic & Lifestyle Preferences -->
+            <div class="pt-6 border-t border-surface-container-high">
+              <h3 class="text-sm font-bold uppercase tracking-wider text-secondary flex items-center gap-2 mb-4">
+                <span class="material-symbols-outlined text-lg">location_on</span>
+                <span>3. Geographic &amp; Campus Preferences</span>
+              </h3>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- State Selection -->
+                <div>
+                  <label for="state-select" class="block text-xs font-bold text-primary mb-1.5">
+                    Preferred State <span class="text-error font-bold">*</span>
+                  </label>
+                  <select id="state-select" required class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                    <option value="Maharashtra" selected>Maharashtra</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="All India">All India / Pan-India</option>
+                  </select>
+                </div>
+
+                <!-- Preferred Cities Checkboxes -->
+                <div>
+                  <label class="block text-xs font-bold text-primary mb-1.5">
+                    Preferred Cities / Hubs <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                  </label>
+                  <div class="space-y-1.5 text-xs font-semibold text-on-surface">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                      <input type="checkbox" name="preferredCities" value="Pune" checked class="rounded text-secondary focus:ring-secondary">
+                      <span>Pune Region</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                      <input type="checkbox" name="preferredCities" value="Mumbai" checked class="rounded text-secondary focus:ring-secondary">
+                      <span>Mumbai Metropolitan</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                      <input type="checkbox" name="preferredCities" value="Sangli" class="rounded text-secondary focus:ring-secondary">
+                      <span>Western Maharashtra (Sangli/Kolhapur)</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                      <input type="checkbox" name="preferredCities" value="Chhatrapati Sambhajinagar" class="rounded text-secondary focus:ring-secondary">
+                      <span>Marathwada / Vidarbha</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Budget Range (Optional) -->
+                <div>
+                  <label for="budget-select" class="block text-xs font-bold text-primary mb-1.5">
+                    Annual Tuition Budget <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                  </label>
+                  <select id="budget-select" class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                    <option value="">No Budget Constraint (Any)</option>
+                    <option value="50000">Under ₹50,000 / year (Govt Fees)</option>
+                    <option value="120000">Up to ₹1,20,000 / year</option>
+                    <option value="200000">Up to ₹2,00,000 / year</option>
+                    <option value="300000">Up to ₹3,00,000 / year</option>
+                  </select>
+                  <p class="text-[11px] text-on-surface-variant mt-1.5">Helps filter scholarship / fee tiers.</p>
+                </div>
+
+                <!-- Hostel Accommodation Preference (Optional) -->
+                <div>
+                  <label for="hostel-select" class="block text-xs font-bold text-primary mb-1.5">
+                    Hostel Requirement <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                  </label>
+                  <select id="hostel-select" class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                    <option value="any" selected>No Preference (Hostel or Day Scholar)</option>
+                    <option value="required">Hostel Accommodation Required</option>
+                    <option value="day_scholar">Day Scholar / Commuter Only</option>
+                  </select>
+                  <p class="text-[11px] text-on-surface-variant mt-1.5">Checks on-campus residential housing.</p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Submit & Review CTA -->
+            <div class="pt-6 border-t border-surface-container-high flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="text-xs text-on-surface-variant">
+                You will review your complete profile before viewing historical cutoff predictions.
+              </div>
+              <div class="flex items-center gap-3 w-full sm:w-auto">
+                <button type="reset" onclick="resetFormState()" class="px-5 py-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs sm:text-sm font-bold transition-colors w-full sm:w-auto">
+                  Clear Form
+                </button>
+                <button type="submit" class="px-6 py-3 rounded-xl bg-secondary hover:bg-secondary/90 text-on-secondary text-xs sm:text-sm font-bold shadow-md transition-all flex items-center justify-center gap-2 w-full sm:w-auto">
+                  <span>Review Profile &amp; Predict</span>
+                  <span class="material-symbols-outlined text-base">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+
+        <!-- STEP 2: Profile Review Modal / Confirmation Card (Hidden by Default) -->
+        <div id="step-review-card" class="hidden bg-surface-container-lowest rounded-3xl shadow-xl p-6 sm:p-10 border border-surface-container-high">
+          <div class="flex items-center justify-between pb-6 mb-6 border-b border-surface-container-high">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-secondary">Step 2 of 2</span>
+              <h2 class="text-xl sm:text-2xl font-extrabold text-primary mt-1">Review Your Candidate Profile</h2>
+              <p class="text-xs sm:text-sm text-on-surface-variant mt-0.5">Please confirm your details before evaluating historical cutoffs.</p>
+            </div>
+            <button onclick="backToEditForm()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary text-xs sm:text-sm font-bold transition-colors">
+              <span class="material-symbols-outlined text-base">edit</span>
+              <span>Edit Details</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high">
+              <span class="text-[11px] font-bold uppercase text-secondary tracking-wider block mb-2">Exam &amp; Performance</span>
+              <p id="rev-exam" class="text-base font-extrabold text-primary">MHT-CET 2024</p>
+              <p id="rev-score" class="text-xl font-extrabold text-secondary mt-1">98.4210 %</p>
+              <p id="rev-academics" class="text-xs text-on-surface-variant mt-2">Class 10: 91.4% | Class 12: 88.6%</p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high">
+              <span class="text-[11px] font-bold uppercase text-secondary tracking-wider block mb-2">Category &amp; Quota</span>
+              <p id="rev-category" class="text-base font-extrabold text-primary">OBC-NCL</p>
+              <p id="rev-quota" class="text-xs text-on-surface-variant mt-1">Home University Quota (HU / SL)</p>
+              <p id="rev-location" class="text-xs text-on-surface-variant mt-2">Preferred Regions: Pune, Mumbai</p>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high">
+              <span class="text-[11px] font-bold uppercase text-secondary tracking-wider block mb-2">Program &amp; Priorities</span>
+              <p id="rev-course" class="text-base font-extrabold text-primary">B.Tech / B.E.</p>
+              <div id="rev-branches" class="flex flex-wrap gap-1.5 mt-2">
+                <!-- Branch chips -->
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-surface-container-high">
+            <p class="text-xs text-on-surface-variant">
+              Matching strictly compares against approved historical counseling records for your exam.
+            </p>
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+              <button onclick="backToEditForm()" class="px-5 py-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs sm:text-sm font-bold transition-colors w-full sm:w-auto">
+                Back to Edit
+              </button>
+              <button onclick="executeRecommendationMatch()" class="px-7 py-3 rounded-xl bg-secondary hover:bg-secondary/90 text-on-secondary text-xs sm:text-sm font-bold shadow-md transition-all flex items-center justify-center gap-2 w-full sm:w-auto">
+                <span class="material-symbols-outlined text-base">search_check</span>
+                <span>Predict Matched Colleges</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Recommendation Results Dashboard (Hidden by Default) -->
+        <div id="step-results-card" class="hidden space-y-6">
+          
+          <!-- Sticky Summary & Filter Bar -->
+          <div class="bg-surface-container-lowest rounded-3xl shadow-xl p-6 sm:p-8 border border-surface-container-high">
+            
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 mb-6 border-b border-surface-container-high">
+              <div>
+                <div class="flex items-center gap-2 flex-wrap mb-1">
+                  <span id="results-exam-badge" class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold">MHT-CET</span>
+                  <span id="results-score-badge" class="px-2.5 py-0.5 rounded-full bg-surface-container text-primary text-xs font-bold">98.42%</span>
+                  <span id="results-cat-badge" class="px-2.5 py-0.5 rounded-full bg-surface-container text-primary text-xs font-bold">OBC-NCL</span>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-primary">
+                  Matched Colleges &amp; Programs (<span id="results-count">0</span>)
+                </h2>
+                <p class="text-xs sm:text-sm text-on-surface-variant mt-0.5">
+                  Evaluated against verified historical centralized admission cutoffs.
+                </p>
+              </div>
+
+              <!-- Quick action buttons -->
+              <div class="flex items-center gap-3">
+                <button onclick="backToEditForm()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary text-xs sm:text-sm font-bold transition-colors">
+                  <span class="material-symbols-outlined text-base">tune</span>
+                  <span>Edit Profile</span>
+                </button>
+                <button onclick="resetFlowToStart()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-error text-xs sm:text-sm font-bold transition-colors">
+                  <span class="material-symbols-outlined text-base">restart_alt</span>
+                  <span>Start Again</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Filters & Sort Strip -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              
+              <!-- Filter by Match Label -->
+              <div>
+                <label for="filter-match-type" class="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant mb-1">Match Type</label>
+                <select id="filter-match-type" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary">
+                  <option value="all">All Results</option>
+                  <option value="historical_match">🟢 Historical match only</option>
+                  <option value="more_competitive">🟡 More competitive only</option>
+                  <option value="insufficient_data">⚪ Insufficient cutoff data</option>
+                </select>
+              </div>
+
+              <!-- Filter by City -->
+              <div>
+                <label for="filter-city" class="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant mb-1">City / Region</label>
+                <select id="filter-city" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary">
+                  <option value="all">All Cities</option>
+                  <option value="Pune">Pune</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Sangli">Sangli</option>
+                  <option value="Chhatrapati Sambhajinagar">Chhatrapati Sambhajinagar</option>
+                </select>
+              </div>
+
+              <!-- Filter by Branch -->
+              <div>
+                <label for="filter-branch" class="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant mb-1">Branch</label>
+                <select id="filter-branch" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary">
+                  <option value="all">All Selected Branches</option>
+                  <!-- Populated from student's selected branches -->
+                </select>
+              </div>
+
+              <!-- Sort By -->
+              <div>
+                <label for="sort-by" class="block text-[11px] font-bold uppercase tracking-wider text-on-surface-variant mb-1">Sort Results By</label>
+                <select id="sort-by" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary">
+                  <option value="probability" selected>🎯 Best Match (Eligible &amp; High Probability First)</option>
+                  <option value="university">🏛️ University Wise (A–Z)</option>
+                  <option value="priority">📌 Branch Priority First</option>
+                  <option value="fees_low_high">💰 Annual Tuition (Low to High)</option>
+                  <option value="alphabetical">🔤 College Name (A–Z)</option>
+                </select>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Active Results List -->
+          <div id="results-list-container" class="space-y-4">
+            <!-- Dynamic cards injected via renderRecommendations() -->
+          </div>
+
+          <!-- Empty State Container -->
+          <div id="results-empty-state" class="hidden bg-surface-container-lowest rounded-3xl p-12 text-center border border-surface-container-high space-y-3">
+            <span class="material-symbols-outlined text-5xl text-outline-variant">search_off</span>
+            <h3 class="text-lg font-extrabold text-primary">No Matching Programs Found</h3>
+            <p class="text-xs sm:text-sm text-on-surface-variant max-w-md mx-auto">
+              No historical cutoffs matched your current active filter settings. Try adjusting your match type or city filter.
+            </p>
+            <button onclick="resetFilters()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-secondary text-white text-xs font-bold mt-2">
+              Reset Filters
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-surface-container-low border-t border-surface-container-high/80 py-12 px-6 lg:px-12 text-on-surface-variant text-xs">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary text-base">verified</span>
+        <span>CollegeHub Academic Portal &bull; Centralized Inquiry &amp; Recommendation Matrix</span>
+      </div>
+      <div class="flex items-center gap-4 text-on-surface-variant">
+        <a href="faqs.html" class="hover:text-primary transition-colors">FAQs</a>
+        <a href="about.html" class="hover:text-primary transition-colors">Mission</a>
+        <a href="profile.html" class="hover:text-primary transition-colors">Student Portal</a>
+        <a href="settings.html" class="hover:text-primary transition-colors">Security</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Include Core Scripts -->
+  <script src="assets/js/demo-data.js"></script>
+  <script src="assets/js/recommendations.js"></script>
+  <script src="assets/js/auth-session.js"></script>
+
+  <!-- Interactive Page Controller -->
+  <script>
+    // State
+    let currentProfile = null;
+    let rawRecommendations = [];
+    let selectedBranchesOrder = ['CSE', 'AIDS', 'IT'];
+    let currentClusterFilter = 'all';
+    let branchSearchQuery = '';
+
+    const MASTER_BRANCH_CATALOG = {
+      'B.Tech': [
+        { code: 'CSE', name: 'Computer Science & Engineering', cluster: 'Computing & AI', count: 603, desc: 'Software systems, algorithms, cloud computing, IoT, and AI/ML foundations' },
+        { code: 'MECH', name: 'Mechanical Engineering', cluster: 'Core Engineering', count: 298, desc: 'Thermodynamics, mechanical design, CAD/CAM, and thermal systems' },
+        { code: 'ENTC', name: 'Electronics & Telecommunication', cluster: 'Circuital', count: 279, desc: 'Digital communication, 5G networks, VLSI chip design, and signal processing' },
+        { code: 'CIVIL', name: 'Civil & Infrastructure', cluster: 'Core Engineering', count: 263, desc: 'Structural engineering, transportation, and environmental infrastructure' },
+        { code: 'ELECT', name: 'Electrical Engineering', cluster: 'Circuital', count: 209, desc: 'Power electronics, smart grids, electrical drives, and energy systems' },
+        { code: 'AIDS', name: 'AI & Data Science', cluster: 'Computing & AI', count: 202, desc: 'Machine learning, neural networks, big data analytics, and cognitive systems' },
+        { code: 'IT', name: 'Information Technology', cluster: 'Computing & AI', count: 165, desc: 'Enterprise networks, cybersecurity, web infrastructure, and software systems' },
+        { code: 'CHEM', name: 'Chemical & Polymer Engineering', cluster: 'Process & Bio', count: 49, desc: 'Process engineering, polymers, petrochemicals, reaction kinetics, and surface coatings' },
+        { code: 'ROBO', name: 'Robotics, Automation & Mechatronics', cluster: 'Specialized & Emerging', count: 49, desc: 'Industrial robotics, mechatronics, motion control, and automated systems' },
+        { code: 'INST', name: 'Instrumentation Engineering', cluster: 'Circuital', count: 17, desc: 'Industrial process control, automation sensors, SCADA, and feedback loops' },
+        { code: 'FOOD', name: 'Food Technology & Engineering', cluster: 'Process & Bio', count: 11, desc: 'Food preservation, bioprocess quality control, and food safety standards' },
+        { code: 'TEXT', name: 'Textile Engineering & Technology', cluster: 'Process & Bio', count: 9, desc: 'Polymer fibers, technical textiles, chemical processing, and fabrication' },
+        { code: 'AUTO', name: 'Automobile Engineering', cluster: 'Core Engineering', count: 7, desc: 'Vehicle dynamics, powertrain engineering, EV technology, and chassis design' },
+        { code: 'PROD', name: 'Production & Manufacturing', cluster: 'Core Engineering', count: 6, desc: 'Precision manufacturing, lean operations, CNC automation, and industrial systems' },
+        { code: 'BIOMED', name: 'Biomedical Engineering', cluster: 'Specialized & Emerging', count: 5, desc: 'Medical electronic devices, diagnostic imaging, prosthetic design, and clinical tech' },
+        { code: 'AERO', name: 'Aeronautical & Aerospace', cluster: 'Specialized & Emerging', count: 4, desc: 'Flight aerodynamics, aerospace structures, propulsion systems, and avionics' },
+        { code: 'BIOTECH', name: 'Biotechnology Engineering', cluster: 'Process & Bio', count: 4, desc: 'Biochemical processing, genetic engineering, industrial enzymes, and biopharma' },
+        { code: 'MINING', name: 'Mining Engineering', cluster: 'Core Engineering', count: 3, desc: 'Mineral resource exploitation, rock excavation mechanics, and mine safety' },
+        { code: 'AGRI', name: 'Agricultural Engineering', cluster: 'Specialized & Emerging', count: 1, desc: 'Precision farm mechanization, hydrology, soil conservation, and irrigation' },
+        { code: 'SAFETY', name: 'Safety & Fire Engineering', cluster: 'Specialized & Emerging', count: 1, desc: 'Industrial hazard risk mitigation, fire protection, and safety auditing' },
+        { code: 'META', name: 'Metallurgical & Materials', cluster: 'Process & Bio', count: 1, desc: 'Materials characterization, physical metallurgy, alloy design, and composites' },
+        { code: 'PRINT', name: 'Printing & Packaging Technology', cluster: 'Specialized & Emerging', count: 1, desc: 'Digital printing processes, polymer packaging systems, and material converting' }
+      ],
+      'B.Arch': [
+        { code: 'ARCH', name: 'Architecture & Spatial Planning', cluster: 'Design & Architecture', count: 1, desc: 'Architectural design, urban planning, landscape design, and sustainable structures' }
+      ],
+      'MBA': [
+        { code: 'MBA-FIN', name: 'Finance & Banking Systems', cluster: 'Management', count: 1, desc: 'Corporate valuation, investment banking, portfolio management, and financial analysis' },
+        { code: 'MBA-MKT', name: 'Marketing & Strategic Growth', cluster: 'Management', count: 1, desc: 'Brand positioning, digital marketing strategies, and revenue growth' },
+        { code: 'MBA-HR', name: 'Human Resource Management', cluster: 'Management', count: 1, desc: 'Strategic human capital management, talent acquisition, and organizational development' },
+        { code: 'MBA-OPS', name: 'Operations & Supply Chain Analytics', cluster: 'Management', count: 1, desc: 'Supply chain network optimization, global procurement, and logistics analytics' }
+      ]
+    };
+
+    const BRANCH_META = {};
+    Object.values(MASTER_BRANCH_CATALOG).forEach(list => {
+      list.forEach(item => {
+        BRANCH_META[item.code] = item.name;
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSavedBranches();
+      renderClusterTabs();
+      renderBranchBank();
+      renderPriorityList();
+      handleExamChange();
+      fetchLiveBranches();
+    });
+
+    function handleScoreTypeChange() {
+      const scoreType = document.querySelector('input[name="scoreType"]:checked')?.value || 'percentile';
+      const label = document.getElementById('score-label');
+      const unit = document.getElementById('score-unit');
+      const input = document.getElementById('score-input');
+      const hint = document.getElementById('score-hint');
+
+      if (scoreType === 'rank') {
+        if (label) label.textContent = 'Merit / All-India Rank';
+        if (unit) unit.textContent = 'Rank';
+        if (input) {
+          input.step = '1';
+          input.min = '1';
+          input.max = '500000';
+          input.placeholder = 'e.g. 1850';
+          if (input.value && parseFloat(input.value) <= 100) {
+            input.value = '';
+          }
+        }
+        if (hint) hint.textContent = 'Enter your State Merit Rank (MHT-CET) or All-India CRL Rank (JEE Main). Lower rank is better.';
+      } else {
+        if (label) label.textContent = 'Exam Percentile';
+        if (unit) unit.textContent = '%';
+        if (input) {
+          input.step = '0.0001';
+          input.min = '0';
+          input.max = '100';
+          input.placeholder = 'e.g. 98.4210';
+          if (input.value && parseFloat(input.value) > 100) {
+            input.value = '';
+          }
+        }
+        if (hint) hint.textContent = 'Enter normalized CET/JEE percentile (0 to 100).';
+      }
+    }
+
+    function handleExamChange() {
+      const exam = document.getElementById('exam-select')?.value || 'MHT-CET';
+      const rankRadio = document.querySelector('input[name="scoreType"][value="rank"]');
+      const pctRadio = document.querySelector('input[name="scoreType"][value="percentile"]');
+      if (exam === 'JEE-Main') {
+        if (rankRadio) rankRadio.checked = true;
+      } else if (exam === 'KCET') {
+        if (rankRadio) rankRadio.checked = true;
+      }
+      handleScoreTypeChange();
+    }
+
+    function loadSavedBranches() {
+      try {
+        const saved = localStorage.getItem('collegehub_saved_branches');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            selectedBranchesOrder = parsed;
+            const ind = document.getElementById('saved-branches-indicator');
+            if (ind) ind.classList.remove('hidden');
+          }
+        }
+      } catch (e) {}
+    }
+
+    function persistSelectedBranches() {
+      try {
+        localStorage.setItem('collegehub_saved_branches', JSON.stringify(selectedBranchesOrder));
+        const ind = document.getElementById('saved-branches-indicator');
+        if (ind) ind.classList.remove('hidden');
+      } catch (e) {}
+    }
+
+    async function fetchLiveBranches() {
+      try {
+        const res = await fetch('/api/branches');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.data && json.data.length > 0) {
+            json.data.forEach(apiBranch => {
+              for (const prog in MASTER_BRANCH_CATALOG) {
+                const found = MASTER_BRANCH_CATALOG[prog].find(b => b.code === apiBranch.code);
+                if (found) {
+                  if (typeof apiBranch.courses_count === 'number' && apiBranch.courses_count > 0) {
+                    found.count = apiBranch.courses_count;
+                  }
+                  if (apiBranch.name) found.name = apiBranch.name;
+                  BRANCH_META[found.code] = found.name;
+                }
+              }
+            });
+            handleCourseChange();
+          }
+        }
+      } catch (e) {
+        // Fallback to embedded verified catalog
+      }
+    }
+
+    function handleCourseChange() {
+      const currentCourse = document.getElementById('course-select').value;
+      const title = document.getElementById('branch-bank-title');
+      const badge = document.getElementById('branch-saved-badge');
+      const branches = MASTER_BRANCH_CATALOG[currentCourse] || [];
+
+      if (currentCourse === 'B.Tech') {
+        if (title) title.textContent = 'Available Engineering Branches (Click to toggle preference):';
+        if (badge) badge.innerHTML = `<span class="material-symbols-outlined text-xs">verified</span><span>${branches.length} Saved in Database</span>`;
+      } else if (currentCourse === 'B.Arch') {
+        if (title) title.textContent = 'Available Architecture Programs:';
+        if (badge) badge.innerHTML = `<span class="material-symbols-outlined text-xs">verified</span><span>${branches.length} Program</span>`;
+      } else {
+        if (title) title.textContent = 'Available Management Specializations:';
+        if (badge) badge.innerHTML = `<span class="material-symbols-outlined text-xs">verified</span><span>${branches.length} Specializations</span>`;
+      }
+
+      currentClusterFilter = 'all';
+      branchSearchQuery = '';
+      const sInput = document.getElementById('branch-search-input');
+      if (sInput) sInput.value = '';
+
+      renderClusterTabs();
+      renderBranchBank();
+    }
+
+    function renderClusterTabs() {
+      const tabs = document.getElementById('branch-cluster-tabs');
+      if (!tabs) return;
+      const currentCourse = document.getElementById('course-select').value;
+      const branches = MASTER_BRANCH_CATALOG[currentCourse] || [];
+      
+      const clusters = ['all'];
+      branches.forEach(b => {
+        if (b.cluster && !clusters.includes(b.cluster)) {
+          clusters.push(b.cluster);
+        }
+      });
+
+      if (clusters.length <= 2) {
+        tabs.innerHTML = '';
+        return;
+      }
+
+      tabs.innerHTML = clusters.map(c => {
+        const isActive = currentClusterFilter === c;
+        const count = c === 'all' ? branches.length : branches.filter(b => b.cluster === c).length;
+        const label = c === 'all' ? `All (${count})` : `${c} (${count})`;
+        return `
+          <button type="button" onclick="setClusterFilter('${c}')" class="px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all border ${
+            isActive
+              ? 'bg-secondary text-white border-secondary shadow-xs'
+              : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant border-surface-container-high'
+          }">
+            ${label}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function setClusterFilter(cluster) {
+      currentClusterFilter = cluster;
+      renderClusterTabs();
+      renderBranchBank();
+    }
+
+    function filterBranchBank() {
+      branchSearchQuery = (document.getElementById('branch-search-input')?.value || '').trim().toLowerCase();
+      renderBranchBank();
+    }
+
+    function renderBranchBank() {
+      const bank = document.getElementById('branch-bank');
+      if (!bank) return;
+      const currentCourse = document.getElementById('course-select').value;
+      const branches = MASTER_BRANCH_CATALOG[currentCourse] || [];
+
+      let filtered = branches;
+      if (currentClusterFilter !== 'all') {
+        filtered = filtered.filter(b => b.cluster === currentClusterFilter);
+      }
+      if (branchSearchQuery) {
+        filtered = filtered.filter(b => 
+          b.code.toLowerCase().includes(branchSearchQuery) || 
+          b.name.toLowerCase().includes(branchSearchQuery) ||
+          (b.desc && b.desc.toLowerCase().includes(branchSearchQuery))
+        );
+      }
+
+      if (filtered.length === 0) {
+        bank.innerHTML = `<span class="text-xs text-on-surface-variant italic py-2">No saved branches found matching "${branchSearchQuery}".</span>`;
+        return;
+      }
+
+      bank.innerHTML = filtered.map(b => {
+        const isSelected = selectedBranchesOrder.includes(b.code);
+        return `
+          <button type="button" onclick="toggleBranchSelection('${b.code}')" title="${b.desc || b.name}" class="group px-3 py-1.5 rounded-xl text-xs font-bold transition-all border flex items-center gap-1.5 ${
+            isSelected 
+              ? 'bg-secondary text-white border-secondary shadow-xs ring-1 ring-secondary' 
+              : 'bg-surface-container hover:bg-surface-container-high text-on-surface border-surface-container-high hover:border-secondary/40'
+          }">
+            <span>${isSelected ? '✓ ' : '+ '}${b.code}</span>
+            <span class="${isSelected ? 'text-white/95' : 'text-on-surface-variant group-hover:text-on-surface'} font-medium text-[11px]">${b.name}</span>
+            ${b.count ? `<span class="px-1.5 py-0.2 rounded-md ${isSelected ? 'bg-white/20 text-white' : 'bg-surface-container-high/70 text-on-surface-variant'} text-[10px] font-extrabold shrink-0">${b.count}</span>` : ''}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectAllCurrentBranches() {
+      const currentCourse = document.getElementById('course-select').value;
+      const branches = MASTER_BRANCH_CATALOG[currentCourse] || [];
+      branches.forEach(b => {
+        if (!selectedBranchesOrder.includes(b.code)) {
+          selectedBranchesOrder.push(b.code);
+        }
+      });
+      persistSelectedBranches();
+      renderPriorityList();
+      renderBranchBank();
+    }
+
+    function clearSelectedBranches() {
+      selectedBranchesOrder = [];
+      persistSelectedBranches();
+      renderPriorityList();
+      renderBranchBank();
+    }
+
+    function renderPriorityList() {
+      const list = document.getElementById('priority-list');
+      if (selectedBranchesOrder.length === 0) {
+        list.innerHTML = `<span class="text-xs text-on-surface-variant italic">No branches selected yet. Click options from the bank below.</span>`;
+        return;
+      }
+
+      list.innerHTML = selectedBranchesOrder.map((code, idx) => `
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-lowest text-primary text-xs font-bold border border-surface-container-high shadow-xs">
+          <span class="w-5 h-5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-extrabold flex items-center justify-center shrink-0">
+            ${idx + 1}
+          </span>
+          <span>${code}</span>
+          ${idx > 0 ? `<button type="button" onclick="movePriority('${code}', -1)" title="Move Up" class="text-on-surface-variant hover:text-primary material-symbols-outlined text-sm">arrow_upward</button>` : ''}
+          ${idx < selectedBranchesOrder.length - 1 ? `<button type="button" onclick="movePriority('${code}', 1)" title="Move Down" class="text-on-surface-variant hover:text-primary material-symbols-outlined text-sm">arrow_downward</button>` : ''}
+          <button type="button" onclick="toggleBranchSelection('${code}')" title="Remove" class="text-on-surface-variant hover:text-error material-symbols-outlined text-sm ml-0.5">close</button>
+        </div>
+      `).join('');
+    }
+
+    function toggleBranchSelection(code) {
+      const idx = selectedBranchesOrder.indexOf(code);
+      if (idx > -1) {
+        selectedBranchesOrder.splice(idx, 1);
+      } else {
+        selectedBranchesOrder.push(code);
+      }
+      persistSelectedBranches();
+      renderPriorityList();
+      renderBranchBank();
+    }
+
+    function movePriority(code, direction) {
+      const idx = selectedBranchesOrder.indexOf(code);
+      if (idx < 0) return;
+      const targetIdx = idx + direction;
+      if (targetIdx < 0 || targetIdx >= selectedBranchesOrder.length) return;
+      const temp = selectedBranchesOrder[idx];
+      selectedBranchesOrder[idx] = selectedBranchesOrder[targetIdx];
+      selectedBranchesOrder[targetIdx] = temp;
+      persistSelectedBranches();
+      renderPriorityList();
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+
+      if (selectedBranchesOrder.length === 0) {
+        const bErr = document.getElementById('branch-error');
+        bErr.textContent = 'Please select at least one branch preference.';
+        bErr.classList.remove('hidden');
+        return;
+      } else {
+        document.getElementById('branch-error').classList.add('hidden');
+      }
+
+      const cities = Array.from(document.querySelectorAll('input[name="preferredCities"]:checked')).map(cb => cb.value);
+
+      currentProfile = {
+        exam: document.getElementById('exam-select').value,
+        scoreType: document.querySelector('input[name="scoreType"]:checked').value,
+        score: document.getElementById('score-input').value,
+        class10Percentage: document.getElementById('class10-input').value,
+        class12Percentage: document.getElementById('class12-input').value,
+        category: document.getElementById('category-select').value,
+        preferredCourse: document.getElementById('course-select').value,
+        preferredBranches: [...selectedBranchesOrder],
+        preferredState: document.getElementById('state-select').value,
+        preferredCities: cities,
+        budgetMax: document.getElementById('budget-select').value,
+        hostelPreference: document.getElementById('hostel-select').value
+      };
+
+      // Populate Review Screen
+      document.getElementById('rev-exam').textContent = `${currentProfile.exam} (${currentProfile.scoreType.toUpperCase()})`;
+      document.getElementById('rev-score').textContent = `${currentProfile.score} ${currentProfile.scoreType === 'percentile' ? '%' : 'Rank'}`;
+      document.getElementById('rev-academics').textContent = `Class 10: ${currentProfile.class10Percentage}% | Class 12: ${currentProfile.class12Percentage}%`;
+      document.getElementById('rev-category').textContent = `${currentProfile.category} (Category Verified)`;
+      document.getElementById('rev-course').textContent = currentProfile.preferredCourse;
+      document.getElementById('rev-location').textContent = `Regions: ${cities.length > 0 ? cities.join(', ') : 'Any in ' + currentProfile.preferredState}`;
+
+      const revBranches = document.getElementById('rev-branches');
+      revBranches.innerHTML = currentProfile.preferredBranches.map((b, i) => `
+        <span class="px-2.5 py-1 rounded-xl bg-surface-container text-primary text-xs font-bold border border-surface-container-high">
+          #${i+1} ${b}
+        </span>
+      `).join('');
+
+      // Switch view to Step 2
+      document.getElementById('step-form-card').classList.add('hidden');
+      document.getElementById('step-review-card').classList.remove('hidden');
+      document.getElementById('step-results-card').classList.add('hidden');
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    function backToEditForm() {
+      document.getElementById('step-form-card').classList.remove('hidden');
+      document.getElementById('step-review-card').classList.add('hidden');
+      document.getElementById('step-results-card').classList.add('hidden');
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    function resetFlowToStart() {
+      currentProfile = null;
+      rawRecommendations = [];
+      document.getElementById('recommendation-form').reset();
+      selectedBranchesOrder = ['CSE', 'AIDS', 'IT'];
+      persistSelectedBranches();
+      handleCourseChange();
+      renderBranchBank();
+      renderPriorityList();
+      backToEditForm();
+    }
+
+    async function executeRecommendationMatch() {
+      if (!currentProfile) return;
+
+      let serverLoaded = false;
+      try {
+        const payload = {
+          exam: currentProfile.exam,
+          score_type: currentProfile.scoreType,
+          score: currentProfile.score,
+          category: currentProfile.category,
+          preferred_course: currentProfile.preferredCourse,
+          preferred_branches: currentProfile.preferredBranches,
+          sort_by: document.getElementById('sort-by')?.value || 'probability'
+        };
+        const resp = await fetch('/api/recommendations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (resp.ok) {
+          const sData = await resp.json();
+          if (sData.status === 'success' && Array.isArray(sData.recommendations) && sData.recommendations.length > 0) {
+            rawRecommendations = sData.recommendations.map(item => {
+              const r = item.record;
+              const pIdx = currentProfile.preferredBranches.indexOf(r.branch_code);
+              return {
+                record: {
+                  id: r.id,
+                  collegeCode: r.college_code,
+                  collegeName: r.college_name,
+                  shortName: r.short_name || r.college_name,
+                  campusType: r.campus_type,
+                  city: r.city,
+                  state: r.state,
+                  program: r.program,
+                  branchCode: r.branch_code,
+                  branchName: r.branch_name,
+                  exam: r.exam,
+                  scoreType: r.score_type,
+                  category: r.category,
+                  quota: r.quota,
+                  year: r.year,
+                  round: r.round,
+                  closingValue: r.closing_value,
+                  annualFeesINR: r.annual_fees_inr,
+                  hostelAvailable: r.hostel_available,
+                  source: r.source,
+                  lastVerifiedDate: r.last_verified_date,
+                  status: r.status,
+                  roundCutoffs: r.round_cutoffs || item.round_cutoffs || null
+                },
+                roundCutoffs: r.round_cutoffs || item.round_cutoffs || null,
+                matchLabel: item.match_label,
+                matchType: item.match_type,
+                matchPercentage: typeof item.match_percentage === 'number' ? item.match_percentage : null,
+                admissionProbability: typeof item.admission_probability === 'number' ? item.admission_probability : null,
+                probabilityTier: item.probability_tier || null,
+                badgeClass: item.match_type === 'historical_match' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30' : (item.match_type === 'more_competitive' ? 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30' : 'bg-surface-container text-on-surface-variant border-surface-container-high'),
+                badgeIcon: item.match_type === 'historical_match' ? 'check_circle' : (item.match_type === 'more_competitive' ? 'trending_up' : 'info'),
+                priorityRank: pIdx >= 0 ? pIdx + 1 : 99,
+                explanation: item.explanation,
+                diffValue: typeof r.closing_value === 'number' ? (parseFloat(currentProfile.score) - r.closing_value) : null,
+                scoreConfidence: 'high',
+                cityMatch: currentProfile.preferredCities.length === 0 || currentProfile.preferredCities.includes(r.city)
+              };
+            });
+            serverLoaded = true;
+          }
+        }
+      } catch (err) {
+        console.warn('API recommendation fetch fallback to client engine:', err);
+      }
+
+      if (!serverLoaded) {
+        // Execute via separated CollegeHubRecommender engine
+        const res = CollegeHubRecommender.engine.getRecommendations(currentProfile);
+        if (res.status !== 'success') {
+          alert('Validation error: ' + Object.values(res.errors || {}).join(' '));
+          return;
+        }
+        rawRecommendations = res.recommendations;
+      }
+
+      // Update results badges
+      document.getElementById('results-exam-badge').textContent = currentProfile.exam;
+      document.getElementById('results-score-badge').textContent = `${currentProfile.score} ${currentProfile.scoreType === 'percentile' ? '%' : 'Rank'}`;
+      document.getElementById('results-cat-badge').textContent = currentProfile.category;
+
+      // Populate branch filter options
+      const branchFilter = document.getElementById('filter-branch');
+      branchFilter.innerHTML = `<option value="all">All Selected Branches (${currentProfile.preferredBranches.length})</option>` +
+        currentProfile.preferredBranches.map(b => `<option value="${b}">${b} - ${BRANCH_META[b] || b}</option>`).join('');
+
+      applyFiltersAndSort();
+
+      // Show Results Step
+      document.getElementById('step-form-card').classList.add('hidden');
+      document.getElementById('step-review-card').classList.add('hidden');
+      document.getElementById('step-results-card').classList.remove('hidden');
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    function applyFiltersAndSort() {
+      const matchType = document.getElementById('filter-match-type').value;
+      const city = document.getElementById('filter-city').value;
+      const branch = document.getElementById('filter-branch').value;
+      const sortBy = document.getElementById('sort-by').value;
+
+      let filtered = CollegeHubRecommender.engine.filterRecommendations(rawRecommendations, {
+        matchType,
+        city,
+        branch
+      });
+
+      let sorted = CollegeHubRecommender.engine.sortRecommendations(filtered, sortBy);
+
+      renderRecommendationsList(sorted);
+    }
+
+    function renderRecommendationsList(items) {
+      const container = document.getElementById('results-list-container');
+      const emptyState = document.getElementById('results-empty-state');
+      document.getElementById('results-count').textContent = items.length;
+
+      if (items.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      const sortBy = document.getElementById('sort-by')?.value || 'probability';
+      let lastUniversity = null;
+
+      container.innerHTML = items.map(item => {
+        const r = item.record;
+        const isHistorical = item.matchType === 'historical_match';
+        const isCompetitive = item.matchType === 'more_competitive';
+        const isInsufficient = item.matchType === 'insufficient_data';
+
+        const univName = r.university || r.universityName || r.university_name || r.affiliatedUniversity || (typeof CollegeHubRecommender !== 'undefined' && CollegeHubRecommender.resolveUniversity ? CollegeHubRecommender.resolveUniversity(r) : '');
+
+        let universityGroupHeader = '';
+        if (sortBy === 'university' && univName && univName !== lastUniversity) {
+          lastUniversity = univName;
+          const sameUnivCount = items.filter(it => {
+            const u = it.record?.university || it.record?.universityName || it.record?.university_name || it.record?.affiliatedUniversity || (typeof CollegeHubRecommender !== 'undefined' && CollegeHubRecommender.resolveUniversity ? CollegeHubRecommender.resolveUniversity(it.record) : '');
+            return u === univName;
+          }).length;
+
+          universityGroupHeader = `
+            <div class="pt-5 pb-2 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-secondary/15 dark:bg-secondary/25 border border-secondary/35 text-secondary dark:text-teal-300 font-extrabold text-xs sm:text-sm tracking-wide shadow-2xs">
+                <span class="material-symbols-outlined text-base">account_balance</span>
+                <span>${univName}</span>
+              </div>
+              <div class="flex items-center gap-2 flex-1">
+                <div class="h-px bg-surface-container-high flex-1"></div>
+                <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">${sameUnivCount} ${sameUnivCount === 1 ? 'Program' : 'Programs'}</span>
+              </div>
+            </div>
+          `;
+        }
+
+        let badgeStyle = isHistorical
+          ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30'
+          : (isCompetitive 
+              ? 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30'
+              : 'bg-surface-container text-on-surface-variant border-surface-container-high');
+
+        let badgeIcon = isHistorical ? 'check_circle' : (isCompetitive ? 'trending_up' : 'info');
+
+        const hasProb = typeof item.admissionProbability === 'number';
+        let probBadgeClass = 'bg-surface-container text-on-surface-variant border-surface-container-high';
+        let probBarColor = 'bg-primary';
+        let probTextColor = 'text-primary';
+
+        if (hasProb) {
+          if (item.admissionProbability >= 85) {
+            probBadgeClass = 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30';
+            probBarColor = 'bg-emerald-500';
+            probTextColor = 'text-emerald-700 dark:text-emerald-300';
+          } else if (item.admissionProbability >= 70) {
+            probBadgeClass = 'bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/30';
+            probBarColor = 'bg-teal-500';
+            probTextColor = 'text-teal-700 dark:text-teal-300';
+          } else if (item.admissionProbability >= 50) {
+            probBadgeClass = 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30';
+            probBarColor = 'bg-amber-500';
+            probTextColor = 'text-amber-700 dark:text-amber-300';
+          } else if (item.admissionProbability >= 25) {
+            probBadgeClass = 'bg-orange-500/15 text-orange-700 dark:text-orange-300 border-orange-500/30';
+            probBarColor = 'bg-orange-500';
+            probTextColor = 'text-orange-700 dark:text-orange-300';
+          } else {
+            probBadgeClass = 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30';
+            probBarColor = 'bg-rose-500';
+            probTextColor = 'text-rose-700 dark:text-rose-300';
+          }
+        }
+
+        return `
+          ${universityGroupHeader}
+          <div class="bg-surface-container-lowest rounded-3xl shadow-sm hover:shadow-md transition-shadow p-5 sm:p-6 border border-surface-container-high/80 relative">
+            
+            <!-- Card Header: Match Badges & Quick Financial Stats -->
+            <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-3 mb-2.5">
+              
+              <!-- College Info -->
+              <div class="space-y-1 flex-1">
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold uppercase border flex items-center gap-1.5 ${badgeStyle}">
+                    <span class="material-symbols-outlined text-sm">${badgeIcon}</span>
+                    <span>${item.matchLabel}</span>
+                  </span>
+                  ${hasProb ? `
+                    <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold border ${probBadgeClass} flex items-center gap-1 shadow-2xs">
+                      <span class="material-symbols-outlined text-xs">trending_up</span>
+                      <span>${item.admissionProbability.toFixed(0)}% Probability</span>
+                    </span>
+                  ` : ''}
+                  ${item.matchPercentage !== undefined && item.matchPercentage !== null ? `
+                    <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold border ${isHistorical ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30' : (isCompetitive ? 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/30' : 'bg-surface-container text-on-surface-variant border-surface-container-high')} flex items-center gap-1">
+                      <span class="material-symbols-outlined text-xs">percent</span>
+                      <span>${Number(item.matchPercentage).toFixed(1)}% Match</span>
+                    </span>
+                  ` : ''}
+                  <span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[11px] font-bold border border-surface-container-high">
+                    Code: ${r.collegeCode}
+                  </span>
+                </div>
+
+                <h3 class="text-lg sm:text-xl font-black text-primary tracking-tight pt-0.5">
+                  ${r.collegeName}
+                </h3>
+
+                <div class="flex flex-wrap items-center gap-x-3.5 gap-y-1 text-xs text-on-surface-variant pt-0.5">
+                  <span class="flex items-center gap-1 font-medium">
+                    <span class="material-symbols-outlined text-sm text-secondary">location_on</span>
+                    ${r.city}, ${r.state}
+                  </span>
+                  <span class="flex items-center gap-1 font-medium">
+                    <span class="material-symbols-outlined text-sm text-secondary">account_balance</span>
+                    ${r.campusType}
+                  </span>
+                  ${univName ? `
+                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-surface-container font-semibold text-secondary dark:text-teal-300 border border-surface-container-high text-[11px]">
+                      <span class="material-symbols-outlined text-xs">school</span>
+                      <span>${univName}</span>
+                    </span>
+                  ` : ''}
+                </div>
+              </div>
+
+              <!-- Quick Metrics Box -->
+              <div class="flex flex-row lg:flex-col items-end justify-between lg:justify-start gap-1.5 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-surface-container-high">
+                <div class="text-left lg:text-right">
+                  <span class="text-[10px] uppercase font-bold text-on-surface-variant block tracking-wider">Annual Tuition</span>
+                  <span class="text-sm sm:text-base font-extrabold text-primary">₹${(r.annualFeesINR || 0).toLocaleString('en-IN')}</span>
+                </div>
+                <div class="text-left lg:text-right">
+                  <span class="text-[10px] uppercase font-bold text-on-surface-variant block tracking-wider">Hostel Status</span>
+                  <span class="text-xs font-bold ${r.hostelAvailable ? 'text-emerald-600 dark:text-emerald-400' : 'text-on-surface-variant'}">
+                    ${r.hostelAvailable ? '✓ On-Campus Hostel' : 'No On-Campus Hostel'}
+                  </span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- PROMINENT HIGH-VISIBILITY DEPARTMENT & BRANCH BANNER -->
+            <div class="p-3 sm:p-3.5 rounded-2xl bg-secondary/10 dark:bg-secondary/15 border-2 border-secondary/35 flex items-center justify-between flex-wrap gap-2.5 mb-2.5 sm:mb-3 shadow-2xs">
+              <div class="flex items-center gap-2.5 sm:gap-3">
+                <div class="w-10 h-10 rounded-xl bg-secondary text-white flex items-center justify-center shrink-0 shadow-xs ring-2 ring-secondary/20">
+                  <span class="material-symbols-outlined text-2xl">engineering</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-secondary">
+                    <span>Academic Department &bull; ${r.program}</span>
+                  </div>
+                  <div class="text-base sm:text-lg font-black text-primary tracking-tight leading-snug">
+                    ${r.branchName || BRANCH_META[r.branchCode] || r.branchCode}
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-xl bg-secondary text-white text-xs sm:text-xs font-black tracking-wider uppercase shadow-xs flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-sm">hub</span>
+                  <span>Branch: ${r.branchCode}</span>
+                </span>
+                <span class="px-2.5 py-1 rounded-xl bg-surface-container-lowest text-primary border border-secondary/40 text-xs font-black shadow-2xs">
+                  Priority #${item.priorityRank} Choice
+                </span>
+              </div>
+            </div>
+
+            <!-- Admission Probability Meter -->
+            ${hasProb ? `
+              <div class="mb-2.5 sm:mb-3 p-2.5 sm:p-3 rounded-2xl bg-surface-container-low/80 border border-surface-container-high/90 space-y-1.5">
+                <div class="flex items-center justify-between text-xs flex-wrap gap-2">
+                  <span class="flex items-center gap-1.5 font-bold text-on-surface">
+                    <span class="material-symbols-outlined text-base ${probTextColor}">analytics</span>
+                    <span>College Allotment Probability:</span>
+                    <span class="font-extrabold text-sm ${probTextColor}">${item.admissionProbability.toFixed(1)}%</span>
+                  </span>
+                  <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold uppercase border ${probBadgeClass}">
+                    ${item.probabilityTier || ''}
+                  </span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-surface-container-high/80 overflow-hidden">
+                  <div class="h-full rounded-full transition-all duration-500 ${probBarColor}" style="width: ${item.admissionProbability}%"></div>
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Plain Language Explanation -->
+            <div class="p-2.5 sm:p-3 rounded-2xl ${isHistorical ? 'bg-emerald-500/10 border border-emerald-500/20' : (isCompetitive ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-surface-container-low border border-surface-container-high')} mb-2.5 sm:mb-3">
+              <div class="flex items-start gap-2 text-xs leading-relaxed text-on-surface">
+                <span class="material-symbols-outlined text-sm ${isHistorical ? 'text-emerald-600' : (isCompetitive ? 'text-amber-600' : 'text-on-surface-variant')} shrink-0 mt-0.5">psychology_alt</span>
+                <div>
+                  <span class="font-bold">Match Breakdown:</span> ${hasProb ? `<span class="font-bold ${item.admissionProbability >= 70 ? 'text-emerald-700 dark:text-emerald-400' : (item.admissionProbability >= 50 ? 'text-amber-700 dark:text-amber-400' : 'text-rose-700 dark:text-rose-400')}">${item.admissionProbability.toFixed(1)}% Allotment Probability (${item.probabilityTier})</span> &bull; ` : ''}${item.matchPercentage !== undefined && item.matchPercentage !== null ? `<span class="text-secondary font-semibold">${Number(item.matchPercentage).toFixed(1)}% Cutoff Alignment</span> &bull; ` : ''}${item.explanation}
+                </div>
+              </div>
+            </div>
+              <div class="flex items-start gap-2 text-xs leading-relaxed text-on-surface">
+                <span class="material-symbols-outlined text-sm ${isHistorical ? 'text-emerald-600' : (isCompetitive ? 'text-amber-600' : 'text-on-surface-variant')} shrink-0 mt-0.5">psychology_alt</span>
+                <div>
+                  <span class="font-bold">Match Breakdown:</span> ${hasProb ? `<span class="font-bold ${item.admissionProbability >= 70 ? 'text-emerald-700 dark:text-emerald-400' : (item.admissionProbability >= 50 ? 'text-amber-700 dark:text-amber-400' : 'text-rose-700 dark:text-rose-400')}">${item.admissionProbability.toFixed(1)}% Allotment Probability (${item.probabilityTier})</span> &bull; ` : ''}${item.matchPercentage !== undefined && item.matchPercentage !== null ? `<span class="text-secondary font-semibold">${Number(item.matchPercentage).toFixed(1)}% Cutoff Alignment</span> &bull; ` : ''}${item.explanation}
+                </div>
+              </div>
+            </div>
+
+            <!-- Multi-Round Cutoff Matrix: Round 1, Round 2, Round 3, Round 4 -->
+            ${(() => {
+              const roundsMap = r.roundCutoffs || r.round_cutoffs || item.roundCutoffs || item.round_cutoffs || {};
+              const roundNumbers = [1, 2, 3, 4];
+              const studentScoreNum = currentProfile ? parseFloat(currentProfile.score) : NaN;
+
+              const roundBoxesHtml = roundNumbers.map(rndNum => {
+                const rndData = roundsMap[rndNum] || roundsMap[String(rndNum)];
+                let val = null;
+                let rank = null;
+                let seat = null;
+
+                if (rndData !== undefined && rndData !== null) {
+                  if (typeof rndData === 'object') {
+                    val = rndData.cutoff_value !== undefined ? rndData.cutoff_value : rndData.closingValue;
+                    rank = rndData.rank !== undefined ? rndData.rank : rndData.merit_number;
+                    seat = rndData.seat_type || rndData.seat_type_code;
+                  } else if (typeof rndData === 'number') {
+                    val = rndData;
+                  }
+                } else if (rndNum === 2 && r.closingValue !== null && r.closingValue !== undefined) {
+                  val = r.closingValue;
+                }
+
+                const isStudentRank = currentProfile && currentProfile.scoreType === 'rank';
+                const hasVal = val !== null && val !== undefined && !isNaN(val);
+                const hasRank = rank !== null && rank !== undefined && !isNaN(rank);
+
+                let valDisplay = 'Allotted / NA';
+                let isEligible = false;
+                let subDisplay = '';
+
+                if (isStudentRank) {
+                  // FOR RANK: COMPARE USER RANK WITH CUTOFF RANK (lower rank is better)
+                  const targetRank = hasRank ? Number(rank) : (hasVal && Number(val) > 100 ? Number(val) : null);
+                  if (targetRank) {
+                    valDisplay = `#${Math.round(targetRank)}`;
+                    if (!isNaN(studentScoreNum)) {
+                      isEligible = studentScoreNum <= targetRank;
+                    }
+                    if (hasVal && Number(val) <= 100) {
+                      subDisplay = `${Number(val).toFixed(4)}% CET`;
+                    }
+                  } else if (hasVal) {
+                    valDisplay = `${Number(val).toFixed(4)}%`;
+                  }
+                } else {
+                  // FOR PERCENTILE: COMPARE USER PERCENTILE WITH CUTOFF PERCENTILE (higher is better)
+                  if (hasVal) {
+                    const num = Number(val);
+                    valDisplay = `${num.toFixed(4)}%`;
+                    if (!isNaN(studentScoreNum)) {
+                      isEligible = studentScoreNum >= num;
+                    }
+                  }
+                  if (hasRank) {
+                    subDisplay = `Merit #${Math.round(Number(rank))}`;
+                  } else if (seat) {
+                    subDisplay = `Seat: ${seat}`;
+                  }
+                }
+
+                const roundTitle = `Round ${rndNum}`;
+
+                return `
+                  <div class="p-3 rounded-2xl border transition-all ${
+                    isEligible 
+                      ? 'bg-emerald-500/10 border-emerald-500/40 dark:bg-emerald-950/25' 
+                      : (hasVal || hasRank
+                          ? 'bg-surface-container border-surface-container-high/90' 
+                          : 'bg-surface-container-high/30 border-surface-container-high/50 opacity-70')
+                  }">
+                    <div class="flex items-center justify-between gap-1 mb-1.5">
+                      <span class="text-[11px] font-black uppercase tracking-wider ${
+                        isEligible ? 'text-emerald-700 dark:text-emerald-400' : 'text-primary'
+                      }">
+                        ${roundTitle}
+                      </span>
+                      ${isEligible ? `
+                        <span class="px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold flex items-center gap-0.5" title="Your ${isStudentRank ? 'rank' : 'percentile'} qualifies for this round">
+                          <span class="material-symbols-outlined text-[12px]">check</span> Eligible
+                        </span>
+                      ` : (hasVal || hasRank ? `
+                        <span class="text-[10px] text-on-surface-variant font-medium">Closing</span>
+                      ` : `
+                        <span class="text-[10px] text-on-surface-variant/70 italic">Filled</span>
+                      `)}
+                    </div>
+
+                    <div class="my-1">
+                      <div class="text-base font-extrabold tracking-tight ${
+                        isEligible 
+                          ? 'text-emerald-700 dark:text-emerald-300 font-black' 
+                          : (hasVal || hasRank ? 'text-secondary font-black' : 'text-on-surface-variant/70 text-xs font-semibold')
+                      }">
+                        ${valDisplay}
+                      </div>
+                      ${subDisplay ? `
+                        <div class="text-[10px] text-on-surface-variant font-semibold mt-0.5 flex items-center gap-1">
+                          <span class="material-symbols-outlined text-[11px] text-secondary">${isStudentRank ? 'percent' : 'military_tech'}</span>
+                          <span>${subDisplay}</span>
+                        </div>
+                      ` : (seat ? `
+                        <div class="text-[10px] text-on-surface-variant font-medium mt-0.5">
+                          Seat: ${seat}
+                        </div>
+                      ` : `
+                        <div class="text-[10px] text-on-surface-variant/60 font-medium mt-0.5">
+                          ${hasVal || hasRank ? `${r.category} Cutoff` : 'No vacancy'}
+                        </div>
+                      `)}
+                    </div>
+                  </div>
+                `;
+              }).join('');
+
+              return `
+                <div class="p-3 sm:p-3.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-xs text-on-surface-variant space-y-2.5">
+                  <div class="flex items-center justify-between flex-wrap gap-2 text-[11px] font-bold text-primary">
+                    <span class="flex items-center gap-1.5 text-secondary uppercase tracking-wider font-extrabold">
+                      <span class="material-symbols-outlined text-sm">history_edu</span>
+                      <span>CAP Rounds 1, 2, 3 &amp; 4 Official Cutoffs</span>
+                    </span>
+                    <span class="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface text-[10px] font-semibold border border-surface-container-high/60">
+                      Source: ${r.source || 'State CET Cell Maharashtra Centralized Allotment'}
+                    </span>
+                  </div>
+
+                  <!-- 4 Round Grid: Round 1, Round 2, Round 3, Round 4 -->
+                  <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-2.5">
+                    ${roundBoxesHtml}
+                  </div>
+
+                  <!-- Counseling metadata footer -->
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-surface-container-high/60 text-[10px]">
+                    <div>
+                      <span class="text-on-surface-variant/80 block text-[9px] uppercase tracking-wider font-semibold">Counseling Cycle:</span>
+                      <span class="font-bold text-primary">${r.exam} 2025-26</span>
+                    </div>
+                    <div>
+                      <span class="text-on-surface-variant/80 block text-[9px] uppercase tracking-wider font-semibold">Quota &amp; Category:</span>
+                      <span class="font-bold text-primary">${r.category} (${r.quota || 'State Level'})</span>
+                    </div>
+                    <div>
+                      <span class="text-on-surface-variant/80 block text-[9px] uppercase tracking-wider font-semibold">Seat Pool:</span>
+                      <span class="font-bold text-secondary">${r.quota === 'AI' ? 'All India (JEE)' : 'Maharashtra State (CET)'}</span>
+                    </div>
+                    <div>
+                      <span class="text-on-surface-variant/80 block text-[9px] uppercase tracking-wider font-semibold">Verification:</span>
+                      <span class="font-semibold text-primary">${r.lastVerifiedDate || 'Official DTE CAP Matrix'}</span>
+                    </div>
+                  </div>
+                </div>
+              `;
+            })()}
+
+            <!-- Card Actions -->
+            <div class="mt-3 flex items-center justify-between gap-3 pt-2.5 border-t border-surface-container-high/60 text-xs">
+              <span class="text-[11px] text-on-surface-variant italic">
+                Cutoffs vary by seat matrix &amp; annual applicant volume.
+              </span>
+              <div class="flex items-center gap-2">
+                <a href="faqs.html?q=${encodeURIComponent(r.collegeName)}" class="px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-bold transition-colors">
+                  Ask AI About Cutoffs
+                </a>
+                <button onclick="alert('Program bookmarked to student dossier: ${r.collegeName} (${r.branchCode})');" class="px-3.5 py-1.5 rounded-xl bg-secondary text-white font-bold hover:bg-secondary/90 shadow-xs transition-colors">
+                  Save Program
+                </button>
+              </div>
+            </div>
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    function resetFilters() {
+      document.getElementById('filter-match-type').value = 'all';
+      document.getElementById('filter-city').value = 'all';
+      document.getElementById('filter-branch').value = 'all';
+      document.getElementById('sort-by').value = 'probability';
+      applyFiltersAndSort();
+    }
+  </script>
+
+</body>
+</html>

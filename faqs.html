@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>CollegeHub - FAQs &amp; Interactive AI Chatbot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <style>
+    @layer base { 
+      html, body { margin: 0; padding: 0; } 
+      body { overscroll-behavior: none; } 
+    } 
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #c5c6ce; border-radius: 9999px; }
+    .dark ::-webkit-scrollbar-thumb { background: #44474d; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed": "#d7e3ff",
+            "surface-container-low": "#f3f4f3",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "secondary-container": "#a8ece5",
+            "surface-container-high": "#e8e8e7",
+            "on-error": "#ffffff",
+            "tertiary": "#020500",
+            "on-background": "#1a1c1c",
+            "inverse-primary": "#b8c7e6",
+            "on-tertiary-fixed": "#102000",
+            "error-container": "#ffdad6",
+            "on-primary-container": "#7886a3",
+            "surface-dim": "#dadad9",
+            "surface-bright": "#f9f9f8",
+            "outline": "#75777e",
+            "on-secondary-fixed-variant": "#00504b",
+            "on-tertiary-fixed-variant": "#304f00",
+            "secondary-fixed": "#abefe8",
+            "surface-container": "#eeeeed",
+            "tertiary-container": "#122200",
+            "primary": "#000412",
+            "tertiary-fixed-dim": "#91db2a",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#515f7a",
+            "tertiary-fixed": "#acf847",
+            "surface-container-highest": "#e2e2e2",
+            "inverse-on-surface": "#f1f1f0",
+            "secondary-fixed-dim": "#8fd3cc",
+            "on-surface-variant": "#44474d",
+            "primary-container": "#0f1e36",
+            "outline-variant": "#c5c6ce",
+            "secondary": "#216963",
+            "inverse-surface": "#2f3130",
+            "surface-variant": "#e2e2e2",
+            "on-surface": "#1a1c1c",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed": "#00201e",
+            "surface": "#f9f9f8",
+            "primary-fixed-dim": "#b8c7e6",
+            "on-tertiary-container": "#5d9400",
+            "on-primary-fixed": "#0c1b33",
+            "background": "#f9f9f8",
+            "on-primary": "#ffffff",
+            "on-primary-fixed-variant": "#394761",
+            "on-secondary-container": "#266d68"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('collegehub-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+</head>
+<body class="bg-surface font-sans text-on-surface antialiased transition-colors duration-200">
+  <!-- Top Navigation Header -->
+  <header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-surface-container-high/60">
+    <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-4">
+      
+      <!-- Brand Wordmark & Logo -->
+      <div class="flex items-center gap-8">
+        <a class="flex items-center gap-3 group focus:outline-none" href="index.html">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary to-[#0d9488] flex items-center justify-center text-white shadow-sm shrink-0 transition-transform group-hover:scale-105">
+            <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">school</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xl font-bold text-primary tracking-tight group-hover:text-secondary transition-colors">CollegeHub</span>
+            <span class="text-[10px] text-secondary tracking-widest uppercase font-semibold -mt-1 hidden sm:block">Academic Matrix</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-1 p-1 bg-surface-container-low/70 rounded-2xl border border-surface-container-high/60">
+          <a href="index.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all">Home</a>
+          <a href="recommendations.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all">College Predictor</a>
+          <a href="faqs.html" class="px-3.5 py-1.5 transition-all bg-secondary-container text-on-secondary-container text-xs sm:text-sm font-bold rounded-xl shadow-xs">FAQs &amp; Chatbot</a>
+          <a href="profile.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all">Student Hub</a>
+          <a href="about.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all">About</a>
+        </nav>
+      </div>
+
+      <!-- Header Right Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle-btn" aria-label="Toggle Color Theme" onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors shadow-xs">
+          <span id="theme-toggle-icon" class="material-symbols-outlined text-xl">dark_mode</span>
+        </button>
+
+        <!-- Ask CollegeHub CTA Button (Scrolls to Chatbot) -->
+        <button onclick="focusChatbotInput()" class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl bg-secondary text-on-secondary text-sm font-semibold shadow-sm hover:bg-secondary/90 transition-all gap-1.5">
+          <span class="material-symbols-outlined text-[18px]">smart_toy</span>
+          <span>Ask CollegeHub</span>
+        </button>
+
+        <!-- Advisor Profile Capsule -->
+        <div class="hidden xl:flex items-center gap-2.5 pl-2 border-l border-surface-container-high">
+          <div class="w-9 h-9 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs ring-2 ring-secondary/20">
+            AD
+          </div>
+          <div class="flex flex-col text-left">
+            <span class="text-xs font-semibold text-on-surface">Advisor Hub</span>
+            <span class="text-[11px] text-on-surface-variant">Admissions Team</span>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden w-10 h-10 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors" aria-label="Toggle Menu">
+          <span id="mobile-menu-icon" class="material-symbols-outlined text-2xl">menu</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobile-menu" class="hidden md:hidden px-6 pb-6 pt-2 bg-surface/95 border-b border-surface-container-high backdrop-blur-xl">
+      <nav class="flex flex-col gap-2">
+        <a href="index.html" class="px-4 py-2.5 text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-semibold rounded-xl text-sm flex items-center gap-2">
+          <span class="material-symbols-outlined text-lg">home</span>
+          <span>Home</span>
+        </a>
+        <a href="faqs.html" class="px-4 py-2.5 bg-secondary-container text-on-secondary-container font-semibold rounded-xl text-sm flex items-center gap-2">
+          <span class="material-symbols-outlined text-lg">quiz</span>
+          <span>FAQs &amp; Chatbot</span>
+        </a>
+        <a href="about.html" class="px-4 py-2.5 text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-semibold rounded-xl text-sm flex items-center gap-2">
+          <span class="material-symbols-outlined text-lg">info</span>
+          <span>About CollegeHub</span>
+        </a>
+        <a href="profile.html" class="px-4 py-2.5 text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-semibold rounded-xl text-sm flex items-center gap-2">
+          <span class="material-symbols-outlined text-lg">account_circle</span>
+          <span>Student Hub</span>
+        </a>
+        <div class="pt-3 border-t border-surface-container-high mt-1 flex flex-col gap-2">
+          <button onclick="focusChatbotInput(); toggleMobileMenu();" class="w-full py-2.5 px-4 bg-secondary text-on-secondary rounded-xl text-center font-semibold text-sm flex items-center justify-center gap-2 shadow-sm">
+            <span class="material-symbols-outlined text-lg">smart_toy</span>
+            <span>Jump to AI Advisor</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="w-full pt-20 bg-surface">
+    <!-- Main Dual Column Workspace -->
+    <section class="w-full px-6 lg:px-12 py-8 lg:py-12">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- LEFT SECTION: FAQ KNOWLEDGE BASE (approx 62% width -> 7 cols on lg) -->
+        <div class="lg:col-span-7 flex flex-col gap-6">
+          
+          <!-- Header & Search Header -->
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold">Knowledge Base</span>
+              <span class="text-xs text-on-surface-variant flex items-center gap-1">
+                <span class="material-symbols-outlined text-xs">sync</span> Updated for Fall 2025 Admissions
+              </span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary tracking-tight">Frequently Asked Questions</h1>
+            <p class="text-sm sm:text-base text-on-surface-variant leading-relaxed">
+              Explore verified answers curated by academic advisors, department deans, and financial aid counselors.
+            </p>
+          </div>
+
+          <!-- Search Bar Module -->
+          <div class="bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high p-2 flex items-center gap-3">
+            <div class="pl-3 flex items-center justify-center text-on-surface-variant">
+              <span class="material-symbols-outlined">search</span>
+            </div>
+            <input class="w-full py-2.5 bg-transparent text-sm sm:text-base text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none" id="faq-search-input" placeholder="Search questions by keyword, topic, or document..." type="text">
+            <button class="hidden p-2 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" id="clear-faq-search" title="Clear search">
+              <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+          </div>
+
+          <!-- Category Pills Filter -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="category-pill-group">
+            <button class="cat-pill active-pill px-4 py-2 rounded-xl text-xs font-bold bg-secondary text-on-secondary shadow-sm transition-all whitespace-nowrap" data-cat="all">
+              All Questions
+            </button>
+            <button class="cat-pill px-4 py-2 rounded-xl text-xs font-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all whitespace-nowrap" data-cat="admissions">
+              Admissions
+            </button>
+            <button class="cat-pill px-4 py-2 rounded-xl text-xs font-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all whitespace-nowrap" data-cat="courses">
+              Courses
+            </button>
+            <button class="cat-pill px-4 py-2 rounded-xl text-xs font-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all whitespace-nowrap" data-cat="fees">
+              Fees &amp; Aid
+            </button>
+            <button class="cat-pill px-4 py-2 rounded-xl text-xs font-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all whitespace-nowrap" data-cat="cutoffs">
+              Cutoffs
+            </button>
+            <button class="cat-pill px-4 py-2 rounded-xl text-xs font-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all whitespace-nowrap" data-cat="placements">
+              Placements
+            </button>
+            <button class="cat-pill px-4 py-2 rounded-xl text-xs font-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all whitespace-nowrap" data-cat="exams">
+              Examinations
+            </button>
+            <button class="cat-pill px-4 py-2 rounded-xl text-xs font-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all whitespace-nowrap" data-cat="departments">
+              Departments
+            </button>
+            <button class="cat-pill px-4 py-2 rounded-xl text-xs font-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-all whitespace-nowrap" data-cat="facilities">
+              Facilities
+            </button>
+          </div>
+
+          <!-- Dynamic Results Counter -->
+          <div class="flex items-center justify-between text-on-surface-variant text-xs px-1">
+            <span id="faq-count-text" class="font-medium">Showing 11 curated questions</span>
+            <span class="flex items-center gap-1 text-secondary font-semibold">
+              <span class="material-symbols-outlined text-xs">verified</span> Official Registrar Guidance
+            </span>
+          </div>
+
+          <!-- Accordion Items List Container -->
+          <div class="flex flex-col gap-3.5" id="faq-accordion-list">
+            
+            <!-- ITEM 1: Admissions - Documents -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="admissions">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Admissions</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Doc verification #AD-101</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary group-hover:text-secondary transition-colors">
+                    What documents are needed for admission?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">248</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <div class="bg-surface-container-low rounded-xl p-4 mb-4 text-xs sm:text-sm text-on-surface-variant border border-surface-container-high/60">
+                  Applicants must bring verified physical originals along with two sets of self-attested photocopies during physical reporting:
+                </div>
+                <ul class="space-y-2.5 text-xs sm:text-sm text-on-surface">
+                  <li class="flex items-start gap-2.5">
+                    <span class="material-symbols-outlined text-secondary text-base mt-0.5 shrink-0">check_circle</span>
+                    <span><strong>Class 10th &amp; 12th Board Certificates:</strong> Official mark sheets showing date of birth and STEM aggregate scores.</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="material-symbols-outlined text-secondary text-base mt-0.5 shrink-0">check_circle</span>
+                    <span><strong>Entrance Examination Scorecard &amp; Admit Card:</strong> Valid entrance exam proof with national rank confirmation.</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="material-symbols-outlined text-secondary text-base mt-0.5 shrink-0">check_circle</span>
+                    <span><strong>Transfer &amp; Conduct Credentials:</strong> Original Migration Certificate and Character Certificate from the prior institution.</span>
+                  </li>
+                  <li class="flex items-start gap-2.5">
+                    <span class="material-symbols-outlined text-secondary text-base mt-0.5 shrink-0">check_circle</span>
+                    <span><strong>Identity &amp; Residence Proof:</strong> Valid Government ID (Passport / National ID) and 6 recent passport-size color photos.</span>
+                  </li>
+                </ul>
+                <div class="mt-4 pt-3 flex items-center justify-between text-on-surface-variant text-xs border-t border-surface-container-low">
+                  <span>Last verified by Admissions Dean: Oct 2024</span>
+                  <button onclick="askBotQuestion('What documents are needed for admission?')" class="text-secondary font-semibold hover:underline inline-flex items-center gap-1">
+                    Ask AI Assistant <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ITEM 2: Admissions - Application Deadlines -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="admissions">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Admissions</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Timetable #AD-105</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary group-hover:text-secondary transition-colors">
+                    What is the undergraduate application deadline for Fall 2025/2026?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">184</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <p class="text-xs sm:text-sm text-on-surface-variant mb-3">
+                  Applications operate under a rolling phased timeline. Early decision guarantees priority campus housing consideration:
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                  <div class="p-3 bg-surface-container-low rounded-xl border border-surface-container-high/60">
+                    <span class="text-xs font-bold text-primary block">Early Action Priority</span>
+                    <span class="text-xs text-on-surface-variant">November 15, 2024 (Decision: Dec 20)</span>
+                  </div>
+                  <div class="p-3 bg-surface-container-low rounded-xl border border-surface-container-high/60">
+                    <span class="text-xs font-bold text-primary block">Regular Application Closes</span>
+                    <span class="text-xs text-on-surface-variant">January 15, 2025 (Decision: March 15)</span>
+                  </div>
+                </div>
+                <p class="text-xs text-on-surface-variant">Late candidate submissions are reviewed subject to seat vacancies until July 15.</p>
+              </div>
+            </article>
+
+            <!-- ITEM 3: Fees & Aid - Waivers -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="fees">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Fees &amp; Aid</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Financial Aid #FA-204</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary">
+                    How do I apply for tuition fee waivers or need-based scholarships?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">192</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <p class="text-xs sm:text-sm text-on-surface-variant mb-3">
+                  Merit-cum-means waivers are awarded every academic year. Applications open during the first three weeks of each semester via the Student Financial Aid Portal.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                  <div class="bg-surface-container-low p-4 rounded-xl border border-surface-container-high/60">
+                    <h4 class="text-xs font-bold text-primary mb-1">Merit Waiver (100% Tuition)</h4>
+                    <p class="text-xs text-on-surface-variant">Top 5 percentile entrance scorers maintaining a cumulative GPA of ≥ 3.80 across academic terms.</p>
+                  </div>
+                  <div class="bg-surface-container-low p-4 rounded-xl border border-surface-container-high/60">
+                    <h4 class="text-xs font-bold text-primary mb-1">Need-Based Tier (25% - 75%)</h4>
+                    <p class="text-xs text-on-surface-variant">Requires annual verified family income certificate under $30,000 (or regional equivalent) and valid tax statements.</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 p-3 rounded-lg bg-secondary-container/40 text-on-secondary-container text-xs">
+                  <span class="material-symbols-outlined text-secondary shrink-0 text-base">lightbulb</span>
+                  <span>Deadline for Fall 2025 financial assistance submissions is <strong>August 15, 2025</strong>.</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- ITEM 4: Fees - Installment Plan -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="fees">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Fees &amp; Aid</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Bursar #FA-208</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary">
+                    Can semester tuition fees be paid in flexible monthly installments?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">142</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <p class="text-xs sm:text-sm text-on-surface-variant mb-3">
+                  Yes, the Bursar Office provides a 3-part deferred installment plan per semester with zero interest. 40% is due at course registration, 30% by mid-term week, and the remaining 30% prior to final examination hall ticket release.
+                </p>
+              </div>
+            </article>
+
+            <!-- ITEM 5: Cutoffs - CS Ranks -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="cutoffs">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Cutoffs</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Engineering Ranks #CR-88</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary">
+                    What were the opening and closing cutoffs for Computer Engineering in 2024?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">312</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <p class="text-xs sm:text-sm text-on-surface-variant mb-4">
+                  Below is the illustrative seat allocation benchmark from Round 1 through Round 4 of the 2024 Common Counseling sessions:
+                </p>
+                <div class="overflow-x-auto rounded-xl bg-surface-container-low p-2 border border-surface-container-high/60">
+                  <table class="w-full text-left text-xs sm:text-sm">
+                    <thead>
+                      <tr class="text-on-surface-variant font-semibold border-b border-surface-container-high">
+                        <th class="py-2.5 px-3">Seat Category</th>
+                        <th class="py-2.5 px-3">Round 1 (Opening)</th>
+                        <th class="py-2.5 px-3">Round 3 (Mid)</th>
+                        <th class="py-2.5 px-3">Round 4 (Closing)</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-surface-container-high/40 text-on-surface">
+                      <tr class="bg-surface-container-lowest/60">
+                        <td class="py-2.5 px-3 font-semibold text-primary">Open / General Merit</td>
+                        <td class="py-2.5 px-3">Rank 120</td>
+                        <td class="py-2.5 px-3">Rank 440</td>
+                        <td class="py-2.5 px-3 text-secondary font-semibold">Rank 615</td>
+                      </tr>
+                      <tr class="bg-surface-container-lowest/30">
+                        <td class="py-2.5 px-3 font-semibold text-primary">State / In-District Quota</td>
+                        <td class="py-2.5 px-3">Rank 380</td>
+                        <td class="py-2.5 px-3">Rank 910</td>
+                        <td class="py-2.5 px-3 text-secondary font-semibold">Rank 1,140</td>
+                      </tr>
+                      <tr class="bg-surface-container-lowest/60">
+                        <td class="py-2.5 px-3 font-semibold text-primary">Institutional Merit Scholar</td>
+                        <td class="py-2.5 px-3">Rank 45</td>
+                        <td class="py-2.5 px-3">Rank 180</td>
+                        <td class="py-2.5 px-3 text-secondary font-semibold">Rank 240</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="mt-3 text-[11px] text-on-surface-variant">Note: Cutoffs fluctuate each year based on entrance applicant volume and difficulty indices.</p>
+              </div>
+            </article>
+
+            <!-- ITEM 6: Courses - Branch Transfer -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="courses">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Courses</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Curriculum Switch #AC-412</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary">
+                    Can undergraduate students change their branch or major after the first year?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">156</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <p class="text-xs sm:text-sm text-on-surface-variant mb-3">
+                  Yes, branch migration is permitted at the conclusion of Semester 2, subject to vacancy availability and the following institutional criteria:
+                </p>
+                <div class="space-y-2 text-on-surface text-xs sm:text-sm">
+                  <div class="p-3 bg-surface-container-low rounded-xl flex items-center gap-3 border border-surface-container-high/60">
+                    <span class="material-symbols-outlined text-secondary">grade</span>
+                    <div>
+                      <span class="font-semibold text-primary">Minimum CGPA:</span> Maintain a cumulative GPA of ≥ 8.25 (or 3.8/4.0) across first-year subjects without backlogs.
+                    </div>
+                  </div>
+                  <div class="p-3 bg-surface-container-low rounded-xl flex items-center gap-3 border border-surface-container-high/60">
+                    <span class="material-symbols-outlined text-secondary">groups</span>
+                    <div>
+                      <span class="font-semibold text-primary">Sanctioned Intake Cap:</span> The parent branch strength cannot drop below 75% of sanctioned seats.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- ITEM 7: Courses - Minors & Electives -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="courses">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Courses</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Interdisciplinary #AC-419</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary">
+                    Can engineering students pursue a minor in Business, AI, or Design?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">128</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <p class="text-xs sm:text-sm text-on-surface-variant">
+                  Yes, students can register for an interdisciplinary Minor Specialization by completing 18 additional credits between semesters 3 and 7. Tracks include Artificial Intelligence, Financial Technologies, Product Design, and Renewable Energy.
+                </p>
+              </div>
+            </article>
+
+            <!-- ITEM 8: Exams - Schedule -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="exams">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Exams</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Calendar #EX-302</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary">
+                    What is the schedule for mid-term and semester final examinations?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">98</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <p class="text-xs sm:text-sm text-on-surface-variant mb-3">
+                  The academic year follows a twin-semester structure. Continuous evaluation accounts for 40% of the course grade, while the end-term terminal exam represents 60%.
+                </p>
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low text-xs sm:text-sm border border-surface-container-high/60">
+                    <span class="font-semibold text-primary">Mid-Semester Evaluations</span>
+                    <span class="text-secondary font-bold">Week 8 (Mid October / Mid March)</span>
+                  </div>
+                  <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low text-xs sm:text-sm border border-surface-container-high/60">
+                    <span class="font-semibold text-primary">Practical Laboratory Vivas</span>
+                    <span class="text-secondary font-bold">Week 14 (Late November / Late April)</span>
+                  </div>
+                  <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low text-xs sm:text-sm border border-surface-container-high/60">
+                    <span class="font-semibold text-primary">Final Semester Theory Exams</span>
+                    <span class="text-secondary font-bold">Week 16 to 18 (December / May)</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- ITEM 9: Facilities - Hostels -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="facilities">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Facilities</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Hostel &amp; Board #HS-510</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary">
+                    What are the rules and curfew hours for campus residential hostels?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">204</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <p class="text-xs sm:text-sm text-on-surface-variant mb-3">
+                  All campus accommodations are monitored with biometrics and 24/7 security staff. Policies foster an optimal study environment and student well-being:
+                </p>
+                <ul class="space-y-2 text-xs sm:text-sm text-on-surface">
+                  <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-secondary text-base mt-0.5 shrink-0">schedule</span>
+                    <span><strong>Campus Entry Curfew:</strong> 10:00 PM on weekdays; 11:00 PM on Fridays and Saturdays. Late pass requests can be submitted via the student app 12 hours prior.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-secondary text-base mt-0.5 shrink-0">wifi</span>
+                    <span><strong>Amenities Included:</strong> High-speed Wi-Fi, 4 dining meal plans, laundry facilities, study lounges, and indoor recreation zones.</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="material-symbols-outlined text-secondary text-base mt-0.5 shrink-0">meeting_room</span>
+                    <span><strong>Room Allocations:</strong> Double occupancy for freshmen; single or double occupancy studio choices for 2nd through 4th-year students.</span>
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <!-- ITEM 10: Placements - Recruiter directory -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="placements">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Placements</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Career Cell #CC-901</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary">
+                    Which companies visit campus for summer internships and final placements?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">430</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <p class="text-xs sm:text-sm text-on-surface-variant mb-4">
+                  Over 180+ tier-1 recruiters participate in our Annual Placement Drive across technology, consulting, finance, and engineering design sectors.
+                </p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4 text-center">
+                  <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container-high/60">
+                    <span class="text-sm sm:text-base font-bold text-primary">94.2%</span>
+                    <span class="block text-[11px] text-on-surface-variant">Placement Rate</span>
+                  </div>
+                  <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container-high/60">
+                    <span class="text-sm sm:text-base font-bold text-secondary">$18.5k</span>
+                    <span class="block text-[11px] text-on-surface-variant">Average Package</span>
+                  </div>
+                  <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container-high/60">
+                    <span class="text-sm sm:text-base font-bold text-primary">$54k</span>
+                    <span class="block text-[11px] text-on-surface-variant">Highest Package</span>
+                  </div>
+                  <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container-high/60">
+                    <span class="text-sm sm:text-base font-bold text-secondary">180+</span>
+                    <span class="block text-[11px] text-on-surface-variant">Visiting Partners</span>
+                  </div>
+                </div>
+                <div class="flex flex-wrap gap-2 text-xs">
+                  <span class="px-3 py-1 bg-surface-container rounded-lg text-on-surface-variant">Google</span>
+                  <span class="px-3 py-1 bg-surface-container rounded-lg text-on-surface-variant">Microsoft</span>
+                  <span class="px-3 py-1 bg-surface-container rounded-lg text-on-surface-variant">Deloitte</span>
+                  <span class="px-3 py-1 bg-surface-container rounded-lg text-on-surface-variant">McKinsey &amp; Co</span>
+                  <span class="px-3 py-1 bg-surface-container rounded-lg text-on-surface-variant">Amazon</span>
+                  <span class="px-3 py-1 bg-surface-container rounded-lg text-on-surface-variant">Tesla</span>
+                  <span class="px-3 py-1 bg-surface-container rounded-lg text-on-surface-variant">Goldman Sachs</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- ITEM 11: Facilities - Library & Computing -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="facilities">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Facilities</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Research &amp; Labs #LB-704</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary">
+                    What are the library hours and computer lab availability for students?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">167</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <p class="text-xs sm:text-sm text-on-surface-variant">
+                  The Central Academic Library is open 24/7 during midterm and final exam weeks (normal hours: 7:00 AM – midnight). Students receive complimentary access to IEEE Xplore, JSTOR, ScienceDirect, and high-performance GPU compute clusters with student ID card.
+                </p>
+              </div>
+            </article>
+
+            <!-- ITEM 12: Departments - Academic Departments Directory -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="departments">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Departments</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Faculty Directory #DP-101</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary">
+                    Which academic departments offer accredited undergraduate degrees?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">164</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <p class="text-xs sm:text-sm text-on-surface-variant mb-3">
+                  CollegeHub institutions house 8 primary accredited academic departments:
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-on-surface">
+                  <div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/60 font-semibold">• Dept. of Computer Science &amp; Engineering</div>
+                  <div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/60 font-semibold">• Dept. of Data Science &amp; AI</div>
+                  <div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/60 font-semibold">• Dept. of Electronics &amp; Communication</div>
+                  <div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/60 font-semibold">• Dept. of Mechanical &amp; Robotics</div>
+                  <div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/60 font-semibold">• Dept. of Civil &amp; Environmental Systems</div>
+                  <div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/60 font-semibold">• Dept. of Electrical &amp; Renewable Energy</div>
+                  <div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/60 font-semibold">• Dept. of Business Administration</div>
+                  <div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/60 font-semibold">• Dept. of Humanities &amp; Applied Sciences</div>
+                </div>
+              </div>
+            </article>
+
+            <!-- ITEM 13: Departments - Contact Faculty -->
+            <article class="faq-item bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden transition-all duration-200" data-cat="departments">
+              <button class="faq-toggle w-full text-left p-5 md:p-6 flex items-start justify-between gap-4">
+                <div class="flex flex-col gap-2 min-w-0">
+                  <div class="flex items-center gap-2.5">
+                    <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Departments</span>
+                    <span class="text-on-surface-variant text-xs font-medium">Advising &amp; Office Hours #DP-102</span>
+                  </div>
+                  <h2 class="text-base sm:text-lg font-bold text-primary">
+                    How do I contact department chairs, faculty mentors, and academic deans?
+                  </h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <div class="upvote-btn flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer" onclick="event.stopPropagation(); vote(this);">
+                    <span class="material-symbols-outlined text-sm">thumb_up</span>
+                    <span class="text-xs font-semibold count">115</span>
+                  </div>
+                  <span class="chevron-icon material-symbols-outlined text-on-surface-variant transition-transform duration-200">expand_more</span>
+                </div>
+              </button>
+              <div class="faq-content hidden px-5 pb-6 md:px-6 md:pb-6 text-on-surface">
+                <p class="text-xs sm:text-sm text-on-surface-variant">
+                  Faculty and department heads maintain open advising office hours every Tuesday and Thursday between 2:00 PM and 4:30 PM. You can locate individual faculty emails, office suite numbers, and scheduling links through the Department Directory or by contacting your assigned First-Year Faculty Mentor.
+                </p>
+              </div>
+            </article>
+          </div>
+
+          <!-- Empty Search State -->
+          <div class="hidden py-12 px-6 text-center bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high" id="faq-empty-state">
+            <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">find_in_page</span>
+            <h3 class="text-lg font-bold text-primary mb-1">No matching questions found</h3>
+            <p class="text-xs sm:text-sm text-on-surface-variant mb-4 max-w-sm mx-auto">
+              We couldn't locate any FAQ cards matching that search term. You can ask our AI advisor or clear active filters.
+            </p>
+            <button class="px-4 py-2 rounded-xl bg-surface-container text-on-surface text-xs font-semibold hover:bg-surface-container-high transition-colors" id="reset-filter-btn">
+              Reset Filters
+            </button>
+          </div>
+
+          <!-- Admissions Help Card Banner -->
+          <div class="mt-4 p-6 rounded-2xl bg-primary-container text-on-primary shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-surface-container-lowest/10 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-secondary-container text-2xl">support_agent</span>
+              </div>
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-surface-bright">Need customized admissions counseling?</h3>
+                <p class="text-xs sm:text-sm text-on-primary-container">Book a 15-minute 1-on-1 virtual appointment with our campus advising team.</p>
+              </div>
+            </div>
+            <a href="about.html" class="px-5 py-2.5 rounded-xl bg-secondary text-on-secondary text-xs sm:text-sm font-semibold whitespace-nowrap hover:bg-secondary/90 transition-all shadow-sm">
+              Meet Advisors
+            </a>
+          </div>
+        </div>
+
+        <!-- RIGHT SECTION: INTERACTIVE CHATBOT PANEL (approx 38% width -> 5 cols on lg) -->
+        <aside class="lg:col-span-5 w-full sticky top-24" id="chatbot-container">
+          <div class="bg-surface-container-lowest rounded-3xl shadow-md border border-surface-container-high overflow-hidden flex flex-col h-[740px]">
+            
+            <!-- Chatbot Header -->
+            <div class="p-5 bg-surface-container-lowest flex items-center justify-between gap-3 border-b border-surface-container-high/60 z-10">
+              <div class="flex items-center gap-3">
+                <div class="relative">
+                  <div class="w-11 h-11 rounded-2xl bg-secondary-container flex items-center justify-center text-secondary shadow-sm">
+                    <span class="material-symbols-outlined text-2xl">smart_toy</span>
+                  </div>
+                  <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-secondary ring-2 ring-surface-container-lowest"></span>
+                </div>
+                <div class="flex flex-col">
+                  <h3 class="text-base font-bold text-primary">Ask CollegeHub AI Advisor</h3>
+                  <div class="flex items-center gap-1.5 text-xs text-secondary font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                    <span>Online (Interactive Prototype)</span>
+                  </div>
+                </div>
+              </div>
+              <button class="p-2 text-on-surface-variant hover:text-on-surface rounded-xl hover:bg-surface-container transition-colors" id="clear-chat-btn" title="Reset Chat Conversation">
+                <span class="material-symbols-outlined text-xl">delete_sweep</span>
+              </button>
+            </div>
+
+            <!-- Quick Suggestion Starter Chips (Sticky under header) -->
+            <div class="px-4 py-2.5 bg-surface-container-low border-b border-surface-container-high/40 flex flex-col gap-1.5">
+              <span class="text-xs text-on-surface-variant flex items-center gap-1 font-semibold">
+                <span class="material-symbols-outlined text-xs text-secondary">bolt</span> Quick sample prompts:
+              </span>
+              <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none" id="chip-container">
+                <button class="sample-chip shrink-0 px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface text-xs font-semibold hover:bg-secondary-container hover:text-on-secondary-container border border-surface-container-high transition-colors">
+                  What documents are needed for admission?
+                </button>
+                <button class="sample-chip shrink-0 px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface text-xs font-semibold hover:bg-secondary-container hover:text-on-secondary-container border border-surface-container-high transition-colors">
+                  How do scholarships work?
+                </button>
+                <button class="sample-chip shrink-0 px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface text-xs font-semibold hover:bg-secondary-container hover:text-on-secondary-container border border-surface-container-high transition-colors">
+                  What is the hostel fee?
+                </button>
+                <button class="sample-chip shrink-0 px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface text-xs font-semibold hover:bg-secondary-container hover:text-on-secondary-container border border-surface-container-high transition-colors">
+                  Can I change my major?
+                </button>
+                <button class="sample-chip shrink-0 px-2.5 py-1 rounded-lg bg-error-container text-on-error-container text-xs font-semibold hover:opacity-90 border border-error/20 transition-colors" title="Test Fallback State">
+                  Unknown question test
+                </button>
+              </div>
+            </div>
+
+            <!-- Message Thread Area -->
+            <div class="flex-1 p-5 overflow-y-auto space-y-4 bg-surface-bright" id="chat-messages">
+              <!-- Bot Initial Greeting Message -->
+              <div class="flex items-start gap-3 bot-message">
+                <div class="w-8 h-8 rounded-xl bg-secondary-container text-secondary flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-sm">smart_toy</span>
+                </div>
+                <div class="flex flex-col gap-1 max-w-[85%]">
+                  <span class="text-[11px] text-on-surface-variant pl-1">CollegeHub Advisor • Just now</span>
+                  <div class="p-4 rounded-2xl rounded-tl-sm bg-surface-container-lowest text-on-surface text-xs sm:text-sm shadow-xs border border-surface-container-high leading-relaxed">
+                    Hi there! I can help answer common questions about admissions, fees, hostel rooms, cutoffs, and student life. What would you like to know?
+                  </div>
+                </div>
+              </div>
+
+              <!-- Typing Indicator (Hidden by default) -->
+              <div class="hidden flex items-start gap-3" id="typing-indicator">
+                <div class="w-8 h-8 rounded-xl bg-secondary-container text-secondary flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-sm">smart_toy</span>
+                </div>
+                <div class="p-3.5 rounded-2xl rounded-tl-sm bg-surface-container-lowest shadow-xs border border-surface-container-high flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-secondary animate-bounce"></span>
+                  <span class="w-2 h-2 rounded-full bg-secondary animate-bounce [animation-delay:0.2s]"></span>
+                  <span class="w-2 h-2 rounded-full bg-secondary animate-bounce [animation-delay:0.4s]"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chat Input Area -->
+            <div class="p-4 bg-surface-container-lowest border-t border-surface-container-high shadow-xs">
+              <form class="flex items-center gap-2" id="chat-form">
+                <input autocomplete="off" class="flex-1 px-4 py-3 rounded-xl bg-surface-container-low text-xs sm:text-sm text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:bg-surface-container transition-all" id="chat-user-input" placeholder="Ask about admissions, fees, hostel, cutoffs..." type="text">
+                <button class="w-11 h-11 rounded-xl bg-secondary text-on-secondary flex items-center justify-center hover:bg-secondary/90 transition-all shrink-0 shadow-xs" id="send-chat-btn" title="Send Message" type="submit">
+                  <span class="material-symbols-outlined text-lg">send</span>
+                </button>
+              </form>
+              <div class="mt-2 flex items-center justify-between text-on-surface-variant text-[11px] px-1">
+                <span>Press <kbd class="px-1.5 py-0.5 bg-surface-container rounded text-[10px] font-mono">Enter</kbd> to submit</span>
+                <span class="text-secondary font-medium">Assistant answers strictly from verified institutional FAQs.</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- Public Footer -->
+  <footer class="w-full bg-surface-container-low border-t border-surface-container-high/70">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-white">
+          <span class="material-symbols-outlined text-lg">school</span>
+        </div>
+        <span class="text-lg font-bold text-primary tracking-tight">CollegeHub</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-6 text-sm">
+        <a class="font-medium text-on-surface-variant hover:text-on-surface transition-colors" href="index.html">Home</a>
+        <a class="font-medium text-on-surface-variant hover:text-on-surface transition-colors" href="faqs.html">Assistance &amp; AI Chatbot</a>
+        <a class="font-medium text-on-surface-variant hover:text-on-surface transition-colors" href="about.html">Mission &amp; About</a>
+        <a class="font-medium text-on-surface-variant hover:text-on-surface transition-colors" href="profile.html">Student Portal</a>
+      </div>
+      <p class="text-xs text-on-surface-variant text-center md:text-right">
+        &copy; 2025 CollegeHub Inc. Guiding every student toward higher education clarity.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    // Mobile navigation toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const icon = document.getElementById('mobile-menu-icon');
+      const isHidden = menu.classList.contains('hidden');
+      if (isHidden) {
+        menu.classList.remove('hidden');
+        icon.textContent = 'close';
+      } else {
+        menu.classList.add('hidden');
+        icon.textContent = 'menu';
+      }
+    }
+
+    function focusChatbotInput() {
+      const input = document.getElementById('chat-user-input');
+      const container = document.getElementById('chatbot-container');
+      container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      input?.focus();
+    }
+
+    (function initCollegeHubFAQ() {
+      // Upvote toggle
+      window.vote = function(element) {
+        const countSpan = element.querySelector('.count');
+        let current = parseInt(countSpan.innerText, 10);
+        if (element.dataset.voted === 'true') {
+          countSpan.innerText = current - 1;
+          element.dataset.voted = 'false';
+          element.classList.remove('bg-secondary-container', 'text-on-secondary-container');
+        } else {
+          countSpan.innerText = current + 1;
+          element.dataset.voted = 'true';
+          element.classList.add('bg-secondary-container', 'text-on-secondary-container');
+        }
+      };
+
+      // Accordion Toggle
+      const toggles = document.querySelectorAll('.faq-toggle');
+      toggles.forEach(toggle => {
+        toggle.addEventListener('click', () => {
+          const article = toggle.closest('.faq-item');
+          const content = article.querySelector('.faq-content');
+          const chevron = toggle.querySelector('.chevron-icon');
+          const isExpanded = !content.classList.contains('hidden');
+
+          if (isExpanded) {
+            content.classList.add('hidden');
+            chevron.style.transform = 'rotate(0deg)';
+          } else {
+            content.classList.remove('hidden');
+            chevron.style.transform = 'rotate(180deg)';
+          }
+        });
+      });
+
+      // Filter and Search Logic
+      const searchInput = document.getElementById('faq-search-input');
+      const clearSearchBtn = document.getElementById('clear-faq-search');
+      const categoryPills = document.querySelectorAll('.cat-pill');
+      const faqItems = document.querySelectorAll('.faq-item');
+      const emptyState = document.getElementById('faq-empty-state');
+      const faqCountText = document.getElementById('faq-count-text');
+      const resetBtn = document.getElementById('reset-filter-btn');
+
+      let currentCategory = 'all';
+
+      function filterFAQs() {
+        const query = (searchInput.value || '').trim().toLowerCase();
+        let visibleCount = 0;
+
+        faqItems.forEach(item => {
+          const itemCat = item.getAttribute('data-cat') || '';
+          const title = (item.querySelector('h2')?.innerText || '').toLowerCase();
+          const bodyText = (item.querySelector('.faq-content')?.innerText || '').toLowerCase();
+
+          const matchesCategory = (currentCategory === 'all') || 
+            (itemCat === currentCategory) || 
+            (currentCategory === 'exams' && itemCat === 'examinations') || 
+            (currentCategory === 'examinations' && itemCat === 'exams');
+          const matchesQuery = !query || title.includes(query) || bodyText.includes(query);
+
+          if (matchesCategory && matchesQuery) {
+            item.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+
+        if (visibleCount === 0) {
+          emptyState.classList.remove('hidden');
+        } else {
+          emptyState.classList.add('hidden');
+        }
+
+        faqCountText.innerText = `Showing ${visibleCount} curated question${visibleCount === 1 ? '' : 's'}`;
+        clearSearchBtn.classList.toggle('hidden', query.length === 0);
+      }
+
+      function setCategory(catKey) {
+        currentCategory = catKey;
+        categoryPills.forEach(pill => {
+          if (pill.getAttribute('data-cat') === catKey) {
+            pill.classList.add('bg-secondary', 'text-on-secondary', 'active-pill');
+            pill.classList.remove('bg-surface-container', 'text-on-surface-variant');
+          } else {
+            pill.classList.remove('bg-secondary', 'text-on-secondary', 'active-pill');
+            pill.classList.add('bg-surface-container', 'text-on-surface-variant');
+          }
+        });
+        filterFAQs();
+      }
+
+      categoryPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          setCategory(pill.getAttribute('data-cat'));
+        });
+      });
+
+      searchInput.addEventListener('input', filterFAQs);
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        filterFAQs();
+        searchInput.focus();
+      });
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          setCategory('all');
+        });
+      }
+
+      // Check URL parameters on page load (?category=... or ?q=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlCat = urlParams.get('category') || urlParams.get('cat');
+      const urlQuery = urlParams.get('q') || urlParams.get('search');
+
+      if (urlCat) {
+        setCategory(urlCat.toLowerCase());
+      }
+      if (urlQuery) {
+        searchInput.value = urlQuery;
+        clearSearchBtn.classList.remove('hidden');
+        filterFAQs();
+      }
+
+      // CHATBOT INTERACTION
+      const chatMessages = document.getElementById('chat-messages');
+      const chatForm = document.getElementById('chat-form');
+      const chatInput = document.getElementById('chat-user-input');
+      const typingIndicator = document.getElementById('typing-indicator');
+      const clearChatBtn = document.getElementById('clear-chat-btn');
+      const sampleChips = document.querySelectorAll('.sample-chip');
+
+      const KB_REPLIES = {
+        documents: "Here is what you need for admission verification:\n1. 10th & 12th Board Mark Sheets (Original + 2 self-attested sets)\n2. National Entrance Exam Scorecard & Admit card\n3. Transfer & Character Certificates\n4. Valid Photo ID (Passport or National ID) and 6 passport photos.",
+        scholarship: "Need-based waivers and merit awards range from 25% up to 100% tuition coverage! Eligibility requires either a top-5% entrance rank or an annual household income under $30,000. Fall applications close on August 15, 2025.",
+        hostel: "Residential hostel charges are structured as: Double occupancy at $1,400/semester and Single Studio rooms at $2,100/semester. This fee covers high-speed Wi-Fi, four meals per day, and laundry access.",
+        major: "Yes! Students can petition for branch transfer at the end of their second semester if they hold a cumulative GPA of at least 8.25 (or 3.8/4.0) with zero backlogs and parent department capacity permits.",
+        cutoffs: "For Computer Science & Engineering (2024), Round 1 opening rank was 120 and Round 4 closing rank was 615 for General Merit. State quota closed at Rank 1,140.",
+        placements: "Class of 2024 placement rate was 94.2% across engineering and business. Over 180 companies participated including Google, Microsoft, Deloitte, and Amazon with median package at $18,500.",
+        exams: "Semester exams occur twice a year: Mid-terms in Week 8 (October/March) and Terminal finals in Weeks 16-18 (December/May). Continuous evaluation carries 40% weight."
+      };
+
+      function scrollChatToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function appendUserMessage(text) {
+        const userDiv = document.createElement('div');
+        userDiv.className = 'flex items-start justify-end gap-3 user-message';
+        userDiv.innerHTML = `
+          <div class="flex flex-col items-end gap-1 max-w-[85%]">
+            <span class="text-[11px] text-on-surface-variant pr-1">You &bull; Just now</span>
+            <div class="p-3.5 rounded-2xl rounded-tr-sm bg-secondary text-on-secondary text-xs sm:text-sm shadow-xs leading-relaxed">
+              ${escapeHtml(text)}
+            </div>
+          </div>
+        `;
+        chatMessages.insertBefore(userDiv, typingIndicator);
+        scrollChatToBottom();
+      }
+
+      function appendBotReply(contentHtml) {
+        const botDiv = document.createElement('div');
+        botDiv.className = 'flex items-start gap-3 bot-message';
+        botDiv.innerHTML = `
+          <div class="w-8 h-8 rounded-xl bg-secondary-container text-secondary flex items-center justify-center shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-sm">smart_toy</span>
+          </div>
+          <div class="flex flex-col gap-1 max-w-[85%]">
+            <span class="text-[11px] text-on-surface-variant pl-1">CollegeHub Advisor &bull; Just now</span>
+            <div class="p-4 rounded-2xl rounded-tl-sm bg-surface-container-lowest text-on-surface text-xs sm:text-sm shadow-xs border border-surface-container-high leading-relaxed whitespace-pre-line">
+              ${contentHtml}
+            </div>
+          </div>
+        `;
+        chatMessages.insertBefore(botDiv, typingIndicator);
+        scrollChatToBottom();
+      }
+
+      function escapeHtml(text) {
+        return text.replace(/[&<>"']/g, function(m) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+        });
+      }
+
+      async function handleQuery(rawQuery) {
+        appendUserMessage(rawQuery);
+        typingIndicator.classList.remove('hidden');
+        scrollChatToBottom();
+
+        try {
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: rawQuery })
+          });
+
+          const result = await response.json();
+          typingIndicator.classList.add('hidden');
+
+          if (result.matched && result.status === 'matched') {
+            let relatedChipsHtml = '';
+            if (result.related && result.related.length > 0) {
+              relatedChipsHtml = `
+                <div class="mt-3 pt-2.5 border-t border-surface-container-high/60 flex flex-col gap-1.5">
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Related Approved Topics:</span>
+                  <div class="flex flex-wrap gap-1.5">
+                    ${result.related.map(r => `
+                      <button type="button" onclick="askBotQuestion('${escapeHtml(r.question)}')" class="text-left text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors">
+                        ${escapeHtml(r.question)}
+                      </button>
+                    `).join('')}
+                  </div>
+                </div>
+              `;
+            }
+
+            const verifiedHtml = `
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-1.5">
+                  <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-wider">
+                    ${escapeHtml(result.faq?.category || 'Approved FAQ')}
+                  </span>
+                  <span class="text-[10px] text-secondary font-semibold flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[13px]">verified</span> Verified College Knowledge
+                  </span>
+                </div>
+                <div class="text-on-surface leading-relaxed">
+                  ${escapeHtml(result.answer)}
+                </div>
+                ${relatedChipsHtml}
+              </div>
+            `;
+            appendBotReply(verifiedHtml);
+          } else {
+            // Explicit Fallback State Requirement
+            const fallbackText = result.answer || "I couldn't find a reliable answer to that question in the approved college FAQs. Please try rephrasing your question, searching our FAQ directory, or contacting college administrative staff directly.";
+            const fallbackHtml = `
+              <div class="flex flex-col gap-3">
+                <div class="flex items-center gap-1.5 text-error font-bold text-xs">
+                  <span class="material-symbols-outlined text-sm">help_outline</span>
+                  <span>Notice</span>
+                </div>
+                <p>${escapeHtml(fallbackText)}</p>
+                <div class="pt-2 flex flex-wrap gap-2">
+                  <button type="button" class="fallback-browse-btn px-3 py-1.5 rounded-lg bg-surface-container text-xs font-semibold text-on-surface hover:bg-surface-container-high transition-colors">
+                    Browse FAQ Categories
+                  </button>
+                  <a href="about.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-secondary-container text-on-secondary-container text-xs font-semibold hover:opacity-95 transition-opacity">
+                    Connect with Admissions Desk <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                  </a>
+                </div>
+              </div>
+            `;
+            appendBotReply(fallbackHtml);
+
+            setTimeout(() => {
+              const browseBtns = document.querySelectorAll('.fallback-browse-btn');
+              browseBtns.forEach(btn => {
+                btn.onclick = () => {
+                  searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  searchInput.focus();
+                };
+              });
+            }, 50);
+          }
+        } catch (err) {
+          typingIndicator.classList.add('hidden');
+          appendBotReply(`
+            <div class="flex flex-col gap-2">
+              <span class="text-error font-bold text-xs">Connection Notice</span>
+              <p>Unable to connect with the college assistance service. You can browse the FAQ cards directly or contact our admissions office.</p>
+            </div>
+          `);
+        }
+      }
+
+      chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const query = chatInput.value.trim();
+        if (!query) return;
+        chatInput.value = '';
+        handleQuery(query);
+      });
+
+      sampleChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          const text = chip.innerText.trim();
+          handleQuery(text);
+        });
+      });
+
+      window.askBotQuestion = function(q) {
+        focusChatbotInput();
+        handleQuery(q);
+      };
+
+      clearChatBtn.addEventListener('click', () => {
+        const messages = chatMessages.querySelectorAll('.user-message, .bot-message');
+        messages.forEach((msg, idx) => {
+          if (idx !== 0) msg.remove();
+        });
+      });
+    })();
+
+    // Color theme logic
+    function applyTheme(theme) {
+      const icon = document.getElementById('theme-toggle-icon');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        if (icon) {
+          icon.textContent = 'light_mode';
+          icon.classList.add('text-tertiary-fixed');
+        }
+      } else {
+        document.documentElement.classList.remove('dark');
+        if (icon) {
+          icon.textContent = 'dark_mode';
+          icon.classList.remove('text-tertiary-fixed');
+        }
+      }
+    }
+
+    function toggleTheme() {
+      const current = localStorage.getItem('collegehub-theme') || (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      const newTheme = current === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('collegehub-theme', newTheme);
+      applyTheme(newTheme);
+      window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: newTheme } }));
+    }
+
+    (function initTheme() {
+      const saved = localStorage.getItem('collegehub-theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = saved || (prefersDark ? 'dark' : 'light');
+      applyTheme(theme);
+    })();
+
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'collegehub-theme') {
+        applyTheme(e.newValue || 'light');
+      }
+    });
+  </script>
+  <script src="assets/js/demo-data.js"></script>
+</body>
+</html>
