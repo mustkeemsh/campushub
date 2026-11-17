@@ -1,0 +1,23 @@
+{
+  "aarav.deshmukh@example.com": {
+    "name": "Aarav Deshmukh",
+    "legal_name": "Aarav Deshmukh",
+    "preferred_name": "Aarav",
+    "email": "aarav.deshmukh@example.com",
+    "role": "student",
+    "program": "Computer Science & Engineering",
+    "applicant_id": "#CH-2025-1649",
+    "updated_at": "2026-11-17T19:12:16Z"
+  },
+  "mustkeem.shaikh@example.com": {
+    "legal_name": "Mustkeem Shaikh",
+    "preferred_name": "Mustkeem",
+    "phone": "+91 98765 43210",
+    "dob": "2005-04-12",
+    "domicile": "Maharashtra, India (Home State Quota)",
+    "address": "Flat 302, Hill View Residency, Pune, Maharashtra 411038",
+    "name": "Mustkeem",
+    "email": "mustkeem.shaikh@example.com",
+    "updated_at": "2026-11-17T19:12:17Z"
+  }
+}

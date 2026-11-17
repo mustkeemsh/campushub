@@ -27,8 +27,44 @@ html.dark body {
 
 /* Header & Floating Navigation */
 html.dark header {
-  background-color: rgba(13, 19, 32, 0.92) !important;
+  background-color: rgba(11, 19, 32, 0.92) !important;
   border-bottom-color: #1e293b !important;
+}
+
+html.dark header nav {
+  background-color: rgba(30, 41, 59, 0.65) !important;
+  border-color: rgba(51, 65, 85, 0.55) !important;
+}
+
+html.dark header nav a {
+  color: #cbd5e1 !important;
+}
+
+html.dark header nav a:hover {
+  color: #ffffff !important;
+  background-color: #334155 !important;
+}
+
+html.dark header nav a.bg-secondary-container,
+html.dark header nav a[class*="bg-secondary-container"] {
+  background-color: #0f172a !important;
+  color: #5eead4 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark header nav a.bg-secondary-container:hover {
+  background-color: #0f172a !important;
+  color: #5eead4 !important;
+}
+
+html.dark #theme-toggle-btn {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+html.dark #theme-toggle-btn:hover {
+  background-color: #334155 !important;
 }
 
 html.dark aside[aria-label="Demo notice"] {

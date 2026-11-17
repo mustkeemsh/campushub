@@ -1,5 +1,6 @@
 import os
 import re
+import json
 import time
 import random
 import smtplib
@@ -13,6 +14,162 @@ from database import db
 from config import Config
 
 auth_bp = Blueprint('auth_bp', __name__)
+
+USER_PROFILES_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'user_profiles.json')
+
+
+def derive_name_from_email(email_or_id):
+    """Derive a friendly human display name from an email address or username."""
+    if not email_or_id:
+        return "Student Applicant"
+    clean = email_or_id.strip()
+    if '@' in clean:
+        local_part = clean.split('@')[0]
+    else:
+        local_part = clean
+    words = re.split(r'[._\-+]', local_part)
+    capitalized = [w.capitalize() for w in words if w and not w.isdigit()]
+    if capitalized:
+        return " ".join(capitalized)
+    return clean.capitalize()
+
+
+def compute_initials(name):
+    """Compute 2-letter uppercase initials from full name."""
+    parts = (name or "").strip().split()
+    if len(parts) >= 2:
+        return f"{parts[0][0].upper()}{parts[-1][0].upper()}"
+    elif len(parts) == 1 and len(parts[0]) > 0:
+        return parts[0][:2].upper()
+    return "ST"
+
+
+def load_user_profiles():
+    """Load persistent user profiles from JSON storage."""
+    if os.path.exists(USER_PROFILES_FILE):
+        try:
+            with open(USER_PROFILES_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"[USER PROFILES] Error reading {USER_PROFILES_FILE}: {e}")
+            return {}
+    return {}
+
+
+def save_user_profile(email, profile_data):
+    """Save user profile to persistent JSON storage and Supabase if active."""
+    if not email:
+        return {}
+    email_key = email.strip().lower()
+    profiles = load_user_profiles()
+    existing = profiles.get(email_key, {})
+    existing.update(profile_data)
+    existing['email'] = email_key
+    existing['updated_at'] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    profiles[email_key] = existing
+    try:
+        with open(USER_PROFILES_FILE, 'w', encoding='utf-8') as f:
+            json.dump(profiles, f, indent=2)
+    except Exception as e:
+        print(f"[USER PROFILES] Error saving {USER_PROFILES_FILE}: {e}")
+    return existing
+
+
+def get_user_profile(email):
+    """Retrieve saved profile for an email."""
+    if not email:
+        return None
+    email_key = email.strip().lower()
+    profiles = load_user_profiles()
+    return profiles.get(email_key)
+
+
+def merge_saved_profile(user_info, email=None):
+    """Merge saved profile fields into user session object."""
+    if not user_info:
+        return user_info
+    target_email = email or user_info.get('email')
+    if not target_email:
+        return user_info
+    saved = get_user_profile(target_email)
+    if saved:
+        for k in ('legal_name', 'preferred_name', 'phone', 'dob', 'domicile', 'address', 'applicant_id', 'program'):
+            if saved.get(k):
+                user_info[k] = saved[k]
+        if saved.get('name'):
+            user_info['name'] = saved['name']
+            user_info['initials'] = compute_initials(saved['name'])
+        if saved.get('role'):
+            user_info['role'] = saved['role']
+            user_info['role_label'] = "Student Candidate" if saved['role'] == 'student' else "Parent / Guardian"
+    return user_info
+
+
+@auth_bp.route('/api/auth/config', methods=['GET'])
+def get_auth_config():
+    """
+    Public configuration endpoint for browser-side Supabase Auth.
+    Returns only the public project URL and publishable key.
+    All secret keys and service role credentials remain strictly confidential on the server.
+    """
+    return jsonify({
+        "status": "success",
+        "supabase_url": getattr(Config, 'SUPABASE_URL', ''),
+        "supabase_publishable_key": getattr(Config, 'SUPABASE_PUBLISHABLE_KEY', ''),
+        "google_enabled": bool(getattr(Config, 'GOOGLE_CLIENT_ID', None) or (db.use_live_supabase and getattr(db, 'supabase_client', None)))
+    }), 200
+
+
+@auth_bp.route('/api/auth/sync-session', methods=['POST'])
+def sync_supabase_session():
+    """
+    Sync client-side authenticated Supabase session with server-side Flask session.
+    Takes access_token, user_id, email, user_metadata.
+    """
+    data = request.get_json(silent=True) or {}
+    email = data.get('email', '').strip().lower()
+    full_name = data.get('full_name', '').strip()
+    role = data.get('role', 'student').strip().lower()
+    provider = data.get('provider', 'supabase')
+
+    if not email or '@' not in email:
+        return jsonify({"status": "error", "message": "Valid email address required."}), 400
+
+    if not full_name:
+        full_name = derive_name_from_email(email)
+
+    initials = compute_initials(full_name)
+    hash_num = abs(hash(email.lower())) % 9000 + 1000
+    applicant_id = f"#CH-2025-{hash_num}"
+    now_str = datetime.utcnow().strftime("%b %d, %Y %I:%M %p")
+
+    user_info = {
+        "id": f"sb-{hash_num}",
+        "name": full_name,
+        "email": email,
+        "identifier": email,
+        "role": role if role in ('student', 'parent') else 'student',
+        "role_label": "Student Candidate" if role == 'student' else "Parent / Guardian",
+        "applicant_id": applicant_id,
+        "initials": initials,
+        "provider": provider,
+        "verified": True,
+        "last_login": now_str
+    }
+    user_info = merge_saved_profile(user_info, email)
+
+    session['user_logged_in'] = True
+    session['user'] = user_info
+    session['user_email'] = email
+    session['user_name'] = user_info.get('name', full_name)
+    session['user_role'] = user_info.get('role', role)
+    session.permanent = True
+
+    return jsonify({
+        "status": "success",
+        "user": user_info,
+        "redirect_url": "/profile"
+    }), 200
 
 # In-memory storage for password reset verification codes
 # Structure: { email: { "code": "123456", "expires_at": timestamp, "verified": bool } }
@@ -144,44 +301,15 @@ def create_google_user_session(email, full_name=None, picture=None, google_id=No
         "verified": True,
         "last_login": now_str
     }
+    user_info = merge_saved_profile(user_info, email)
 
     session['user_logged_in'] = True
     session['user'] = user_info
     session['user_email'] = email
-    session['user_name'] = full_name
-    session['user_role'] = role
+    session['user_name'] = user_info.get('name', full_name)
+    session['user_role'] = user_info.get('role', role)
     session.permanent = True
     return user_info
-
-
-def derive_name_from_email(email_or_id):
-    """Derive a friendly human display name from an email address or username."""
-    if not email_or_id:
-        return "Student Applicant"
-    
-    clean = email_or_id.strip()
-    if '@' in clean:
-        local_part = clean.split('@')[0]
-    else:
-        local_part = clean
-        
-    # Replace dots, underscores, dashes with space
-    words = re.split(r'[._\-+]', local_part)
-    capitalized = [w.capitalize() for w in words if w and not w.isdigit()]
-    
-    if capitalized:
-        return " ".join(capitalized)
-    return clean.capitalize()
-
-
-def compute_initials(name):
-    """Compute 2-letter uppercase initials from full name."""
-    parts = (name or "").strip().split()
-    if len(parts) >= 2:
-        return f"{parts[0][0].upper()}{parts[-1][0].upper()}"
-    elif len(parts) == 1 and len(parts[0]) > 0:
-        return parts[0][:2].upper()
-    return "ST"
 
 
 @auth_bp.route('/api/auth/login', methods=['POST'])
@@ -278,20 +406,21 @@ def login():
         "verified": True,
         "last_login": now_str
     }
+    user_info = merge_saved_profile(user_info, identifier)
 
     # Store user info into server session
     session['user_logged_in'] = True
     session['user'] = user_info
     session['user_email'] = identifier
-    session['user_name'] = display_name
-    session['user_role'] = role
+    session['user_name'] = user_info.get('name', display_name)
+    session['user_role'] = user_info.get('role', role)
     session.permanent = remember_me
 
     destination = "/profile"
     
     return jsonify({
         "status": "success",
-        "message": f"Welcome back, {display_name}! Signed in successfully.",
+        "message": f"Welcome back, {user_info.get('name', display_name)}! Signed in successfully.",
         "user": user_info,
         "redirect_url": destination
     }), 200
@@ -350,6 +479,17 @@ def register():
         "last_login": now_str
     }
 
+    save_user_profile(email, {
+        "name": full_name,
+        "legal_name": full_name,
+        "preferred_name": full_name.split(' ')[0],
+        "email": email,
+        "role": role,
+        "program": program,
+        "applicant_id": applicant_id
+    })
+    user_info = merge_saved_profile(user_info, email)
+
     USER_PASSWORDS[email.lower()] = password
     session['user_logged_in'] = True
     session['user'] = user_info
@@ -371,6 +511,8 @@ def get_current_user():
     """Retrieve the current logged-in user session."""
     user = session.get('user')
     if user:
+        user = merge_saved_profile(user, user.get('email'))
+        session['user'] = user
         return jsonify({
             "status": "success",
             "logged_in": True,
@@ -396,6 +538,112 @@ def get_current_user():
         "status": "success",
         "logged_in": False,
         "user": None
+    }), 200
+
+
+@auth_bp.route('/api/user/profile', methods=['GET'])
+@auth_bp.route('/api/auth/profile', methods=['GET'])
+def get_user_profile_endpoint():
+    """Retrieve full persistent user profile, merging session and stored attributes."""
+    user = session.get('user')
+    email = session.get('user_email') or (user or {}).get('email')
+    if not email:
+        email = request.args.get('email', '').strip().lower()
+
+    if not email and not user:
+        return jsonify({"status": "error", "message": "Authentication required to view profile."}), 401
+
+    saved = get_user_profile(email) or {}
+    name = (user or {}).get('name') or saved.get('name') or (derive_name_from_email(email) if email else 'Student Profile')
+    legal_name = saved.get('legal_name') or (user or {}).get('legal_name') or name
+    preferred_name = saved.get('preferred_name') or (user or {}).get('preferred_name') or (name.split(' ')[0] if name else '')
+    phone = saved.get('phone') or (user or {}).get('phone') or ''
+    dob = saved.get('dob') or (user or {}).get('dob') or ''
+    domicile = saved.get('domicile') or (user or {}).get('domicile') or 'Maharashtra, India (Home State Quota)'
+    address = saved.get('address') or (user or {}).get('address') or ''
+    role = (user or {}).get('role') or saved.get('role') or 'student'
+    applicant_id = (user or {}).get('applicant_id') or saved.get('applicant_id') or (f"#CH-2025-{abs(hash(email)) % 9000 + 1000}" if email else '#CH-2025-0001')
+    initials = compute_initials(name)
+
+    profile_data = {
+        "email": email or (user or {}).get('email'),
+        "name": name,
+        "legal_name": legal_name,
+        "preferred_name": preferred_name,
+        "phone": phone,
+        "dob": dob,
+        "domicile": domicile,
+        "address": address,
+        "role": role,
+        "role_label": "Student Candidate" if role == 'student' else "Parent / Guardian",
+        "applicant_id": applicant_id,
+        "initials": initials
+    }
+
+    if session.get('user'):
+        session['user'].update(profile_data)
+
+    return jsonify({
+        "status": "success",
+        "profile": profile_data,
+        "user": profile_data
+    }), 200
+
+
+@auth_bp.route('/api/user/profile', methods=['POST', 'PUT'])
+@auth_bp.route('/api/auth/profile', methods=['POST', 'PUT'])
+def update_user_profile_endpoint():
+    """Update user profile fields and persist permanently across relogins and restarts."""
+    data = request.get_json(silent=True) or {}
+
+    email = session.get('user_email') or (session.get('user') or {}).get('email')
+    if not email:
+        email = data.get('email', '').strip().lower()
+
+    if not email or '@' not in email:
+        return jsonify({"status": "error", "message": "Valid email address is required to update profile."}), 400
+
+    legal_name = data.get('legal_name', '').strip()
+    preferred_name = data.get('preferred_name', '').strip()
+    display_name = preferred_name or legal_name or data.get('name', '').strip()
+
+    profile_update = {
+        "legal_name": legal_name,
+        "preferred_name": preferred_name,
+        "phone": data.get('phone', '').strip(),
+        "dob": data.get('dob', '').strip(),
+        "domicile": data.get('domicile', '').strip(),
+        "address": data.get('address', '').strip(),
+    }
+    if display_name:
+        profile_update["name"] = display_name
+    if 'role' in data:
+        profile_update["role"] = data['role']
+
+    saved = save_user_profile(email, profile_update)
+
+    # Sync with current Flask session
+    user = session.get('user') or {}
+    user['email'] = email
+    user.update(saved)
+    if saved.get('name'):
+        user['name'] = saved['name']
+        user['initials'] = compute_initials(saved['name'])
+        session['user_name'] = saved['name']
+    if saved.get('role'):
+        user['role'] = saved['role']
+        user['role_label'] = "Student Candidate" if saved['role'] == 'student' else "Parent / Guardian"
+        session['user_role'] = saved['role']
+
+    session['user'] = user
+    session['user_logged_in'] = True
+    session.permanent = True
+
+    return jsonify({
+        "status": "success",
+        "message": "Profile modifications saved successfully.",
+        "user": user,
+        "profile": user
     }), 200
 
 

@@ -63,7 +63,54 @@ def create_app():
 
 app = create_app()
 
+def start_fallback_port_3000_forwarder():
+    """
+    Supabase projects default their Site URL to http://localhost:3000.
+    If port 3000 is free, start a lightweight HTTP redirector in a background thread
+    that automatically bounces incoming requests (including hash tokens) to port 5000.
+    """
+    try:
+        import threading
+        from http.server import HTTPServer, BaseHTTPRequestHandler
+
+        class PortForwardHandler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html; charset=utf-8')
+                self.end_headers()
+                html = """<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting to CollegeHub...</title>
+  <script>
+    var currentPath = window.location.pathname;
+    if (currentPath === '/' && window.location.hash.includes('type=recovery')) {
+      currentPath = '/reset-password';
+    }
+    var target = 'http://localhost:5000' + currentPath + window.location.search + window.location.hash;
+    window.location.replace(target);
+  </script>
+</head>
+<body style="font-family:sans-serif;text-align:center;padding:40px;color:#1e293b;">
+  <p>Forwarding to CollegeHub on port 5000...</p>
+</body>
+</html>"""
+                self.wfile.write(html.encode('utf-8'))
+
+            def log_message(self, format, *args):
+                pass
+
+        server_3000 = HTTPServer(('0.0.0.0', 3000), PortForwardHandler)
+        t = threading.Thread(target=server_3000.serve_forever, daemon=True)
+        t.start()
+        print("Fallback forwarder running on http://127.0.0.1:3000 -> http://127.0.0.1:5000")
+    except Exception:
+        pass
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
+    start_fallback_port_3000_forwarder()
     print(f"Starting CollegeHub on http://127.0.0.1:{port}")
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=True, use_reloader=False)

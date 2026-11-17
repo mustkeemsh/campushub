@@ -1512,7 +1512,105 @@
      */
     sortRecommendations(results, sortBy = 'probability') {
       const copy = [...results];
+
+      const getRank = item => {
+        const r = item.record || {};
+        if (typeof item.closingRank === 'number' && item.closingRank > 0) return item.closingRank;
+        if (typeof r.closingRank === 'number' && r.closingRank > 0) return r.closingRank;
+        if (typeof r.closing_rank === 'number' && r.closing_rank > 0) return r.closing_rank;
+        if (typeof r.rank === 'number' && r.rank > 0) return r.rank;
+        const roundsMap = r.roundCutoffs || r.round_cutoffs || item.roundCutoffs || item.round_cutoffs || {};
+        for (const rnd of [1, 2, 3, 4]) {
+          const rd = roundsMap[rnd] || roundsMap[String(rnd)];
+          if (rd && typeof rd === 'object' && rd.rank) return Number(rd.rank);
+        }
+        const valStr = String(item.cutoffValueDisplay || item.cutoff_value || r.closingValue || '');
+        if (valStr.startsWith('#')) {
+          const num = parseFloat(valStr.replace('#', ''));
+          if (!isNaN(num) && num > 0) return num;
+        }
+        if (r.scoreType === 'rank' && typeof r.closingValue === 'number' && r.closingValue > 0) {
+          return r.closingValue;
+        }
+        return Infinity;
+      };
+
+      const getCutoffVal = item => {
+        const r = item.record || {};
+        const v = item.cutoffValueDisplay || item.cutoff_value || r.closingValue;
+        if (typeof v === 'number') return v;
+        const num = parseFloat(String(v || '').replace('#', ''));
+        return isNaN(num) ? 0 : num;
+      };
+
       switch (sortBy) {
+        case 'rank_asc':
+        case 'merit_rank':
+        case 'rank':
+          return copy.sort((a, b) => {
+            // 1. Eligible matches (within cutoff range) first
+            const typeScore = t => (t === 'historical_match' || t === 'within_cutoff_range') ? 0 : (t === 'more_competitive' ? 1 : 2);
+            const scoreDiff = typeScore(a.matchType) - typeScore(b.matchType);
+            if (scoreDiff !== 0) return scoreDiff;
+
+            // 2. Best merit rank first (lower rank number is better: #248, #312, #845...)
+            const rankA = getRank(a);
+            const rankB = getRank(b);
+            if (rankA !== rankB) return rankA - rankB;
+
+            return (a.priorityRank || 99) - (b.priorityRank || 99);
+          });
+
+        case 'rank_desc':
+          return copy.sort((a, b) => {
+            const typeScore = t => (t === 'historical_match' || t === 'within_cutoff_range') ? 0 : (t === 'more_competitive' ? 1 : 2);
+            const scoreDiff = typeScore(a.matchType) - typeScore(b.matchType);
+            if (scoreDiff !== 0) return scoreDiff;
+
+            const rankA = getRank(a);
+            const rankB = getRank(b);
+            if (rankA !== rankB) return rankB - rankA;
+
+            return (a.priorityRank || 99) - (b.priorityRank || 99);
+          });
+
+        case 'cutoff_desc':
+          return copy.sort((a, b) => {
+            const typeScore = t => (t === 'historical_match' || t === 'within_cutoff_range') ? 0 : (t === 'more_competitive' ? 1 : 2);
+            const scoreDiff = typeScore(a.matchType) - typeScore(b.matchType);
+            if (scoreDiff !== 0) return scoreDiff;
+
+            return getCutoffVal(b) - getCutoffVal(a);
+          });
+
+        case 'cutoff_asc':
+          return copy.sort((a, b) => {
+            const typeScore = t => (t === 'historical_match' || t === 'within_cutoff_range') ? 0 : (t === 'more_competitive' ? 1 : 2);
+            const scoreDiff = typeScore(a.matchType) - typeScore(b.matchType);
+            if (scoreDiff !== 0) return scoreDiff;
+
+            return getCutoffVal(a) - getCutoffVal(b);
+          });
+
+        case 'city':
+          return copy.sort((a, b) => {
+            const cityA = (a.record?.city || a.district || '').trim();
+            const cityB = (b.record?.city || b.district || '').trim();
+            const cDiff = cityA.localeCompare(cityB, undefined, { sensitivity: 'base' });
+            if (cDiff !== 0) return cDiff;
+            return (a.priorityRank || 99) - (b.priorityRank || 99);
+          });
+
+        case 'name_asc':
+        case 'alphabetical':
+          return copy.sort((a, b) => {
+            const nameA = (a.record?.collegeName || a.record?.college_name || a.record?.shortName || '').trim();
+            const nameB = (b.record?.collegeName || b.record?.college_name || b.record?.shortName || '').trim();
+            const cDiff = nameA.localeCompare(nameB, undefined, { sensitivity: 'base' });
+            if (cDiff !== 0) return cDiff;
+            return (a.priorityRank || 99) - (b.priorityRank || 99);
+          });
+
         case 'priority':
           return copy.sort((a, b) => {
             // 1. Branch priority order first (#1 branch first, then #2, #3...)
@@ -1520,7 +1618,7 @@
             if (pDiff !== 0) return pDiff;
 
             // 2. Within same branch preference, eligible colleges first
-            const typeScore = t => t === 'historical_match' ? 0 : (t === 'more_competitive' ? 1 : 2);
+            const typeScore = t => (t === 'historical_match' || t === 'within_cutoff_range') ? 0 : (t === 'more_competitive' ? 1 : 2);
             const scoreDiff = typeScore(a.matchType) - typeScore(b.matchType);
             if (scoreDiff !== 0) return scoreDiff;
 
@@ -1542,7 +1640,7 @@
             if (uDiff !== 0) return uDiff;
 
             // Within same university: eligible colleges first
-            const typeScore = t => t === 'historical_match' ? 0 : (t === 'more_competitive' ? 1 : 2);
+            const typeScore = t => (t === 'historical_match' || t === 'within_cutoff_range') ? 0 : (t === 'more_competitive' ? 1 : 2);
             const scoreDiff = typeScore(a.matchType) - typeScore(b.matchType);
             if (scoreDiff !== 0) return scoreDiff;
 
@@ -1568,24 +1666,15 @@
             if (feeA !== feeB) return feeA - feeB;
 
             // Tie-breaker: eligible first
-            const typeScore = t => t === 'historical_match' ? 0 : (t === 'more_competitive' ? 1 : 2);
+            const typeScore = t => (t === 'historical_match' || t === 'within_cutoff_range') ? 0 : (t === 'more_competitive' ? 1 : 2);
             return typeScore(a.matchType) - typeScore(b.matchType);
-          });
-
-        case 'alphabetical':
-          return copy.sort((a, b) => {
-            const nameA = (a.record?.collegeName || a.record?.college_name || a.record?.shortName || '').trim();
-            const nameB = (b.record?.collegeName || b.record?.college_name || b.record?.shortName || '').trim();
-            const cDiff = nameA.localeCompare(nameB, undefined, { sensitivity: 'base' });
-            if (cDiff !== 0) return cDiff;
-            return (a.priorityRank || 99) - (b.priorityRank || 99);
           });
 
         case 'probability':
         default:
           return copy.sort((a, b) => {
             // 1. Historical matches (colleges student qualifies for) MUST be shown first!
-            const typeScore = t => t === 'historical_match' ? 0 : (t === 'more_competitive' ? 1 : 2);
+            const typeScore = t => (t === 'historical_match' || t === 'within_cutoff_range') ? 0 : (t === 'more_competitive' ? 1 : 2);
             const scoreDiff = typeScore(a.matchType) - typeScore(b.matchType);
             if (scoreDiff !== 0) return scoreDiff;
 

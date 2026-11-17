@@ -106,8 +106,8 @@
           </svg>
         </div>
         <div class="flex flex-col">
-          <span class="text-xl font-bold text-primary tracking-tight group-hover:text-secondary transition-colors">CollegeHub</span>
-          <span class="text-[10px] text-secondary tracking-widest uppercase font-semibold -mt-1 hidden sm:block">Academic Matrix</span>
+          <span class="text-xl font-bold text-primary dark:text-white tracking-tight group-hover:text-secondary dark:group-hover:text-teal-400 transition-colors">CollegeHub</span>
+          <span class="text-[10px] text-secondary dark:text-teal-400 tracking-widest uppercase font-semibold -mt-1 hidden sm:block">Academic Matrix</span>
         </div>
       </a>
 
@@ -116,58 +116,32 @@
         <a href="index.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all">Home</a>
         <a href="recommendations.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all">College Predictor</a>
         <a href="faqs.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all">FAQs &amp; Chatbot</a>
-        <a href="profile.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-bold bg-secondary-container text-on-secondary-container dark:bg-slate-900 dark:text-secondary-fixed rounded-xl shadow-xs transition-all">Student Hub</a>
+        <a href="profile.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-bold bg-secondary-container dark:bg-slate-900 text-on-secondary-container dark:text-teal-300 rounded-xl shadow-xs transition-all">Student Hub</a>
         <a href="about.html" class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all">About</a>
       </nav>
 
       <!-- Right Controls: Theme Toggle & User Pill -->
       <div class="flex items-center gap-3">
         <!-- Theme Toggle -->
-        <button id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Color Theme" class="w-10 h-10 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors shadow-xs">
+        <button id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Color Theme" class="w-10 h-10 rounded-xl bg-surface-container dark:bg-slate-800 hover:bg-surface-container-high dark:hover:bg-slate-700 text-on-surface dark:text-white flex items-center justify-center transition-colors shadow-xs">
           <span id="theme-toggle-icon" class="material-symbols-outlined text-xl">dark_mode</span>
         </button>
 
-        <a class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl bg-secondary text-on-secondary text-xs sm:text-sm font-semibold shadow-sm hover:opacity-95 transition-opacity gap-1" href="faqs.html">
+        <a class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl bg-secondary dark:bg-teal-600 text-on-secondary text-xs sm:text-sm font-semibold shadow-sm hover:opacity-95 transition-opacity gap-1" href="faqs.html">
           <span class="material-symbols-outlined text-base">smart_toy</span>
           <span>Ask CollegeHub</span>
         </a>
 
-        <!-- User Menu Pill -->
-        <div class="relative group">
-          <button class="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 hover:bg-surface-container transition-colors">
-            <div data-user-initials class="w-7 h-7 rounded-full bg-secondary text-on-secondary font-bold text-xs flex items-center justify-center shadow-xs">
-              ST
-            </div>
-            <div class="text-left hidden sm:block">
-              <span data-user-name class="block text-xs font-bold text-primary dark:text-white leading-tight">Student Profile</span>
-              <span data-user-id class="block text-[10px] text-on-surface-variant dark:text-slate-400">#CH-2025-0001</span>
-            </div>
-            <span class="material-symbols-outlined text-sm text-on-surface-variant">expand_more</span>
-          </button>
-          
-          <!-- Dropdown menu -->
-          <div class="absolute right-0 mt-1 w-48 bg-surface-container-lowest dark:bg-[#111a2e] border border-outline-variant/40 dark:border-slate-800 rounded-2xl shadow-lg py-1.5 hidden group-hover:block transition-all z-50">
-            <div class="px-3 py-2 border-b border-outline-variant/30 dark:border-slate-800 text-xs text-on-surface-variant dark:text-slate-400">
-              Signed in as <strong data-user-email class="text-primary dark:text-white">student@example.com</strong>
-            </div>
-            <a href="profile.html" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800">
-              <span class="material-symbols-outlined text-base">dashboard</span> Applicant Overview
-            </a>
-            <a href="recommendations.html" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800">
-              <span class="material-symbols-outlined text-base text-secondary">auto_awesome</span> College Predictor
-            </a>
-            <a href="saved.html" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-on-surface-variant dark:text-slate-300 hover:bg-surface-container dark:hover:bg-slate-800">
-              <span class="material-symbols-outlined text-base">bookmark</span> Saved FAQs &amp; Chats
-            </a>
-            <a href="settings.html" class="flex items-center gap-2 px-3 py-2 text-xs font-bold text-secondary dark:text-secondary-fixed bg-surface-container-low dark:bg-slate-800">
-              <span class="material-symbols-outlined text-base">settings</span> Account Settings
-            </a>
-            <div class="border-t border-outline-variant/30 dark:border-slate-800 my-1"></div>
-            <a href="signin.html" class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-error hover:bg-error-container/20">
-              <span class="material-symbols-outlined text-base">logout</span> Sign Out
-            </a>
+        <!-- User profile pill -->
+        <a href="settings.html" class="flex items-center gap-2 pl-2 rounded-full focus:outline-none" title="Account Settings">
+          <div data-user-initials class="w-9 h-9 rounded-full bg-secondary-container dark:bg-teal-950 text-on-secondary-container dark:text-teal-300 flex items-center justify-center font-bold text-xs ring-2 ring-secondary/30 dark:ring-teal-500/30">
+            ST
           </div>
-        </div>
+          <div class="hidden xl:flex flex-col text-left">
+            <span data-user-name class="text-xs font-bold text-on-surface dark:text-white">Student Profile</span>
+            <span data-user-role class="text-[10px] text-on-surface-variant dark:text-slate-400">Applicant Active</span>
+          </div>
+        </a>
       </div>
     </div>
   </header>
@@ -236,21 +210,21 @@
 
     <!-- Consistent Sub-navigation Pill Bar -->
     <div class="w-full mb-6 overflow-x-auto scrollbar-none pb-1">
-      <div class="flex items-center gap-2 p-1.5 bg-surface-container-low rounded-2xl w-max sm:w-full border border-surface-container-high/50">
-        <a href="profile.html" onclick="return interceptTabClick(event, 'profile.html')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container-high flex items-center gap-2 transition-all">
-          <span class="material-symbols-outlined text-base">dashboard</span>
+      <div class="flex items-center gap-2 p-1.5 bg-surface-container-low dark:bg-[#111a2e] rounded-2xl w-max sm:w-full border border-surface-container-high/50 dark:border-slate-800">
+        <a href="profile.html" onclick="return interceptTabClick(event, 'profile.html')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-surface-container-high dark:hover:bg-slate-800 flex items-center gap-2 transition-all">
+          <span class="material-symbols-outlined text-base text-secondary dark:text-teal-400">dashboard</span>
           <span>Overview &amp; Application Status</span>
         </a>
-        <a href="recommendations.html" onclick="return interceptTabClick(event, 'recommendations.html')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container-high flex items-center gap-2 transition-all">
-          <span class="material-symbols-outlined text-base text-secondary">auto_awesome</span>
+        <a href="recommendations.html" onclick="return interceptTabClick(event, 'recommendations.html')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-surface-container-high dark:hover:bg-slate-800 flex items-center gap-2 transition-all">
+          <span class="material-symbols-outlined text-base text-secondary dark:text-teal-400">auto_awesome</span>
           <span>College Predictor</span>
-          <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold">CAP 2025</span>
+          <span class="px-2 py-0.5 rounded-full bg-secondary-container dark:bg-teal-950/80 text-on-secondary-container dark:text-teal-300 text-[11px] font-bold border dark:border-teal-700/40">CAP 2025</span>
         </a>
-        <a href="saved.html" onclick="return interceptTabClick(event, 'saved.html')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container-high flex items-center gap-2 transition-all">
-          <span class="material-symbols-outlined text-base">bookmark</span>
+        <a href="saved.html" onclick="return interceptTabClick(event, 'saved.html')" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-surface-container-high dark:hover:bg-slate-800 flex items-center gap-2 transition-all">
+          <span class="material-symbols-outlined text-base text-secondary dark:text-teal-400">bookmark</span>
           <span>Saved FAQs &amp; Counselor Chats</span>
         </a>
-        <a href="settings.html" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-primary text-on-primary shadow-xs flex items-center gap-2 transition-all">
+        <a href="settings.html" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-primary text-on-primary dark:bg-secondary dark:text-white shadow-xs flex items-center gap-2 transition-all">
           <span class="material-symbols-outlined text-base text-secondary-fixed">shield_lock</span>
           <span>Account Settings &amp; Security</span>
         </a>
@@ -446,9 +420,10 @@
               <textarea 
                 id="inputAddress" 
                 rows="2" 
+                placeholder="Enter permanent residential address"
                 class="w-full p-2.5 rounded-xl bg-surface-container-low dark:bg-slate-800 border border-outline-variant/50 dark:border-slate-700 text-primary dark:text-white focus:outline-none focus:ring-2 focus:ring-secondary/40 leading-relaxed"
                 oninput="markFormDirty('Permanent Address')"
-              >Flat 402, Green Meadows Enclave, Kothrud, Pune, Maharashtra 411038</textarea>
+              ></textarea>
             </div>
           </div>
         </section>
@@ -920,7 +895,75 @@
       }
       const icon = document.getElementById('theme-toggle-icon');
       if (icon) icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+
+      // Load user profile
+      loadUserProfile();
     });
+
+    async function loadUserProfile() {
+      // 1. Immediately populate from local cache if user is logged in
+      if (typeof CollegeHubAuth !== 'undefined') {
+        const cached = CollegeHubAuth.getUser();
+        if (cached) {
+          populateFields(cached);
+        }
+      }
+
+      // 2. Fetch fresh profile from backend
+      try {
+        const resp = await fetch('/api/user/profile');
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data.status === 'success' && (data.profile || data.user)) {
+            const p = data.profile || data.user;
+            populateFields(p);
+            if (typeof CollegeHubAuth !== 'undefined') {
+              CollegeHubAuth.setUser(p);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Could not fetch server profile:', err);
+      }
+    }
+
+    function populateFields(profile) {
+      if (!profile) return;
+      const legalNameInput = document.getElementById('inputLegalName');
+      const prefNameInput = document.getElementById('inputPreferredName');
+      const emailInput = document.getElementById('inputEmail');
+      const phoneInput = document.getElementById('inputPhone');
+      const dobInput = document.getElementById('inputDob');
+      const domicileInput = document.getElementById('inputDomicile');
+      const addressInput = document.getElementById('inputAddress');
+
+      if (legalNameInput) {
+        legalNameInput.value = profile.legal_name || profile.name || '';
+      }
+      if (prefNameInput) {
+        prefNameInput.value = profile.preferred_name || (profile.name ? profile.name.split(' ')[0] : '');
+      }
+      if (emailInput && profile.email) {
+        emailInput.value = profile.email;
+      }
+      if (phoneInput) {
+        phoneInput.value = profile.phone || '';
+      }
+      if (dobInput) {
+        dobInput.value = profile.dob || '';
+      }
+      if (domicileInput && profile.domicile) {
+        domicileInput.value = profile.domicile;
+      }
+      if (addressInput) {
+        addressInput.value = profile.address || '';
+      }
+
+      // Clean dirty states because values were loaded from database/session
+      isFormDirty = false;
+      dirtyFields.clear();
+      updateDirtyUI();
+    }
 
     // Mark Form as Dirty
     function markFormDirty(fieldName) {
@@ -985,13 +1028,13 @@
     }
 
     // Save and Proceed Action
-    function saveAndNavigate() {
-      saveProfileChanges();
+    async function saveAndNavigate() {
+      await saveProfileChanges();
       closeUnsavedModal();
       if (pendingNavigationTarget) {
         setTimeout(() => {
           window.location.href = pendingNavigationTarget;
-        }, 300);
+        }, 150);
       }
     }
 
@@ -1007,11 +1050,80 @@
     }
 
     // Save Profile Changes
-    function saveProfileChanges() {
-      isFormDirty = false;
-      dirtyFields.clear();
-      updateDirtyUI();
-      showToast("Profile modifications committed to student record.");
+    async function saveProfileChanges() {
+      const legalName = (document.getElementById('inputLegalName')?.value || '').trim();
+      const preferredName = (document.getElementById('inputPreferredName')?.value || '').trim();
+      const email = (document.getElementById('inputEmail')?.value || '').trim();
+      const phone = (document.getElementById('inputPhone')?.value || '').trim();
+      const dob = document.getElementById('inputDob')?.value || '';
+      const domicile = document.getElementById('inputDomicile')?.value || '';
+      const address = (document.getElementById('inputAddress')?.value || '').trim();
+
+      const saveButtons = document.querySelectorAll('button[onclick*="saveProfileChanges"]');
+      saveButtons.forEach(btn => {
+        btn.disabled = true;
+        btn.dataset.originalContent = btn.innerHTML;
+        btn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">progress_activity</span><span>Saving...</span>`;
+      });
+
+      try {
+        const response = await fetch('/api/user/profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            legal_name: legalName,
+            preferred_name: preferredName,
+            name: preferredName || legalName,
+            email: email,
+            phone: phone,
+            dob: dob,
+            domicile: domicile,
+            address: address
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.status === 'success') {
+          if (typeof CollegeHubAuth !== 'undefined') {
+            CollegeHubAuth.setUser(data.user);
+          }
+          isFormDirty = false;
+          dirtyFields.clear();
+          updateDirtyUI();
+          showToast("Profile modifications committed and saved to student record.");
+          return true;
+        } else {
+          showToast(data.message || "Failed to save profile changes. Please try again.");
+          return false;
+        }
+      } catch (err) {
+        console.error("Save profile error:", err);
+        // Fallback local save in case network fails
+        if (typeof CollegeHubAuth !== 'undefined') {
+          const current = CollegeHubAuth.getUser() || {};
+          current.legal_name = legalName;
+          current.preferred_name = preferredName;
+          current.name = preferredName || legalName || current.name;
+          current.phone = phone;
+          current.dob = dob;
+          current.domicile = domicile;
+          current.address = address;
+          CollegeHubAuth.setUser(current);
+        }
+        isFormDirty = false;
+        dirtyFields.clear();
+        updateDirtyUI();
+        showToast("Profile changes saved to browser session.");
+        return true;
+      } finally {
+        saveButtons.forEach(btn => {
+          btn.disabled = false;
+          if (btn.dataset.originalContent) {
+            btn.innerHTML = btn.dataset.originalContent;
+          }
+        });
+      }
     }
 
     // Password Modal

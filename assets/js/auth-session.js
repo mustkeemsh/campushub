@@ -613,6 +613,22 @@ const CollegeHubAuth = (function () {
       document.querySelectorAll('[data-user-role]').forEach(el => {
         el.textContent = user.role_label || user.role || 'Student Candidate';
       });
+
+      document.querySelectorAll('[data-user-phone]').forEach(el => {
+        el.textContent = user.phone || 'Phone not added';
+      });
+
+      document.querySelectorAll('[data-user-domicile]').forEach(el => {
+        el.textContent = user.domicile || 'Maharashtra (Home State Quota)';
+      });
+
+      document.querySelectorAll('[data-user-legal-name]').forEach(el => {
+        el.textContent = user.legal_name || user.name || 'Student Candidate';
+      });
+
+      document.querySelectorAll('[data-user-address]').forEach(el => {
+        el.textContent = user.address || '';
+      });
     } else {
       document.querySelectorAll('[data-user-name]').forEach(el => {
         el.textContent = 'Student Profile';
@@ -632,6 +648,22 @@ const CollegeHubAuth = (function () {
 
       document.querySelectorAll('[data-user-role]').forEach(el => {
         el.textContent = 'Student Candidate';
+      });
+
+      document.querySelectorAll('[data-user-phone]').forEach(el => {
+        el.textContent = 'Phone not added';
+      });
+
+      document.querySelectorAll('[data-user-domicile]').forEach(el => {
+        el.textContent = 'Maharashtra (Home State Quota)';
+      });
+
+      document.querySelectorAll('[data-user-legal-name]').forEach(el => {
+        el.textContent = 'Student Candidate';
+      });
+
+      document.querySelectorAll('[data-user-address]').forEach(el => {
+        el.textContent = '';
       });
     }
 
@@ -691,11 +723,10 @@ const CollegeHubAuth = (function () {
   }
 
   /* ==========================================================================
-     PASSWORD RESET WITH VERIFICATION CODE FLOW
+     PASSWORD RESET VIA SECURE SUPABASE LINK FLOW
      ========================================================================== */
 
   let activeResetEmail = '';
-  let activeResetCode = '';
 
   function injectForgotPasswordModal() {
     if (document.getElementById('collegehub-forgot-modal')) return;
@@ -717,13 +748,13 @@ const CollegeHubAuth = (function () {
             <span class="material-symbols-outlined text-2xl">mark_email_read</span>
           </div>
           <h2 class="text-xl sm:text-2xl font-extrabold text-primary tracking-tight">Reset Account Password</h2>
-          <p class="text-xs text-on-surface-variant mt-1">We will send a 6-digit verification code to your registered email.</p>
+          <p class="text-xs text-on-surface-variant mt-1">We will send a secure password-reset link to your email using Supabase Auth.</p>
         </div>
 
         <!-- Alert Notification Box -->
         <div id="forgot-alert-box" class="hidden mb-4 p-3 rounded-xl text-xs font-semibold"></div>
 
-        <!-- STEP 1: Enter Email & Request Code -->
+        <!-- STEP 1: Enter Email & Request Link -->
         <div id="forgot-step-1" class="space-y-4">
           <div>
             <label class="block text-xs font-bold text-primary mb-1.5" for="forgot-email-input">Your Registered Email Address</label>
@@ -742,98 +773,33 @@ const CollegeHubAuth = (function () {
           <button 
             type="button" 
             id="send-code-btn"
-            onclick="CollegeHubAuth.sendVerificationCode()"
+            onclick="CollegeHubAuth.sendResetLink()"
             class="w-full py-3 px-5 rounded-xl bg-primary text-white font-bold text-xs sm:text-sm shadow-md hover:bg-primary-container transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <span class="material-symbols-outlined text-base">send</span>
-            <span>Send 6-Digit Verification Code</span>
+            <span>Send Password Reset Link</span>
           </button>
         </div>
 
-        <!-- STEP 2: Enter Verification Code & New Password -->
-        <div id="forgot-step-2" class="space-y-4 hidden">
-          <!-- Code info notice -->
-          <div class="p-3.5 rounded-2xl bg-secondary/10 border border-secondary/30 text-xs text-secondary dark:text-teal-300 space-y-1.5">
-            <div class="font-bold flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-sm">mark_email_read</span>
-              <span>Verification email sent to: <span id="display-target-email" class="font-extrabold text-primary underline"></span></span>
-            </div>
-            <div class="text-[11px] text-on-surface-variant leading-relaxed">
-              We sent a 6-digit verification code to your Gmail inbox. Please check your inbox (and spam folder), then enter the code below.
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-primary mb-1.5" for="verification-code-input">6-Digit Verification Code</label>
-            <div class="relative">
-              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">pin</span>
-              <input 
-                type="text" 
-                id="verification-code-input" 
-                maxlength="6" 
-                placeholder="000000" 
-                autocomplete="one-time-code"
-                class="w-full pl-10 pr-4 py-2.5 bg-surface border border-outline-variant rounded-xl text-center font-mono font-bold tracking-widest text-lg sm:text-xl text-primary focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition-all"
-                required
-              >
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-primary mb-1.5" for="new-password-input">New Password</label>
-            <div class="relative">
-              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">lock</span>
-              <input 
-                type="password" 
-                id="new-password-input" 
-                placeholder="At least 6 characters" 
-                class="w-full pl-10 pr-10 py-2.5 bg-surface border border-outline-variant rounded-xl text-xs sm:text-sm text-primary placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition-all"
-                required
-              >
-              <button 
-                type="button" 
-                onclick="CollegeHubAuth.toggleModalPass('new-password-input', this)" 
-                class="absolute right-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors focus:outline-none"
-              >
-                <span class="material-symbols-outlined text-base">visibility</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between text-xs pt-1">
-            <button 
-              type="button" 
-              onclick="CollegeHubAuth.sendVerificationCode()" 
-              class="text-xs text-secondary font-bold hover:underline"
-            >
-              Resend Code
-            </button>
-          </div>
-
-          <button 
-            type="button" 
-            id="reset-pass-btn"
-            onclick="CollegeHubAuth.submitPasswordReset()"
-            class="w-full py-3 px-5 rounded-xl bg-secondary text-white font-bold text-xs sm:text-sm shadow-md hover:bg-secondary/90 transition-all flex items-center justify-center gap-2 cursor-pointer"
-          >
-            <span class="material-symbols-outlined text-base">lock_reset</span>
-            <span>Verify Code &amp; Reset Password</span>
-          </button>
-        </div>
-
-        <!-- STEP 3: Success State -->
-        <div id="forgot-step-3" class="space-y-4 hidden text-center py-2">
+        <!-- STEP 2: Link Dispatched Generic Confirmation State -->
+        <div id="forgot-step-2" class="space-y-4 hidden text-center py-2">
           <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
-            <span class="material-symbols-outlined text-3xl">check_circle</span>
+            <span class="material-symbols-outlined text-3xl">mark_email_read</span>
           </div>
-          <h3 class="text-lg font-bold text-primary">Password Reset Successful!</h3>
-          <p class="text-xs text-on-surface-variant">Your account password has been updated. You can now log in with your new credentials.</p>
+          <h3 class="text-lg font-bold text-primary">Reset Link Dispatched</h3>
+          <p class="text-xs text-on-surface-variant leading-relaxed">
+            If an account is associated with <span id="display-target-email" class="font-bold underline text-primary"></span>, a secure password-reset link has been dispatched. Please check your inbox and spam folder.
+          </p>
+          <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container-high text-[11px] text-on-surface-variant text-left leading-relaxed">
+            <span class="font-bold text-primary block mb-0.5">Note on Expiration &amp; Security:</span>
+            The reset link expires after a short period and allows setting a new password only through CollageHub's official reset page.
+          </div>
           <button 
             type="button" 
             onclick="CollegeHubAuth.closeForgotPasswordModal();" 
-            class="w-full py-2.5 px-4 rounded-xl bg-primary text-white font-bold text-xs sm:text-sm shadow-md hover:bg-primary-container transition-all cursor-pointer"
+            class="w-full py-2.5 px-4 rounded-xl bg-secondary text-white font-bold text-xs sm:text-sm shadow-md hover:bg-secondary/90 transition-all cursor-pointer"
           >
-            Return to Log In
+            Back to Log In
           </button>
         </div>
 
@@ -885,7 +851,7 @@ const CollegeHubAuth = (function () {
     }
   }
 
-  async function sendVerificationCode() {
+  async function sendResetLink() {
     const emailInput = document.getElementById('forgot-email-input');
     const email = (emailInput ? emailInput.value : '').trim().toLowerCase();
     const btn = document.getElementById('send-code-btn');
@@ -893,7 +859,7 @@ const CollegeHubAuth = (function () {
 
     if (!email || !email.includes('@')) {
       if (alertBox) {
-        alertBox.className = 'mb-4 p-3 rounded-xl bg-error-container text-on-error-container text-xs font-semibold flex items-center gap-2';
+        alertBox.className = 'mb-4 p-3 rounded-xl bg-error-container text-error text-xs font-semibold flex items-center gap-2';
         alertBox.innerHTML = '<span class="material-symbols-outlined text-base shrink-0">error</span><span>Please enter a valid email address.</span>';
         alertBox.classList.remove('hidden');
       }
@@ -902,127 +868,64 @@ const CollegeHubAuth = (function () {
 
     if (btn) {
       btn.disabled = true;
-      btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">progress_activity</span><span>Generating verification code...</span>';
+      btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">progress_activity</span><span>Sending reset link...</span>';
     }
 
     try {
-      const resp = await fetch('/api/auth/send-reset-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
-      });
-      const data = await resp.json();
-
-      if (resp.ok && data.status === 'success') {
-        activeResetEmail = email;
-
-        // Transition to Step 2
-        document.getElementById('forgot-step-1')?.classList.add('hidden');
-        document.getElementById('forgot-step-2')?.classList.remove('hidden');
-        const disp = document.getElementById('display-target-email');
-        if (disp) disp.textContent = email;
-
-        // Reset verification code field so user types the code sent to their Gmail
-        const codeInput = document.getElementById('verification-code-input');
-        if (codeInput) {
-          codeInput.value = '';
-          setTimeout(() => codeInput.focus(), 150);
-        }
-
-        if (alertBox) {
-          alertBox.className = 'mb-4 p-3 rounded-xl bg-secondary-container text-on-secondary-container text-xs font-semibold flex items-center gap-2';
-          alertBox.innerHTML = `<span class="material-symbols-outlined text-base shrink-0">mark_email_read</span><span>${data.message}</span>`;
-          alertBox.classList.remove('hidden');
-        }
-      } else {
-        if (alertBox) {
-          alertBox.className = 'mb-4 p-3 rounded-xl bg-error-container text-on-error-container text-xs font-semibold flex items-center gap-2';
-          alertBox.innerHTML = `<span class="material-symbols-outlined text-base shrink-0">error</span><span>${data.message || 'Failed to send code.'}</span>`;
-          alertBox.classList.remove('hidden');
+      if (window.CollegeHubSupabaseAuth) {
+        const res = await window.CollegeHubSupabaseAuth.sendPasswordResetLink(email);
+        if (res && res.status === 'cooldown') {
+          if (alertBox) {
+            alertBox.className = 'mb-4 p-3 rounded-xl bg-error-container text-error text-xs font-semibold flex items-center gap-2';
+            alertBox.innerHTML = `<span class="material-symbols-outlined text-base shrink-0">hourglass_top</span><span>${res.message}</span>`;
+            alertBox.classList.remove('hidden');
+          }
+          return;
         }
       }
+
+      // Transition to Step 2 generic confirmation
+      document.getElementById('forgot-step-1')?.classList.add('hidden');
+      document.getElementById('forgot-step-2')?.classList.remove('hidden');
+      const disp = document.getElementById('display-target-email');
+      if (disp) disp.textContent = email;
     } catch (err) {
-      console.error('Send reset code error:', err);
+      console.error('Send reset link error:', err);
     } finally {
       if (btn) {
         btn.disabled = false;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base">send</span><span>Send 6-Digit Verification Code</span>';
+        btn.innerHTML = '<span class="material-symbols-outlined text-base">send</span><span>Send Password Reset Link</span>';
       }
     }
   }
 
+  // Aliases for backwards compatibility
+  const sendVerificationCode = sendResetLink;
   async function submitPasswordReset() {
-    const codeInput = document.getElementById('verification-code-input');
-    const passInput = document.getElementById('new-password-input');
-    const btn = document.getElementById('reset-pass-btn');
-    const alertBox = document.getElementById('forgot-alert-box');
+    window.location.href = '/reset-password';
+  }
 
-    const code = (codeInput ? codeInput.value : '').trim();
-    const newPass = (passInput ? passInput.value : '').trim();
-
-    if (!code || code.length !== 6) {
-      if (alertBox) {
-        alertBox.className = 'mb-4 p-3 rounded-xl bg-error-container text-on-error-container text-xs font-semibold flex items-center gap-2';
-        alertBox.innerHTML = '<span class="material-symbols-outlined text-base shrink-0">error</span><span>Please enter the 6-digit verification code.</span>';
-        alertBox.classList.remove('hidden');
-      }
-      return;
-    }
-
-    if (!newPass || newPass.length < 6) {
-      if (alertBox) {
-        alertBox.className = 'mb-4 p-3 rounded-xl bg-error-container text-on-error-container text-xs font-semibold flex items-center gap-2';
-        alertBox.innerHTML = '<span class="material-symbols-outlined text-base shrink-0">error</span><span>New password must be at least 6 characters.</span>';
-        alertBox.classList.remove('hidden');
-      }
-      return;
-    }
-
-    if (btn) {
-      btn.disabled = true;
-      btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">progress_activity</span><span>Updating password...</span>';
-    }
-
+  async function fetchProfile() {
     try {
-      const resp = await fetch('/api/auth/reset-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: activeResetEmail || document.getElementById('forgot-email-input')?.value,
-          code: code,
-          new_password: newPass
-        })
-      });
-      const data = await resp.json();
-
-      if (resp.ok && data.status === 'success') {
-        // Transition to Step 3
-        document.getElementById('forgot-step-2')?.classList.add('hidden');
-        document.getElementById('forgot-step-3')?.classList.remove('hidden');
-        if (alertBox) alertBox.classList.add('hidden');
-
-        // If on standalone login page, update password field
-        const loginPass = document.getElementById('auth-password') || document.getElementById('modal-login-password');
-        if (loginPass) loginPass.value = newPass;
-      } else {
-        if (alertBox) {
-          alertBox.className = 'mb-4 p-3 rounded-xl bg-error-container text-on-error-container text-xs font-semibold flex items-center gap-2';
-          alertBox.innerHTML = `<span class="material-symbols-outlined text-base shrink-0">error</span><span>${data.message || 'Reset failed.'}</span>`;
-          alertBox.classList.remove('hidden');
+      const resp = await fetch('/api/user/profile');
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.status === 'success' && data.user) {
+          setUser(data.user);
+          return data.user;
         }
       }
-    } catch (err) {
-      console.error('Password reset error:', err);
-    } finally {
-      if (btn) {
-        btn.disabled = false;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base">lock_reset</span><span>Verify Code &amp; Reset Password</span>';
-      }
+    } catch (e) {
+      console.warn('Error fetching user profile:', e);
     }
+    return getUser();
   }
 
   function init() {
     updateDOM();
+    if (isLoggedIn()) {
+      fetchProfile();
+    }
     injectAuthModal();
     injectForgotPasswordModal();
     checkAndTriggerAutoPopup();
@@ -1037,6 +940,7 @@ const CollegeHubAuth = (function () {
   return {
     getUser: getUser,
     setUser: setUser,
+    fetchProfile: fetchProfile,
     isLoggedIn: isLoggedIn,
     logout: logout,
     handleLoginSubmit: handleLoginSubmit,
@@ -1054,6 +958,7 @@ const CollegeHubAuth = (function () {
     closeGoogleChooserModal: closeGoogleChooserModal,
     openForgotPasswordModal: openForgotPasswordModal,
     closeForgotPasswordModal: closeForgotPasswordModal,
+    sendResetLink: sendResetLink,
     sendVerificationCode: sendVerificationCode,
     submitPasswordReset: submitPasswordReset
   };

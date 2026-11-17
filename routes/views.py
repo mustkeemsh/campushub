@@ -85,6 +85,13 @@ def signup():
     return send_from_directory(BASE_DIR, 'signup.html')
 
 
+@views_bp.route('/reset-password')
+@views_bp.route('/reset-password.html')
+def reset_password():
+    """Serve the dedicated Reset Password page."""
+    return send_from_directory(BASE_DIR, 'reset-password.html')
+
+
 @views_bp.route('/profile')
 @views_bp.route('/profile.html')
 def profile():

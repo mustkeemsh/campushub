@@ -484,7 +484,7 @@ def compute_dsy_recommendations(data):
     preferred_districts = data.get('preferred_districts') or data.get('districts') or []
     quota = (data.get('quota') or 'SL').strip().upper()
     cap_round = (data.get('cap_round') or data.get('round') or 'CAP Round I').strip()
-    admission_year = (data.get('admission_year') or data.get('year') or '2024-2025').strip()
+    admission_year = (data.get('admission_year') or data.get('year') or '2026-2027').strip()
     sort_by = (data.get('sort_by') or 'probability').strip()
 
     if not isinstance(preferred_branches, list):
@@ -568,27 +568,97 @@ def compute_dsy_recommendations(data):
         }, 200
 
     # If DSY cutoffs ARE found: match using strict like-for-like rules
+    branch_alias_map = {
+        'COMPUTER ENGINEERING': 'CSE',
+        'COMPUTER SCIENCE': 'CSE',
+        'COMPUTER SCIENCE & ENGINEERING': 'CSE',
+        'INFORMATION TECHNOLOGY': 'IT',
+        'ARTIFICIAL INTELLIGENCE & MACHINE LEARNING': 'AIML',
+        'AI & MACHINE LEARNING': 'AIML',
+        'ARTIFICIAL INTELLIGENCE & DATA SCIENCE': 'AIDS',
+        'AI & DATA SCIENCE': 'AIDS',
+        'MECHANICAL ENGINEERING': 'MECH',
+        'CIVIL ENGINEERING': 'CIVIL',
+        'CIVIL & INFRASTRUCTURE': 'CIVIL',
+        'ELECTRICAL ENGINEERING': 'ELECT',
+        'ELECTRONICS & TELECOMMUNICATION': 'ENTC',
+        'ELECTRONICS AND TELECOMMUNICATION ENGG': 'ENTC',
+        'CHEMICAL ENGINEERING': 'CHEM',
+        'CHEMICAL & POLYMER ENGINEERING': 'CHEM',
+        'ROBOTICS & AUTOMATION': 'ROBO',
+        'ROBOTICS, AUTOMATION & MECHATRONICS': 'ROBO',
+        'INSTRUMENTATION ENGINEERING': 'INST',
+        'INSTRUMENTATION & CONTROL': 'INST',
+        'AUTOMOBILE ENGINEERING': 'AUTO',
+        'TEXTILE ENGINEERING & TECHNOLOGY': 'TEXT',
+        'AERONAUTICAL & AEROSPACE': 'AERO'
+    }
+    allowed_branch_keys = set()
+    for b in preferred_branches:
+        b_up = str(b).strip().upper()
+        allowed_branch_keys.add(b_up)
+        if b_up in branch_alias_map:
+            allowed_branch_keys.add(branch_alias_map[b_up])
+
     matched_results = []
     for rec in dsy_candidates:
-        rec_branch = rec.get("branch_code")
-        if rec_branch not in preferred_branches:
+        rec_branch = str(rec.get("branch_code") or "").upper()
+        rec_bname = str(rec.get("branch_name") or "").upper()
+        if allowed_branch_keys and (rec_branch not in allowed_branch_keys and rec_bname not in allowed_branch_keys):
             continue
 
         rec_cat = str(rec.get("category") or "OPEN").upper()
-        if category != "ALL" and rec_cat != category:
-            continue
+        if category != "ALL":
+            cat_target = category.upper()
+            cat_equiv = {
+                'OBC': {'OBC', 'OBC-NCL'},
+                'OBC-NCL': {'OBC', 'OBC-NCL'},
+                'VJNT': {'VJNT', 'VJ', 'NT1', 'NTA', 'NT-A'},
+                'NT-B': {'NT-B', 'NTB', 'NT2'},
+                'NT-C': {'NT-C', 'NTC', 'NT3'},
+                'NT-D': {'NT-D', 'NTD'}
+            }
+            allowed = cat_equiv.get(cat_target, {cat_target})
+            if cat_target == 'TFWS':
+                allowed = {'TFWS', 'OPEN'}
+            if rec_cat not in allowed and rec_cat != cat_target:
+                continue
 
         rec_quota = str(rec.get("quota") or "SL").upper()
-        if quota != "ALL" and rec_quota != quota:
-            continue
+        if quota != "ALL":
+            if quota.upper() in ('HU', 'OHU'):
+                if rec_quota not in (quota.upper(), 'SL'):
+                    continue
+            elif rec_quota != quota.upper():
+                continue
 
-        rec_year = str(rec.get("academic_year") or "2024-2025")
-        if admission_year != "ALL" and not rec_year.startswith(admission_year[:4]):
-            continue
+        rec_year = str(rec.get("academic_year") or "2026-2027")
+        if admission_year != "ALL" and not rec_year.startswith(str(admission_year)[:4]):
+            if any(str(c.get("academic_year", "")).startswith(str(admission_year)[:4]) for c in dsy_candidates):
+                continue
 
-        rec_round = str(rec.get("round") or "CAP Round I")
-        if cap_round != "ALL" and cap_round.lower() not in rec_round.lower():
-            continue
+        rec_round = str(rec.get("round") or "CAP Round I").lower()
+        if cap_round != "ALL":
+            norm_c_rnd = str(cap_round).strip().lower()
+            t_rnd = 1 if (' 1' in norm_c_rnd or (' i' in norm_c_rnd and ' ii' not in norm_c_rnd and ' iii' not in norm_c_rnd)) else (2 if (' 2' in norm_c_rnd or (' ii' in norm_c_rnd and ' iii' not in norm_c_rnd)) else (3 if (' 3' in norm_c_rnd or ' iii' in norm_c_rnd) else None))
+            c_num = rec.get("cap_round")
+            matches_r = False
+            if t_rnd and c_num:
+                try:
+                    matches_r = (int(c_num) == t_rnd)
+                except (ValueError, TypeError):
+                    pass
+            if not matches_r:
+                if t_rnd == 1:
+                    matches_r = "round 1" in rec_round or ("round i" in rec_round and "round ii" not in rec_round)
+                elif t_rnd == 2:
+                    matches_r = "round 2" in rec_round or ("round ii" in rec_round and "round iii" not in rec_round)
+                elif t_rnd == 3:
+                    matches_r = "round 3" in rec_round or "round iii" in rec_round
+                else:
+                    matches_r = norm_c_rnd in rec_round
+            if not matches_r and "round iii" not in norm_c_rnd:
+                continue
 
         if preferred_districts:
             norm_districts = [d.strip().lower() for d in preferred_districts if d.strip().lower() not in ("all", "all districts", "all maharashtra districts")]
@@ -597,9 +667,9 @@ def compute_dsy_recommendations(data):
                 if not any(nd in rec_dist for nd in norm_districts):
                     continue
 
-        rec_score_type = str(rec.get("score_type") or "rank").lower()
+        rec_score_type = str(rec.get("score_type") or ("rank" if norm_metric_type == "rank" else "marks")).lower()
         closing_rank = rec.get("closing_rank") or rec.get("rank")
-        closing_marks = rec.get("closing_marks") or (rec.get("cutoff_value") if rec_score_type in ("marks", "percentile") else None)
+        closing_marks = rec.get("closing_marks") or rec.get("score") or (rec.get("cutoff_value") if rec_score_type in ("marks", "percentile") else None)
 
         if norm_metric_type == "rank":
             if closing_rank is None and rec_score_type == "rank" and rec.get("cutoff_value") is not None:
@@ -646,9 +716,9 @@ def compute_dsy_recommendations(data):
 
         else:
             # norm_metric_type == "marks"
-            if closing_marks is None and rec_score_type in ("marks", "percentile") and rec.get("cutoff_value") is not None:
+            if closing_marks is None:
                 try:
-                    closing_marks = float(rec.get("cutoff_value"))
+                    closing_marks = float(rec.get("cutoff_value") or rec.get("score") or rec.get("closing_value"))
                 except (ValueError, TypeError):
                     closing_marks = None
 
@@ -697,6 +767,8 @@ def compute_dsy_recommendations(data):
             "district": rec.get("district") or rec.get("city"),
             "cutoff_value": cutoff_val_display,
             "cutoff_value_raw": closing_rank if norm_metric_type == "rank" else closing_marks,
+            "closing_rank": closing_rank,
+            "closing_marks": closing_marks,
             "cutoff_type": cutoff_type_display,
             "admission_year": rec.get("academic_year"),
             "cap_round": rec.get("round"),
@@ -712,9 +784,17 @@ def compute_dsy_recommendations(data):
     def dsy_sort_key(item):
         m_type = item.get("match_type")
         type_order = 0 if m_type == "within_cutoff_range" else (1 if m_type == "more_competitive" else 2)
+        # Sort by merit rank (lower rank number is better: 248, 312, 845...)
+        c_rank = item.get("closing_rank") or item.get("cutoff_value_raw")
+        try:
+            r_val = float(c_rank) if c_rank is not None else 999999.0
+        except (ValueError, TypeError):
+            r_val = 999999.0
         b_code = item.get("branch_code")
         p_idx = preferred_branches.index(b_code) if b_code in preferred_branches else 99
-        return (type_order, p_idx)
+        if sort_by == 'rank_desc':
+            return (type_order, -r_val, p_idx)
+        return (type_order, r_val, p_idx)
 
     matched_results.sort(key=dsy_sort_key)
 

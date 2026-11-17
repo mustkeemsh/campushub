@@ -1,22 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>College Predictor | Admission Probability & Cutoffs - CollegeHub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet">
   <style>
-    @layer base { 
-      html, body { margin: 0; padding: 0; } 
-      body { overscroll-behavior: none; } 
-    } 
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #c5c6ce; border-radius: 9999px; }
-    .dark ::-webkit-scrollbar-thumb { background: #44474d; }
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #c5c6ce;
+      border-radius: 9999px;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: #44474d;
+    }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -64,7 +90,7 @@
   </script>
   <link rel="stylesheet" href="assets/css/theme.css">
   <script>
-    (function() {
+    (function () {
       const saved = localStorage.getItem('collegehub-theme');
       const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
       if (saved === 'dark' || (!saved && prefersDark)) {
@@ -75,52 +101,68 @@
     })();
   </script>
 </head>
-<body class="bg-surface font-sans text-on-surface antialiased transition-colors duration-200 selection:bg-secondary/20">
+
+<body class="bg-[#f9f9f8] text-[#1a1c1c] dark:bg-[#0b1320] dark:text-[#f1f5f9] font-sans antialiased transition-colors duration-200 selection:bg-secondary/20">
 
   <!-- Top Navigation Header -->
-  <header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-surface-container-high/60">
+  <header
+    class="fixed top-0 w-full z-50 bg-surface/90 dark:bg-[#0b1320]/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-surface-container-high/60 dark:border-slate-800">
     <div class="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-4">
-      
+
       <!-- Brand Wordmark -->
       <div class="flex items-center gap-8">
         <a class="flex items-center gap-3 group focus:outline-none" href="index.html">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary to-[#0d9488] flex items-center justify-center text-white shadow-sm shrink-0 transition-transform group-hover:scale-105">
+          <div
+            class="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary to-[#0d9488] flex items-center justify-center text-white shadow-sm shrink-0 transition-transform group-hover:scale-105">
             <span class="material-symbols-outlined text-2xl">school</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-xl font-bold text-primary tracking-tight group-hover:text-secondary transition-colors">CollegeHub</span>
-            <span class="text-[10px] text-secondary tracking-widest uppercase font-semibold -mt-1 hidden sm:block">Academic Matrix</span>
+            <span
+              class="text-xl font-bold text-primary dark:text-white tracking-tight group-hover:text-secondary dark:group-hover:text-teal-400 transition-colors">CollegeHub</span>
+            <span
+              class="text-[10px] text-secondary dark:text-teal-400 tracking-widest uppercase font-semibold -mt-1 hidden sm:block">Academic
+              Matrix</span>
           </div>
         </a>
-        <nav class="hidden md:flex items-center gap-1 p-1 bg-surface-container-low/70 rounded-2xl border border-surface-container-high/60">
-          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all" href="index.html">Home</a>
-          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-bold bg-secondary-container text-on-secondary-container rounded-xl shadow-xs transition-all" href="recommendations.html">College Predictor</a>
-          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all" href="faqs.html">FAQs &amp; Chatbot</a>
-          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all" href="profile.html">Student Hub</a>
-          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-xl transition-all" href="about.html">About</a>
+        <nav
+          class="hidden md:flex items-center gap-1 p-1 bg-surface-container-low/70 dark:bg-slate-800/60 rounded-2xl border border-surface-container-high/60 dark:border-slate-700/50">
+          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all"
+            href="index.html">Home</a>
+          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-bold bg-secondary-container dark:bg-slate-900 text-on-secondary-container dark:text-teal-300 rounded-xl shadow-xs transition-all"
+            href="recommendations.html">College Predictor</a>
+          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all"
+            href="faqs.html">FAQs &amp; Chatbot</a>
+          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all"
+            href="profile.html">Student Hub</a>
+          <a class="px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-700 rounded-xl transition-all"
+            href="about.html">About</a>
         </nav>
       </div>
 
       <!-- Action items -->
       <div class="flex items-center gap-3">
         <!-- Theme Toggle -->
-        <button id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Color Theme" class="w-10 h-10 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors shadow-xs">
+        <button id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Color Theme"
+          class="w-10 h-10 rounded-xl bg-surface-container dark:bg-slate-800 hover:bg-surface-container-high dark:hover:bg-slate-700 text-on-surface dark:text-white flex items-center justify-center transition-colors shadow-xs">
           <span id="theme-toggle-icon" class="material-symbols-outlined text-xl">dark_mode</span>
         </button>
 
-        <a class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl bg-secondary text-on-secondary text-xs sm:text-sm font-semibold shadow-sm hover:opacity-95 transition-opacity gap-1" href="faqs.html">
+        <a class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl bg-secondary dark:bg-teal-600 text-on-secondary text-xs sm:text-sm font-semibold shadow-sm hover:opacity-95 transition-opacity gap-1"
+          href="faqs.html">
           <span class="material-symbols-outlined text-base">smart_toy</span>
           <span>Ask CollegeHub</span>
         </a>
 
         <!-- User profile pill -->
-        <a href="settings.html" class="flex items-center gap-2 pl-2 rounded-full focus:outline-none" title="Account Settings">
-          <div data-user-initials class="w-9 h-9 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-xs ring-2 ring-secondary/30">
+        <a href="settings.html" class="flex items-center gap-2 pl-2 rounded-full focus:outline-none"
+          title="Account Settings">
+          <div data-user-initials
+            class="w-9 h-9 rounded-full bg-secondary-container dark:bg-teal-950 text-on-secondary-container dark:text-teal-300 flex items-center justify-center font-bold text-xs ring-2 ring-secondary/30 dark:ring-teal-500/30">
             ST
           </div>
           <div class="hidden xl:flex flex-col text-left">
-            <span data-user-name class="text-xs font-bold text-on-surface">Student Profile</span>
-            <span data-user-role class="text-[10px] text-on-surface-variant">Applicant Active</span>
+            <span data-user-name class="text-xs font-bold text-on-surface dark:text-white">Student Profile</span>
+            <span data-user-role class="text-[10px] text-on-surface-variant dark:text-slate-400">Applicant Active</span>
           </div>
         </a>
       </div>
@@ -129,9 +171,9 @@
 
   <!-- Main Content Area -->
   <main class="w-full pt-20">
-    
+
     <!-- Hero Header -->
-    <div class="relative w-full overflow-hidden bg-primary-container text-on-primary py-10 px-6 lg:px-12">
+    <div class="relative w-full overflow-hidden bg-primary-container dark:bg-[#0f1d38] text-on-primary py-10 px-6 lg:px-12 border-b border-surface-container-high/40 dark:border-slate-800">
       <div class="absolute inset-0 opacity-15 pointer-events-none">
         <svg class="w-full h-full" fill="none" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
           <circle class="text-secondary" cx="160" cy="90" fill="currentColor" r="260"></circle>
@@ -140,360 +182,802 @@
       </div>
 
       <div class="relative max-w-7xl mx-auto space-y-3">
-        <div class="flex items-center gap-2 text-xs text-on-primary-container flex-wrap">
-          <a class="text-surface-bright hover:text-secondary-fixed transition-colors flex items-center gap-1" href="index.html">
+        <div class="flex items-center gap-2 text-xs text-on-primary-container dark:text-slate-300 flex-wrap">
+          <a class="text-surface-bright dark:text-white hover:text-secondary-fixed dark:hover:text-teal-300 transition-colors flex items-center gap-1"
+            href="index.html">
             <span class="material-symbols-outlined text-sm">home</span> Home
           </a>
           <span>/</span>
-          <a class="text-surface-bright hover:text-secondary-fixed transition-colors" href="profile.html">Student Profile</a>
+          <a class="text-surface-bright dark:text-white hover:text-secondary-fixed dark:hover:text-teal-300 transition-colors" href="profile.html">Student
+            Profile</a>
           <span>/</span>
-          <span class="text-secondary-fixed font-semibold">College Predictor</span>
+          <span class="text-secondary-fixed dark:text-teal-400 font-semibold">College Predictor</span>
         </div>
-        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-surface-bright tracking-tight">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-surface-bright dark:text-white tracking-tight">
           Student Profile → College Predictor
         </h1>
-        <p class="text-sm sm:text-base text-on-primary-container max-w-3xl">
-          Enter your entrance exam scores, academic qualifications, and prioritized branch preferences to match against verified historical centralized counseling cutoffs and calculate admission probabilities.
+        <p class="text-sm sm:text-base text-on-primary-container dark:text-slate-300 max-w-3xl leading-relaxed">
+          Enter your entrance exam scores, academic qualifications, and prioritized branch preferences to match against
+          verified historical centralized counseling cutoffs and calculate admission probabilities.
         </p>
       </div>
     </div>
 
     <!-- Main Container -->
-    <div class="max-w-7xl mx-auto px-6 lg:px-12 -mt-6 pb-20">
-      
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 pt-8 pb-20">
+
       <!-- Sub-navigation Pill Bar -->
       <div class="w-full mb-8 overflow-x-auto scrollbar-none pb-1">
-        <div class="flex items-center gap-2 p-1.5 bg-surface-container-low rounded-2xl w-max sm:w-full border border-surface-container-high/50">
-          <a href="profile.html" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container-high flex items-center gap-2 transition-all">
-            <span class="material-symbols-outlined text-base">dashboard</span>
+        <div
+          class="flex items-center gap-2 p-1.5 bg-surface-container-low dark:bg-[#111a2e] rounded-2xl w-max sm:w-full border border-surface-container-high/50 dark:border-slate-800 shadow-xs">
+          <a href="profile.html"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-surface-container-high dark:hover:bg-slate-800 flex items-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base text-secondary dark:text-teal-400">dashboard</span>
             <span>Applicant Dossier</span>
           </a>
-          <a href="recommendations.html" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-primary text-on-primary shadow-xs flex items-center gap-2 transition-all">
-            <span class="material-symbols-outlined text-base text-secondary-fixed">auto_awesome</span>
+          <a href="recommendations.html"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-primary text-on-primary dark:bg-slate-900 dark:text-teal-300 dark:border dark:border-teal-700/50 shadow-xs flex items-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base text-secondary-fixed dark:text-teal-400">auto_awesome</span>
             <span>College Predictor</span>
-            <span class="px-2 py-0.5 rounded-full bg-secondary text-white text-[11px] font-bold">CAP 2025</span>
+            <span class="px-2 py-0.5 rounded-full bg-secondary dark:bg-teal-950 text-white dark:text-teal-300 text-[11px] font-bold border dark:border-teal-700/40">CAP 2025</span>
           </a>
-          <a href="saved.html" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container-high flex items-center gap-2 transition-all">
-            <span class="material-symbols-outlined text-base">forum</span>
+          <a href="saved.html"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-surface-container-high dark:hover:bg-slate-800 flex items-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base text-secondary dark:text-teal-400">forum</span>
             <span>Saved FAQs &amp; Chats</span>
           </a>
-          <a href="settings.html" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container-high flex items-center gap-2 transition-all">
-            <span class="material-symbols-outlined text-base">shield_lock</span>
+          <a href="settings.html"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-white hover:bg-surface-container-high dark:hover:bg-slate-800 flex items-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-base text-secondary dark:text-teal-400">shield_lock</span>
             <span>Settings</span>
           </a>
         </div>
       </div>
 
       <!-- Trust Notice Banner -->
-      <div class="mb-8 p-4 sm:p-5 rounded-2xl bg-secondary-container/30 border border-secondary/30 flex items-start gap-3.5 text-on-surface">
-        <span class="material-symbols-outlined text-secondary text-2xl shrink-0 mt-0.5">verified_user</span>
+      <div
+        class="mb-8 p-4 sm:p-5 rounded-2xl bg-secondary-container/30 dark:bg-teal-950/40 border border-secondary/30 dark:border-teal-700/40 flex items-start gap-3.5 text-on-surface dark:text-slate-200">
+        <span class="material-symbols-outlined text-secondary dark:text-teal-400 text-2xl shrink-0 mt-0.5">verified_user</span>
         <div class="text-xs sm:text-sm leading-relaxed space-y-1">
-          <p class="font-bold text-secondary">
+          <p class="font-bold text-secondary dark:text-teal-300 text-sm">
             Verified Historical Guidance Protocol (Strict Match Guarantee)
           </p>
-          <p class="text-on-surface-variant">
-            College recommendations evaluate your profile strictly against official historical counseling archives (CAP Rounds 1–4 2025-26 / JoSAA). Scores are compared only against matching exams and identical score types—<strong>marks are never mixed with percentiles or ranks</strong>. Historical cutoffs serve as planning guidance, not a prediction or admission guarantee.
+          <p class="text-on-surface-variant dark:text-slate-300 text-xs sm:text-sm">
+            College recommendations evaluate your profile strictly against official historical counseling archives (CAP
+            Rounds 1–4 2025-26 / JoSAA). Scores are compared only against matching exams and identical score
+            types—<strong class="text-primary dark:text-white">marks are never mixed with percentiles or ranks</strong>. Historical cutoffs serve as planning
+            guidance, not a prediction or admission guarantee.
           </p>
         </div>
       </div>
 
       <!-- FLOW CONTAINER: Form View vs Review vs Results View -->
       <div id="flow-container">
-        
+
         <!-- STEP 1: Student Profile Input Form -->
-        <div id="step-form-card" class="bg-surface-container-lowest rounded-3xl shadow-xl p-6 sm:p-10 border border-surface-container-high">
-          
-          <div class="pb-6 mb-8 border-b border-surface-container-high">
+        <div id="step-form-card"
+          class="bg-surface-container-lowest dark:bg-[#111a2e] rounded-3xl shadow-xl p-6 sm:p-10 border border-surface-container-high dark:border-slate-800">
+
+          <div class="pb-6 mb-6 border-b border-surface-container-high dark:border-slate-800">
             <div>
-              <span class="text-xs font-bold uppercase tracking-wider text-secondary">Step 1 of 2</span>
-              <h2 class="text-xl sm:text-2xl font-extrabold text-primary mt-1">Student Academic &amp; Exam Profile</h2>
-              <p class="text-xs sm:text-sm text-on-surface-variant mt-0.5">Enter your verified exam scores and preferences. Required fields are clearly indicated with an asterisk (*).</p>
+              <span class="text-xs font-bold uppercase tracking-wider text-secondary dark:text-teal-400">Step 1 of 2</span>
+              <h2 class="text-xl sm:text-2xl font-extrabold text-primary dark:text-white mt-1">Student Academic &amp; Admission Profile
+              </h2>
+              <p class="text-xs sm:text-sm text-on-surface-variant dark:text-slate-400 mt-0.5">Select your admission pathway: First-Year
+                B.Tech or Direct Second Year Engineering (DSY/DSE).</p>
             </div>
           </div>
 
+          <!-- Admission Option Switcher: First-Year vs Direct Second Year (DSY/DSE) -->
+          <div
+            class="mb-8 p-1.5 bg-surface-container dark:bg-slate-800/80 rounded-2xl flex flex-col sm:flex-row gap-2 border border-surface-container-high/60 dark:border-slate-700 shadow-xs">
+            <button type="button" id="tab-mode-fe" onclick="switchAdmissionMode('fe')"
+              class="flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 transition-all shadow-xs bg-surface-container-lowest dark:bg-[#111a2e] text-primary dark:text-teal-400 border border-surface-container-high dark:border-slate-700">
+              <span class="material-symbols-outlined text-base text-secondary dark:text-teal-400">school</span>
+              <span>First Year Engineering (FE / B.Tech)</span>
+              <span
+                class="text-[10px] px-2 py-0.5 rounded-full bg-secondary/15 dark:bg-teal-950 text-secondary dark:text-teal-300 font-bold border dark:border-teal-700/40">12th
+                HSC / CET</span>
+            </button>
+            <button type="button" id="tab-mode-dsy" onclick="switchAdmissionMode('dsy')"
+              class="flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 transition-all text-on-surface-variant dark:text-slate-400 hover:text-on-surface dark:hover:text-white hover:bg-surface-container-high dark:hover:bg-slate-800">
+              <span class="material-symbols-outlined text-base text-primary dark:text-slate-300">engineering</span>
+              <span>Direct Second Year Engineering (DSY / DSE)</span>
+              <span
+                class="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 dark:bg-slate-700 text-primary dark:text-slate-200 font-bold">Polytechnic
+                Diploma</span>
+            </button>
+          </div>
+
           <form id="recommendation-form" onsubmit="handleFormSubmit(event)" class="space-y-8">
-            
-            <!-- Section 1: Entrance Exam & Scores -->
-            <div>
-              <h3 class="text-sm font-bold uppercase tracking-wider text-secondary flex items-center gap-2 mb-4">
-                <span class="material-symbols-outlined text-lg">fact_check</span>
-                <span>1. Entrance Examination &amp; Performance</span>
-              </h3>
-              
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                <!-- Exam Selection -->
-                <div>
-                  <label for="exam-select" class="block text-xs font-bold text-primary mb-1.5">
-                    Entrance Exam <span class="text-error font-bold">*</span>
-                  </label>
-                  <select id="exam-select" onchange="handleExamChange()" required class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
-                    <option value="MHT-CET" selected>MHT-CET (Maharashtra State CET)</option>
-                    <option value="JEE-Main">JEE Main (National Entrance)</option>
-                    <option value="KCET">KCET (Karnataka State CET)</option>
-                  </select>
-                  <p class="text-[11px] text-on-surface-variant mt-1.5">Configured exam counseling process.</p>
-                </div>
 
-                <!-- Exam Score Type -->
-                <div>
-                  <label class="block text-xs font-bold text-primary mb-1.5">
-                    Result Score Type <span class="text-error font-bold">*</span>
-                  </label>
-                  <div id="score-type-container" class="grid grid-cols-2 gap-2">
-                    <label class="cursor-pointer">
-                      <input type="radio" name="scoreType" value="percentile" checked onchange="handleScoreTypeChange()" class="peer sr-only">
-                      <div class="px-3 py-2.5 rounded-xl border border-surface-container-high text-xs font-bold text-center peer-checked:bg-secondary peer-checked:text-white peer-checked:border-secondary transition-all">
-                        Percentile
-                      </div>
+            <!-- FIRST-YEAR ENGINEERING FORM SECTION -->
+            <div id="fe-form-section" class="space-y-8">
+
+              <!-- Section 1: Entrance Exam & Scores -->
+              <div>
+                <h3 class="text-sm font-bold uppercase tracking-wider text-secondary dark:text-teal-400 flex items-center gap-2 mb-4">
+                  <span class="material-symbols-outlined text-lg">fact_check</span>
+                  <span>1. Entrance Examination &amp; Performance</span>
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                  <!-- Exam Selection -->
+                  <div>
+                    <label for="exam-select" class="block text-xs font-bold text-primary dark:text-slate-200 mb-1.5">
+                      Entrance Exam <span class="text-error font-bold">*</span>
                     </label>
-                    <label class="cursor-pointer">
-                      <input type="radio" name="scoreType" value="rank" onchange="handleScoreTypeChange()" class="peer sr-only">
-                      <div class="px-3 py-2.5 rounded-xl border border-surface-container-high text-xs font-bold text-center peer-checked:bg-secondary peer-checked:text-white peer-checked:border-secondary transition-all">
-                        Rank (Merit / AIR)
-                      </div>
+                    <select id="exam-select" onchange="handleExamChange()" required
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container dark:bg-slate-800/80 border border-surface-container-high dark:border-slate-700 text-on-surface dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest dark:focus:bg-slate-900 transition-all">
+                      <option value="MHT-CET" selected>MHT-CET (Maharashtra State CET)</option>
+                      <option value="JEE-Main">JEE Main (National Entrance)</option>
+                      <option value="KCET">KCET (Karnataka State CET)</option>
+                    </select>
+                    <p class="text-[11px] text-on-surface-variant dark:text-slate-400 mt-1.5">Configured exam counseling process.</p>
+                  </div>
+
+                  <!-- Exam Score Type -->
+                  <div>
+                    <label class="block text-xs font-bold text-primary dark:text-slate-200 mb-1.5">
+                      Result Score Type <span class="text-error font-bold">*</span>
                     </label>
+                    <div id="score-type-container" class="grid grid-cols-2 gap-2">
+                      <label class="cursor-pointer">
+                        <input type="radio" name="scoreType" value="percentile" checked
+                          onchange="handleScoreTypeChange()" class="peer sr-only">
+                        <div
+                          class="px-3 py-2.5 rounded-xl border border-surface-container-high dark:border-slate-700 text-xs font-bold text-center peer-checked:bg-secondary dark:peer-checked:bg-teal-600 peer-checked:text-white peer-checked:border-secondary dark:peer-checked:border-teal-500 text-on-surface dark:text-slate-200 transition-all">
+                          Percentile
+                        </div>
+                      </label>
+                      <label class="cursor-pointer">
+                        <input type="radio" name="scoreType" value="rank" onchange="handleScoreTypeChange()"
+                          class="peer sr-only">
+                        <div
+                          class="px-3 py-2.5 rounded-xl border border-surface-container-high dark:border-slate-700 text-xs font-bold text-center peer-checked:bg-secondary dark:peer-checked:bg-teal-600 peer-checked:text-white peer-checked:border-secondary dark:peer-checked:border-teal-500 text-on-surface dark:text-slate-200 transition-all">
+                          Rank (Merit / AIR)
+                        </div>
+                      </label>
+                    </div>
+                    <p class="text-[11px] text-on-surface-variant dark:text-slate-400 mt-1.5">Matches exact score metric.</p>
                   </div>
-                  <p class="text-[11px] text-on-surface-variant mt-1.5">Matches exact score metric.</p>
-                </div>
 
-                <!-- Score Value Input -->
-                <div>
-                  <label for="score-input" class="block text-xs font-bold text-primary mb-1.5">
-                    <span id="score-label">Exam Percentile</span> <span class="text-error font-bold">*</span>
-                  </label>
-                  <div class="relative">
-                    <input type="number" id="score-input" required step="0.0001" min="0" max="100" placeholder="e.g. 98.4210" class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
-                    <span id="score-unit" class="absolute right-4 top-3 text-xs font-bold text-on-surface-variant pointer-events-none">%</span>
+                  <!-- Score Value Input -->
+                  <div>
+                    <label for="score-input" class="block text-xs font-bold text-primary dark:text-slate-200 mb-1.5">
+                      <span id="score-label">Exam Percentile</span> <span class="text-error font-bold">*</span>
+                    </label>
+                    <div class="relative">
+                      <input type="number" id="score-input" required step="0.0001" min="0" max="100"
+                        placeholder="e.g. 98.4210"
+                        class="w-full px-4 py-3 rounded-xl bg-surface-container dark:bg-slate-800/80 border border-surface-container-high dark:border-slate-700 text-on-surface dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest dark:focus:bg-slate-900 transition-all">
+                      <span id="score-unit"
+                        class="absolute right-4 top-3 text-xs font-bold text-on-surface-variant dark:text-slate-400 pointer-events-none">%</span>
+                    </div>
+                    <p id="score-hint" class="text-[11px] text-on-surface-variant dark:text-slate-400 mt-1.5">Enter normalized CET
+                      percentile (0 to 100).</p>
+                    <p id="score-error" class="text-[11px] text-error font-bold mt-1 hidden"></p>
                   </div>
-                  <p id="score-hint" class="text-[11px] text-on-surface-variant mt-1.5">Enter normalized CET percentile (0 to 100).</p>
-                  <p id="score-error" class="text-[11px] text-error font-bold mt-1 hidden"></p>
-                </div>
 
-                <!-- Class 10 Percentage -->
-                <div>
-                  <label for="class10-input" class="block text-xs font-bold text-primary mb-1.5">
-                    Class 10 Board Percentage <span class="text-error font-bold">*</span>
-                  </label>
-                  <div class="relative">
-                    <input type="number" id="class10-input" required step="0.01" min="35" max="100" placeholder="e.g. 91.40" class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
-                    <span class="absolute right-4 top-3 text-xs font-bold text-on-surface-variant pointer-events-none">%</span>
+                  <!-- Class 10 Percentage -->
+                  <div>
+                    <label for="class10-input" class="block text-xs font-bold text-primary dark:text-slate-200 mb-1.5">
+                      Class 10 Board Percentage <span class="text-error font-bold">*</span>
+                    </label>
+                    <div class="relative">
+                      <input type="number" id="class10-input" required step="0.01" min="35" max="100"
+                        placeholder="e.g. 91.40"
+                        class="w-full px-4 py-3 rounded-xl bg-surface-container dark:bg-slate-800/80 border border-surface-container-high dark:border-slate-700 text-on-surface dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest dark:focus:bg-slate-900 transition-all">
+                      <span
+                        class="absolute right-4 top-3 text-xs font-bold text-on-surface-variant dark:text-slate-400 pointer-events-none">%</span>
+                    </div>
+                    <p class="text-[11px] text-on-surface-variant dark:text-slate-400 mt-1.5">Secondary School Certificate aggregate.</p>
                   </div>
-                  <p class="text-[11px] text-on-surface-variant mt-1.5">Secondary School Certificate aggregate.</p>
-                </div>
 
-                <!-- Class 12 Percentage -->
-                <div>
-                  <label for="class12-input" class="block text-xs font-bold text-primary mb-1.5">
-                    Class 12 / Diploma Percentage <span class="text-error font-bold">*</span>
-                  </label>
-                  <div class="relative">
-                    <input type="number" id="class12-input" required step="0.01" min="35" max="100" placeholder="e.g. 88.60" class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
-                    <span class="absolute right-4 top-3 text-xs font-bold text-on-surface-variant pointer-events-none">%</span>
+                  <!-- Class 12 Percentage -->
+                  <div>
+                    <label for="class12-input" class="block text-xs font-bold text-primary dark:text-slate-200 mb-1.5">
+                      Class 12 / Diploma Percentage <span class="text-error font-bold">*</span>
+                    </label>
+                    <div class="relative">
+                      <input type="number" id="class12-input" required step="0.01" min="35" max="100"
+                        placeholder="e.g. 88.60"
+                        class="w-full px-4 py-3 rounded-xl bg-surface-container dark:bg-slate-800/80 border border-surface-container-high dark:border-slate-700 text-on-surface dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest dark:focus:bg-slate-900 transition-all">
+                      <span
+                        class="absolute right-4 top-3 text-xs font-bold text-on-surface-variant dark:text-slate-400 pointer-events-none">%</span>
+                    </div>
+                    <p class="text-[11px] text-on-surface-variant dark:text-slate-400 mt-1.5">HSC PCM / PCB aggregate percentage.</p>
                   </div>
-                  <p class="text-[11px] text-on-surface-variant mt-1.5">HSC PCM / PCB aggregate percentage.</p>
-                </div>
 
-                <!-- Admission Category -->
-                <div>
-                  <label for="category-select" class="block text-xs font-bold text-primary mb-1.5">
-                    Admission Category <span class="text-error font-bold">*</span>
-                  </label>
-                  <select id="category-select" required class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
-                    <!-- Dynamic categories populated based on exam -->
-                    <option value="OPEN" selected>OPEN / General (GOPEN)</option>
-                    <option value="OBC-NCL">Other Backward Class (OBC-NCL)</option>
-                    <option value="EWS">Economically Weaker Section (EWS - 10%)</option>
-                    <option value="SC">Scheduled Caste (SC)</option>
-                    <option value="ST">Scheduled Tribe (ST)</option>
-                    <option value="TFWS">Tuition Fee Waiver Scheme (TFWS)</option>
-                  </select>
-                  <p class="text-[11px] text-on-surface-variant mt-1.5">Official category verified by caste/income certificate.</p>
-                </div>
+                  <!-- Admission Category -->
+                  <div>
+                    <label for="category-select" class="block text-xs font-bold text-primary dark:text-slate-200 mb-1.5">
+                      Admission Category <span class="text-error font-bold">*</span>
+                    </label>
+                    <select id="category-select" required
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container dark:bg-slate-800/80 border border-surface-container-high dark:border-slate-700 text-on-surface dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest dark:focus:bg-slate-900 transition-all">
+                      <!-- Dynamic categories populated based on exam -->
+                      <option value="OPEN" selected>OPEN / General (GOPEN)</option>
+                      <option value="OBC-NCL">Other Backward Class (OBC-NCL)</option>
+                      <option value="EWS">Economically Weaker Section (EWS - 10%)</option>
+                      <option value="SC">Scheduled Caste (SC)</option>
+                      <option value="ST">Scheduled Tribe (ST)</option>
+                      <option value="TFWS">Tuition Fee Waiver Scheme (TFWS)</option>
+                    </select>
+                    <p class="text-[11px] text-on-surface-variant dark:text-slate-400 mt-1.5">Official category verified by caste/income
+                      certificate.</p>
+                  </div>
 
+                </div>
               </div>
-            </div>
 
-            <!-- Section 2: Course & Branch Priorities -->
-            <div class="pt-6 border-t border-surface-container-high">
-              <h3 class="text-sm font-bold uppercase tracking-wider text-secondary flex items-center gap-2 mb-4">
-                <span class="material-symbols-outlined text-lg">account_tree</span>
-                <span>2. Degree Course &amp; Preferred Branches (in Priority Order)</span>
-              </h3>
+              <!-- Section 2: Course & Branch Priorities -->
+              <div class="pt-6 border-t border-surface-container-high dark:border-slate-800">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-secondary dark:text-teal-400 flex items-center gap-2 mb-4">
+                  <span class="material-symbols-outlined text-lg">account_tree</span>
+                  <span>2. Degree Course &amp; Preferred Branches (in Priority Order)</span>
+                </h3>
 
-              <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                <!-- Course -->
-                <div>
-                  <label for="course-select" class="block text-xs font-bold text-primary mb-1.5">
-                    Preferred Course <span class="text-error font-bold">*</span>
-                  </label>
-                  <select id="course-select" onchange="handleCourseChange()" required class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
-                    <option value="B.Tech" selected>B.Tech / B.E. (Bachelor of Technology)</option>
-                    <option value="B.Arch">B.Arch (Bachelor of Architecture)</option>
-                    <option value="MBA">MBA (Master of Business Administration)</option>
-                  </select>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                  <!-- Course -->
+                  <div>
+                    <label for="course-select" class="block text-xs font-bold text-primary dark:text-slate-200 mb-1.5">
+                      Preferred Course <span class="text-error font-bold">*</span>
+                    </label>
+                    <select id="course-select" onchange="handleCourseChange()" required
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container dark:bg-slate-800/80 border border-surface-container-high dark:border-slate-700 text-on-surface dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest dark:focus:bg-slate-900 transition-all">
+                      <option value="B.Tech" selected>B.Tech / B.E. (Bachelor of Technology)</option>
+                      <option value="B.Arch">B.Arch (Bachelor of Architecture)</option>
+                      <option value="MBA">MBA (Master of Business Administration)</option>
+                    </select>
+                  </div>
+
+                  <div class="lg:col-span-2">
+                    <div class="flex items-center justify-between mb-1.5">
+                      <label class="block text-xs font-bold text-primary dark:text-slate-200">
+                        Select &amp; Prioritize Preferred Branches <span class="text-error font-bold">*</span>
+                      </label>
+                      <span id="saved-branches-indicator"
+                        class="text-[11px] text-secondary dark:text-teal-400 font-bold hidden flex items-center gap-1">
+                        <span class="material-symbols-outlined text-xs">bookmark_added</span> Restored from Saved
+                        Preferences
+                      </span>
+                    </div>
+                    <p class="text-xs text-on-surface-variant dark:text-slate-400 mb-3">Click branches below to add them to your preference
+                      order. Click arrows to arrange priority.</p>
+
+                    <!-- Selected Branch Order Chips -->
+                    <div id="priority-list"
+                      class="flex flex-wrap items-center gap-2 p-3 rounded-2xl bg-surface-container-low dark:bg-slate-900/60 min-h-[52px] border border-surface-container-high dark:border-slate-700">
+                      <!-- Populated dynamically via JS -->
+                    </div>
+                  </div>
                 </div>
 
-                <div class="lg:col-span-2">
-                  <div class="flex items-center justify-between mb-1.5">
-                    <label class="block text-xs font-bold text-primary">
-                      Select &amp; Prioritize Preferred Branches <span class="text-error font-bold">*</span>
-                    </label>
-                    <span id="saved-branches-indicator" class="text-[11px] text-secondary font-bold hidden flex items-center gap-1">
-                      <span class="material-symbols-outlined text-xs">bookmark_added</span> Restored from Saved Preferences
-                    </span>
+                <!-- Available Branch Selection Bank -->
+                <div class="mt-4">
+                  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <span id="branch-bank-title" class="text-xs font-bold text-on-surface-variant dark:text-slate-300 block">
+                        Available Engineering Branches (Click to toggle preference):
+                      </span>
+                      <span id="branch-saved-badge"
+                        class="px-2.5 py-0.5 rounded-full bg-secondary-container/80 dark:bg-teal-950/80 text-on-secondary-container dark:text-teal-300 text-[11px] font-extrabold uppercase tracking-wider flex items-center gap-1 border dark:border-teal-700/40">
+                        <span class="material-symbols-outlined text-xs">verified</span>
+                        <span>22 Saved in Database</span>
+                      </span>
+                    </div>
+                    <!-- Quick Search & Actions -->
+                    <div class="flex items-center gap-2 self-start sm:self-auto">
+                      <div class="relative">
+                        <span
+                          class="material-symbols-outlined text-sm absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant dark:text-slate-400">search</span>
+                        <input type="text" id="branch-search-input" oninput="filterBranchBank()"
+                          placeholder="Search branch..."
+                          class="pl-7 pr-3 py-1.5 rounded-xl bg-surface-container dark:bg-slate-800 border border-surface-container-high dark:border-slate-700 text-xs font-medium text-on-surface dark:text-white focus:outline-none focus:ring-1 focus:ring-secondary w-36 sm:w-44 transition-all">
+                      </div>
+                      <button type="button" onclick="selectAllCurrentBranches()" title="Select all available branches"
+                        class="px-2.5 py-1.5 rounded-xl bg-surface-container dark:bg-slate-800 hover:bg-surface-container-high dark:hover:bg-slate-700 text-on-surface dark:text-slate-300 text-[11px] font-bold border border-surface-container-high dark:border-slate-700 transition-colors">Select
+                        All</button>
+                      <button type="button" onclick="clearSelectedBranches()" title="Clear branch selections"
+                        class="px-2.5 py-1.5 rounded-xl bg-surface-container dark:bg-slate-800 hover:bg-surface-container-high dark:hover:bg-slate-700 text-on-surface dark:text-slate-300 text-[11px] font-bold border border-surface-container-high dark:border-slate-700 transition-colors">Clear</button>
+                    </div>
                   </div>
-                  <p class="text-xs text-on-surface-variant mb-3">Click branches below to add them to your preference order. Click arrows to arrange priority.</p>
-                  
-                  <!-- Selected Branch Order Chips -->
-                  <div id="priority-list" class="flex flex-wrap items-center gap-2 p-3 rounded-2xl bg-surface-container-low min-h-[52px] border border-surface-container-high">
+
+                  <!-- Cluster category tabs -->
+                  <div id="branch-cluster-tabs" class="flex flex-wrap items-center gap-1.5 mb-3">
+                    <!-- Populated by JS -->
+                  </div>
+
+                  <!-- Branch Bank Buttons -->
+                  <div id="branch-bank" class="flex flex-wrap gap-2 max-h-80 overflow-y-auto pr-1">
                     <!-- Populated dynamically via JS -->
                   </div>
+                  <p id="branch-error" class="text-[11px] text-error font-bold mt-1.5 hidden"></p>
                 </div>
               </div>
 
-              <!-- Available Branch Selection Bank -->
-              <div class="mt-4">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <span id="branch-bank-title" class="text-xs font-bold text-on-surface-variant block">
-                      Available Engineering Branches (Click to toggle preference):
-                    </span>
-                    <span id="branch-saved-badge" class="px-2.5 py-0.5 rounded-full bg-secondary-container/80 text-on-secondary-container text-[11px] font-extrabold uppercase tracking-wider flex items-center gap-1">
-                      <span class="material-symbols-outlined text-xs">verified</span>
-                      <span>22 Saved in Database</span>
-                    </span>
+              <!-- Section 3: Geographic & Lifestyle Preferences -->
+              <div class="pt-6 border-t border-surface-container-high dark:border-slate-800">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-secondary dark:text-teal-400 flex items-center gap-2 mb-4">
+                  <span class="material-symbols-outlined text-lg">location_on</span>
+                  <span>3. Geographic &amp; Campus Preferences</span>
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                  <!-- State Selection -->
+                  <div>
+                    <label for="state-select" class="block text-xs font-bold text-primary dark:text-slate-200 mb-1.5">
+                      Preferred State <span class="text-error font-bold">*</span>
+                    </label>
+                    <select id="state-select" required
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container dark:bg-slate-800/80 border border-surface-container-high dark:border-slate-700 text-on-surface dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest dark:focus:bg-slate-900 transition-all">
+                      <option value="Maharashtra" selected>Maharashtra</option>
+                      <option value="Karnataka">Karnataka</option>
+                      <option value="All India">All India / Pan-India</option>
+                    </select>
                   </div>
-                  <!-- Quick Search & Actions -->
-                  <div class="flex items-center gap-2 self-start sm:self-auto">
-                    <div class="relative">
-                      <span class="material-symbols-outlined text-sm absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-                      <input type="text" id="branch-search-input" oninput="filterBranchBank()" placeholder="Search branch..." class="pl-7 pr-3 py-1.5 rounded-xl bg-surface-container border border-surface-container-high text-xs font-medium text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary w-36 sm:w-44 transition-all">
+
+                  <!-- Preferred Cities Checkboxes -->
+                  <div>
+                    <label class="block text-xs font-bold text-primary mb-1.5">
+                      Preferred Cities / Hubs <span
+                        class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                    </label>
+                    <div class="space-y-1.5 text-xs font-semibold text-on-surface">
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="preferredCities" value="Pune" checked
+                          class="rounded text-secondary focus:ring-secondary">
+                        <span>Pune Region</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="preferredCities" value="Mumbai" checked
+                          class="rounded text-secondary focus:ring-secondary">
+                        <span>Mumbai Metropolitan</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="preferredCities" value="Sangli"
+                          class="rounded text-secondary focus:ring-secondary">
+                        <span>Western Maharashtra (Sangli/Kolhapur)</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="preferredCities" value="Chhatrapati Sambhajinagar"
+                          class="rounded text-secondary focus:ring-secondary">
+                        <span>Marathwada / Vidarbha</span>
+                      </label>
                     </div>
-                    <button type="button" onclick="selectAllCurrentBranches()" title="Select all available branches" class="px-2.5 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-[11px] font-bold border border-surface-container-high transition-colors">Select All</button>
-                    <button type="button" onclick="clearSelectedBranches()" title="Clear branch selections" class="px-2.5 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-[11px] font-bold border border-surface-container-high transition-colors">Clear</button>
+                  </div>
+
+                  <!-- Budget Range (Optional) -->
+                  <div>
+                    <label for="budget-select" class="block text-xs font-bold text-primary mb-1.5">
+                      Annual Tuition Budget <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                    </label>
+                    <select id="budget-select"
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <option value="">No Budget Constraint (Any)</option>
+                      <option value="50000">Under ₹50,000 / year (Govt Fees)</option>
+                      <option value="120000">Up to ₹1,20,000 / year</option>
+                      <option value="200000">Up to ₹2,00,000 / year</option>
+                      <option value="300000">Up to ₹3,00,000 / year</option>
+                    </select>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">Helps filter scholarship / fee tiers.</p>
+                  </div>
+
+                  <!-- Hostel Accommodation Preference (Optional) -->
+                  <div>
+                    <label for="hostel-select" class="block text-xs font-bold text-primary mb-1.5">
+                      Hostel Requirement <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                    </label>
+                    <select id="hostel-select"
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <option value="any" selected>No Preference (Hostel or Day Scholar)</option>
+                      <option value="required">Hostel Accommodation Required</option>
+                      <option value="day_scholar">Day Scholar / Commuter Only</option>
+                    </select>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">Checks on-campus residential housing.</p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <!-- END FIRST-YEAR ENGINEERING FORM SECTION -->
+
+            <!-- DIRECT SECOND YEAR ENGINEERING (DSY/DSE) FORM SECTION -->
+            <div id="dsy-form-section" class="hidden space-y-8">
+
+              <!-- Section 1: Academic & Diploma Admission Profile -->
+              <div>
+                <h3 class="text-sm font-bold uppercase tracking-wider text-secondary flex items-center gap-2 mb-4">
+                  <span class="material-symbols-outlined text-lg">workspace_premium</span>
+                  <span>1. Student Academic &amp; Diploma Admission Profile</span>
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                  <!-- Student's Diploma Branch Selection -->
+                  <div>
+                    <label for="dsy-diploma-branch" class="block text-xs font-bold text-primary mb-1.5">
+                      Completed Diploma Branch <span class="text-error font-bold">*</span>
+                    </label>
+                    <select id="dsy-diploma-branch"
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <option value="" disabled selected>Select completed Diploma branch...</option>
+                      <option value="Computer Engineering">Diploma in Computer Engineering</option>
+                      <option value="Information Technology">Diploma in Information Technology</option>
+                      <option value="Artificial Intelligence & Machine Learning">Diploma in AI &amp; Machine Learning</option>
+                      <option value="Mechanical Engineering">Diploma in Mechanical Engineering</option>
+                      <option value="Civil Engineering">Diploma in Civil Engineering</option>
+                      <option value="Electrical Engineering">Diploma in Electrical Engineering</option>
+                      <option value="Electronics & Telecommunication">Diploma in Electronics &amp; Telecomm (ENTC)</option>
+                      <option value="Chemical Engineering">Diploma in Chemical Engineering</option>
+                      <option value="Automobile Engineering">Diploma in Automobile Engineering</option>
+                      <option value="Instrumentation & Control">Diploma in Instrumentation &amp; Control</option>
+                      <option value="Robotics & Automation">Diploma in Robotics &amp; Automation</option>
+                      <option value="Production Engineering">Diploma in Production Engineering</option>
+                      <option value="Mechatronics Engineering">Diploma in Mechatronics</option>
+                      <option value="Other Engineering Diploma">Other Engineering Diploma (AICTE / MSBTE)</option>
+                    </select>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">Official 3-year MSBTE or equivalent Diploma.</p>
+                  </div>
+
+                  <!-- Diploma Score Metric Type: Merit Rank vs Marks -->
+                  <div>
+                    <label class="block text-xs font-bold text-primary mb-1.5">
+                      Score Evaluation Metric <span class="text-error font-bold">*</span>
+                    </label>
+                    <div class="grid grid-cols-2 gap-2">
+                      <label class="cursor-pointer">
+                        <input type="radio" name="dsyMetricType" value="rank" checked
+                          onchange="handleDsyMetricChange()" class="peer sr-only">
+                        <div
+                          class="px-3 py-2.5 rounded-xl border border-surface-container-high text-xs font-bold text-center peer-checked:bg-secondary peer-checked:text-white peer-checked:border-secondary transition-all">
+                          Merit Rank
+                        </div>
+                      </label>
+                      <label class="cursor-pointer">
+                        <input type="radio" name="dsyMetricType" value="marks" onchange="handleDsyMetricChange()"
+                          class="peer sr-only">
+                        <div
+                          class="px-3 py-2.5 rounded-xl border border-surface-container-high text-xs font-bold text-center peer-checked:bg-secondary peer-checked:text-white peer-checked:border-secondary transition-all">
+                          Marks / %
+                        </div>
+                      </label>
+                    </div>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">State General Merit Rank (Recommended) or Diploma %.</p>
+                  </div>
+
+                  <!-- Score / Rank Input -->
+                  <div>
+                    <label for="dsy-score-input" class="block text-xs font-bold text-primary mb-1.5">
+                      <span id="dsy-score-label">State General Merit Number (Rank)</span> <span
+                        class="text-error font-bold">*</span>
+                    </label>
+                    <div class="relative">
+                      <input type="number" id="dsy-score-input" step="1" min="1" max="200000" placeholder="e.g. 1450"
+                        class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <span id="dsy-score-unit"
+                        class="absolute right-4 top-3 text-xs font-bold text-on-surface-variant pointer-events-none">Rank</span>
+                    </div>
+                    <p id="dsy-score-hint" class="text-[11px] text-on-surface-variant mt-1.5">State Merit Rank (lower number is better rank).</p>
+                    <p id="dsy-score-error" class="text-[11px] text-error font-bold mt-1 hidden"></p>
+                  </div>
+
+                  <!-- Admission Category (Optional) -->
+                  <div>
+                    <label for="dsy-category-select" class="block text-xs font-bold text-primary mb-1.5">
+                      Admission Category <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                    </label>
+                    <select id="dsy-category-select"
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <option value="OPEN" selected>OPEN / General (GOPEN)</option>
+                      <option value="OBC-NCL">Other Backward Class (OBC-NCL)</option>
+                      <option value="EWS">Economically Weaker Section (EWS - 10%)</option>
+                      <option value="SC">Scheduled Caste (SC)</option>
+                      <option value="ST">Scheduled Tribe (ST)</option>
+                      <option value="VJNT">VJ / DT-A (Vimukta Jati)</option>
+                      <option value="NT-B">NT-B (NT-1)</option>
+                      <option value="NT-C">NT-C (NT-2)</option>
+                      <option value="NT-D">NT-D (NT-3)</option>
+                      <option value="TFWS">Tuition Fee Waiver Scheme (TFWS)</option>
+                    </select>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">Reservation category verified by certificate.</p>
+                  </div>
+
+                  <!-- Final Diploma Aggregate Marks (%) -->
+                  <div>
+                    <label for="dsy-diploma-marks" class="block text-xs font-bold text-primary mb-1.5">
+                      Diploma Aggregate % <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                    </label>
+                    <div class="relative">
+                      <input type="number" id="dsy-diploma-marks" step="0.01" min="35.00" max="100.00" placeholder="e.g. 88.50"
+                        class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <span class="absolute right-4 top-3 text-xs font-bold text-on-surface-variant pointer-events-none">%</span>
+                    </div>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">MSBTE final year aggregate percentage.</p>
+                  </div>
+
+                  <!-- Class 10 (SSC) Board Percentage (%) -->
+                  <div>
+                    <label for="dsy-class10-input" class="block text-xs font-bold text-primary mb-1.5">
+                      Class 10 (SSC) % <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                    </label>
+                    <div class="relative">
+                      <input type="number" id="dsy-class10-input" step="0.01" min="35.00" max="100.00" placeholder="e.g. 84.50"
+                        class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <span class="absolute right-4 top-3 text-xs font-bold text-on-surface-variant pointer-events-none">%</span>
+                    </div>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">SSC / Class 10 board exam score.</p>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Section 2: Preferred Engineering Degree Branches -->
+              <div class="pt-6 border-t border-surface-container-high">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-secondary flex items-center gap-2 mb-4">
+                  <span class="material-symbols-outlined text-lg">account_tree</span>
+                  <span>2. Preferred Engineering Degree Branches (in Priority Order)</span>
+                </h3>
+
+                <div class="mb-4">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <label class="block text-xs font-bold text-primary">
+                      Selected Target Degree Branches <span class="text-error font-bold">*</span>
+                    </label>
+                    <span class="text-[11px] text-on-surface-variant">Click branch tags below to add or remove</span>
+                  </div>
+                  <div id="dsy-priority-list"
+                    class="flex flex-wrap items-center gap-2 p-3 rounded-2xl bg-surface-container-low min-h-[52px] border border-surface-container-high">
+                    <!-- Populated dynamically via JS -->
+                  </div>
+                  <p id="dsy-branch-error" class="text-[11px] text-error font-bold mt-1.5 hidden"></p>
+                </div>
+
+                <!-- Available Degree Branch Bank for DSY -->
+                <div>
+                  <span class="text-xs font-bold text-on-surface-variant block mb-2">Available Degree Branches (Click
+                    to toggle preference):</span>
+                  <div id="dsy-branch-bank" class="flex flex-wrap gap-2">
+                    <!-- Injected dynamically via JS -->
                   </div>
                 </div>
-
-                <!-- Cluster category tabs -->
-                <div id="branch-cluster-tabs" class="flex flex-wrap items-center gap-1.5 mb-3">
-                  <!-- Populated by JS -->
-                </div>
-
-                <!-- Branch Bank Buttons -->
-                <div id="branch-bank" class="flex flex-wrap gap-2 max-h-80 overflow-y-auto pr-1">
-                  <!-- Populated dynamically via JS -->
-                </div>
-                <p id="branch-error" class="text-[11px] text-error font-bold mt-1.5 hidden"></p>
               </div>
-            </div>
 
-            <!-- Section 3: Geographic & Lifestyle Preferences -->
-            <div class="pt-6 border-t border-surface-container-high">
-              <h3 class="text-sm font-bold uppercase tracking-wider text-secondary flex items-center gap-2 mb-4">
-                <span class="material-symbols-outlined text-lg">location_on</span>
-                <span>3. Geographic &amp; Campus Preferences</span>
-              </h3>
+              <!-- Section 3: Location, Quota & Preferences -->
+              <div class="pt-6 border-t border-surface-container-high">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-secondary flex items-center gap-2 mb-4">
+                  <span class="material-symbols-outlined text-lg">tune</span>
+                  <span>3. Location, Quota &amp; College Preferences</span>
+                </h3>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <!-- State Selection -->
-                <div>
-                  <label for="state-select" class="block text-xs font-bold text-primary mb-1.5">
-                    Preferred State <span class="text-error font-bold">*</span>
-                  </label>
-                  <select id="state-select" required class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
-                    <option value="Maharashtra" selected>Maharashtra</option>
-                    <option value="Karnataka">Karnataka</option>
-                    <option value="All India">All India / Pan-India</option>
-                  </select>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                  <!-- Home University Region -->
+                  <div>
+                    <label for="dsy-university-select" class="block text-xs font-bold text-primary mb-1.5">
+                      Home University Region <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                    </label>
+                    <select id="dsy-university-select"
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <option value="any" selected>Any / State-Level (No Preference)</option>
+                      <option value="SPPU">Savitribai Phule Pune University (SPPU)</option>
+                      <option value="MU">University of Mumbai (MU)</option>
+                      <option value="DBATU">Dr. Babasaheb Ambedkar Tech Univ (DBATU Lonere)</option>
+                      <option value="RTMNU">Rashtrasant Tukadoji Maharaj Nagpur Univ (RTMNU)</option>
+                      <option value="BAMU">Dr. Babasaheb Ambedkar Marathwada Univ (BAMU)</option>
+                      <option value="SUK">Shivaji University Kolhapur (SUK)</option>
+                      <option value="SRTMUN">Swami Ramanand Teerth Marathwada Univ (SRTMUN)</option>
+                      <option value="SGBAU">Sant Gadge Baba Amravati Univ (SGBAU)</option>
+                      <option value="KBCNMU">Kavayitri Bahinabai Chaudhari North Maharashtra Univ</option>
+                    </select>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">Diploma institute jurisdiction determines Home University.</p>
+                  </div>
+
+                  <!-- Seat Quota -->
+                  <div>
+                    <label for="dsy-quota-select" class="block text-xs font-bold text-primary mb-1.5">
+                      Seat Quota <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                    </label>
+                    <select id="dsy-quota-select"
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <option value="SL" selected>State Level Quota (SL / GOPENS)</option>
+                      <option value="HU">Home University Quota (HU / GOPENH)</option>
+                      <option value="OHU">Other Than Home University (OHU / GOPENO)</option>
+                      <option value="ALL">All Available Quotas</option>
+                    </select>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">Quota according to Maharashtra DSE rules.</p>
+                  </div>
+
+                  <!-- CAP Round Preference -->
+                  <div>
+                    <label for="dsy-round-select" class="block text-xs font-bold text-primary mb-1.5">
+                      CAP Round Comparison <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                    </label>
+                    <select id="dsy-round-select"
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <option value="CAP Round I" selected>CAP Round I (Primary Allotment)</option>
+                      <option value="CAP Round II">CAP Round II</option>
+                      <option value="CAP Round III">CAP Round III</option>
+                      <option value="ALL">All CAP Rounds</option>
+                    </select>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">Historical round to compare against.</p>
+                  </div>
+
+                  <!-- Admission Academic Year -->
+                  <div>
+                    <label for="dsy-admission-year" class="block text-xs font-bold text-primary mb-1.5">
+                      Counseling Academic Year <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                    </label>
+                    <select id="dsy-admission-year"
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <option value="2026-2027" selected>2026–2027 (Official CET Cell Allotment Matrix)</option>
+                      <option value="2025-2026">2025–2026</option>
+                      <option value="2024-2025">2024–2025</option>
+                      <option value="ALL">All Available Years</option>
+                    </select>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">Matches official CET Cell counseling cutoff database.</p>
+                  </div>
+
+                  <!-- Annual Tuition Budget (Optional) -->
+                  <div>
+                    <label for="dsy-budget-select" class="block text-xs font-bold text-primary mb-1.5">
+                      Annual Tuition Budget <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                    </label>
+                    <select id="dsy-budget-select"
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <option value="">No Budget Constraint (Any)</option>
+                      <option value="50000">Under ₹50,000 / year (Govt Fees)</option>
+                      <option value="120000">Up to ₹1,20,000 / year</option>
+                      <option value="200000">Up to ₹2,00,000 / year</option>
+                      <option value="300000">Up to ₹3,00,000 / year</option>
+                    </select>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">Helps filter scholarship / fee tiers.</p>
+                  </div>
+
+                  <!-- Hostel Requirement (Optional) -->
+                  <div>
+                    <label for="dsy-hostel-select" class="block text-xs font-bold text-primary mb-1.5">
+                      Hostel Requirement <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
+                    </label>
+                    <select id="dsy-hostel-select"
+                      class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
+                      <option value="any" selected>No Preference (Hostel or Day Scholar)</option>
+                      <option value="required">Hostel Accommodation Required</option>
+                      <option value="day_scholar">Day Scholar / Commuter Only</option>
+                    </select>
+                    <p class="text-[11px] text-on-surface-variant mt-1.5">Checks on-campus residential housing.</p>
+                  </div>
+
                 </div>
 
-                <!-- Preferred Cities Checkboxes -->
-                <div>
-                  <label class="block text-xs font-bold text-primary mb-1.5">
-                    Preferred Cities / Hubs <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
-                  </label>
-                  <div class="space-y-1.5 text-xs font-semibold text-on-surface">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" name="preferredCities" value="Pune" checked class="rounded text-secondary focus:ring-secondary">
-                      <span>Pune Region</span>
+                <!-- Preferred Districts in Maharashtra -->
+                <div class="mt-6 space-y-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-primary">Select Preferred Districts <span
+                        class="text-xs text-on-surface-variant font-normal">(Leave empty or select All for statewide search)</span>:</span>
+                    <button type="button" onclick="toggleAllDsyDistricts()"
+                      class="text-xs font-bold text-secondary hover:underline">Toggle All / Clear</button>
+                  </div>
+                  <div
+                    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 text-xs font-semibold text-on-surface"
+                    id="dsy-districts-grid">
+                    <label
+                      class="flex items-center gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 cursor-pointer transition-colors">
+                      <input type="checkbox" name="dsyDistricts" value="Pune" checked
+                        class="rounded text-secondary focus:ring-secondary">
+                      <span>Pune</span>
                     </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" name="preferredCities" value="Mumbai" checked class="rounded text-secondary focus:ring-secondary">
-                      <span>Mumbai Metropolitan</span>
+                    <label
+                      class="flex items-center gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 cursor-pointer transition-colors">
+                      <input type="checkbox" name="dsyDistricts" value="Mumbai Suburban" checked
+                        class="rounded text-secondary focus:ring-secondary">
+                      <span>Mumbai Sub.</span>
                     </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" name="preferredCities" value="Sangli" class="rounded text-secondary focus:ring-secondary">
-                      <span>Western Maharashtra (Sangli/Kolhapur)</span>
+                    <label
+                      class="flex items-center gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 cursor-pointer transition-colors">
+                      <input type="checkbox" name="dsyDistricts" value="Mumbai City" checked
+                        class="rounded text-secondary focus:ring-secondary">
+                      <span>Mumbai City</span>
                     </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" name="preferredCities" value="Chhatrapati Sambhajinagar" class="rounded text-secondary focus:ring-secondary">
-                      <span>Marathwada / Vidarbha</span>
+                    <label
+                      class="flex items-center gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 cursor-pointer transition-colors">
+                      <input type="checkbox" name="dsyDistricts" value="Thane"
+                        class="rounded text-secondary focus:ring-secondary">
+                      <span>Thane</span>
+                    </label>
+                    <label
+                      class="flex items-center gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 cursor-pointer transition-colors">
+                      <input type="checkbox" name="dsyDistricts" value="Nashik"
+                        class="rounded text-secondary focus:ring-secondary">
+                      <span>Nashik</span>
+                    </label>
+                    <label
+                      class="flex items-center gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 cursor-pointer transition-colors">
+                      <input type="checkbox" name="dsyDistricts" value="Nagpur"
+                        class="rounded text-secondary focus:ring-secondary">
+                      <span>Nagpur</span>
+                    </label>
+                    <label
+                      class="flex items-center gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 cursor-pointer transition-colors">
+                      <input type="checkbox" name="dsyDistricts" value="Chhatrapati Sambhajinagar"
+                        class="rounded text-secondary focus:ring-secondary">
+                      <span>Sambhajinagar</span>
+                    </label>
+                    <label
+                      class="flex items-center gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 cursor-pointer transition-colors">
+                      <input type="checkbox" name="dsyDistricts" value="Kolhapur"
+                        class="rounded text-secondary focus:ring-secondary">
+                      <span>Kolhapur</span>
+                    </label>
+                    <label
+                      class="flex items-center gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 cursor-pointer transition-colors">
+                      <input type="checkbox" name="dsyDistricts" value="Sangli"
+                        class="rounded text-secondary focus:ring-secondary">
+                      <span>Sangli</span>
+                    </label>
+                    <label
+                      class="flex items-center gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 cursor-pointer transition-colors">
+                      <input type="checkbox" name="dsyDistricts" value="Solapur"
+                        class="rounded text-secondary focus:ring-secondary">
+                      <span>Solapur</span>
+                    </label>
+                    <label
+                      class="flex items-center gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 cursor-pointer transition-colors">
+                      <input type="checkbox" name="dsyDistricts" value="Amravati"
+                        class="rounded text-secondary focus:ring-secondary">
+                      <span>Amravati</span>
+                    </label>
+                    <label
+                      class="flex items-center gap-2 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-high/60 cursor-pointer transition-colors">
+                      <input type="checkbox" name="dsyDistricts" value="All"
+                        class="rounded text-secondary focus:ring-secondary">
+                      <span>All Districts</span>
                     </label>
                   </div>
                 </div>
-
-                <!-- Budget Range (Optional) -->
-                <div>
-                  <label for="budget-select" class="block text-xs font-bold text-primary mb-1.5">
-                    Annual Tuition Budget <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
-                  </label>
-                  <select id="budget-select" class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
-                    <option value="">No Budget Constraint (Any)</option>
-                    <option value="50000">Under ₹50,000 / year (Govt Fees)</option>
-                    <option value="120000">Up to ₹1,20,000 / year</option>
-                    <option value="200000">Up to ₹2,00,000 / year</option>
-                    <option value="300000">Up to ₹3,00,000 / year</option>
-                  </select>
-                  <p class="text-[11px] text-on-surface-variant mt-1.5">Helps filter scholarship / fee tiers.</p>
-                </div>
-
-                <!-- Hostel Accommodation Preference (Optional) -->
-                <div>
-                  <label for="hostel-select" class="block text-xs font-bold text-primary mb-1.5">
-                    Hostel Requirement <span class="text-xs text-on-surface-variant font-normal">(Optional)</span>
-                  </label>
-                  <select id="hostel-select" class="w-full px-4 py-3 rounded-xl bg-surface-container border border-surface-container-high text-on-surface text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:bg-surface-container-lowest transition-all">
-                    <option value="any" selected>No Preference (Hostel or Day Scholar)</option>
-                    <option value="required">Hostel Accommodation Required</option>
-                    <option value="day_scholar">Day Scholar / Commuter Only</option>
-                  </select>
-                  <p class="text-[11px] text-on-surface-variant mt-1.5">Checks on-campus residential housing.</p>
-                </div>
-
               </div>
+
             </div>
+            <!-- END DIRECT SECOND YEAR FORM SECTION -->
 
-            <!-- Submit & Review CTA -->
-            <div class="pt-6 border-t border-surface-container-high flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div class="text-xs text-on-surface-variant">
-                You will review your complete profile before viewing historical cutoff predictions.
+              <!-- Submit & Review CTA -->
+              <div
+                class="pt-6 border-t border-surface-container-high flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-xs text-on-surface-variant">
+                  You will review your complete profile before viewing historical cutoff predictions.
+                </div>
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                  <button type="reset" onclick="resetFormState()"
+                    class="px-5 py-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs sm:text-sm font-bold transition-colors w-full sm:w-auto">
+                    Clear Form
+                  </button>
+                  <button type="submit"
+                    class="px-6 py-3 rounded-xl bg-secondary hover:bg-secondary/90 text-on-secondary text-xs sm:text-sm font-bold shadow-md transition-all flex items-center justify-center gap-2 w-full sm:w-auto">
+                    <span>Review Profile &amp; Predict</span>
+                    <span class="material-symbols-outlined text-base">arrow_forward</span>
+                  </button>
+                </div>
               </div>
-              <div class="flex items-center gap-3 w-full sm:w-auto">
-                <button type="reset" onclick="resetFormState()" class="px-5 py-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs sm:text-sm font-bold transition-colors w-full sm:w-auto">
-                  Clear Form
-                </button>
-                <button type="submit" class="px-6 py-3 rounded-xl bg-secondary hover:bg-secondary/90 text-on-secondary text-xs sm:text-sm font-bold shadow-md transition-all flex items-center justify-center gap-2 w-full sm:w-auto">
-                  <span>Review Profile &amp; Predict</span>
-                  <span class="material-symbols-outlined text-base">arrow_forward</span>
-                </button>
-              </div>
-            </div>
 
           </form>
 
         </div>
 
         <!-- STEP 2: Profile Review Modal / Confirmation Card (Hidden by Default) -->
-        <div id="step-review-card" class="hidden bg-surface-container-lowest rounded-3xl shadow-xl p-6 sm:p-10 border border-surface-container-high">
+        <div id="step-review-card"
+          class="hidden bg-surface-container-lowest rounded-3xl shadow-xl p-6 sm:p-10 border border-surface-container-high">
           <div class="flex items-center justify-between pb-6 mb-6 border-b border-surface-container-high">
             <div>
               <span class="text-xs font-bold uppercase tracking-wider text-secondary">Step 2 of 2</span>
               <h2 class="text-xl sm:text-2xl font-extrabold text-primary mt-1">Review Your Candidate Profile</h2>
-              <p class="text-xs sm:text-sm text-on-surface-variant mt-0.5">Please confirm your details before evaluating historical cutoffs.</p>
+              <p class="text-xs sm:text-sm text-on-surface-variant mt-0.5">Please confirm your details before evaluating
+                historical cutoffs.</p>
             </div>
-            <button onclick="backToEditForm()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary text-xs sm:text-sm font-bold transition-colors">
+            <button onclick="backToEditForm()"
+              class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary text-xs sm:text-sm font-bold transition-colors">
               <span class="material-symbols-outlined text-base">edit</span>
               <span>Edit Details</span>
             </button>
@@ -501,21 +985,24 @@
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high">
-              <span class="text-[11px] font-bold uppercase text-secondary tracking-wider block mb-2">Exam &amp; Performance</span>
+              <span class="text-[11px] font-bold uppercase text-secondary tracking-wider block mb-2">Exam &amp;
+                Performance</span>
               <p id="rev-exam" class="text-base font-extrabold text-primary">MHT-CET 2024</p>
               <p id="rev-score" class="text-xl font-extrabold text-secondary mt-1">98.4210 %</p>
               <p id="rev-academics" class="text-xs text-on-surface-variant mt-2">Class 10: 91.4% | Class 12: 88.6%</p>
             </div>
 
             <div class="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high">
-              <span class="text-[11px] font-bold uppercase text-secondary tracking-wider block mb-2">Category &amp; Quota</span>
+              <span class="text-[11px] font-bold uppercase text-secondary tracking-wider block mb-2">Category &amp;
+                Quota</span>
               <p id="rev-category" class="text-base font-extrabold text-primary">OBC-NCL</p>
               <p id="rev-quota" class="text-xs text-on-surface-variant mt-1">Home University Quota (HU / SL)</p>
               <p id="rev-location" class="text-xs text-on-surface-variant mt-2">Preferred Regions: Pune, Mumbai</p>
             </div>
 
             <div class="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high">
-              <span class="text-[11px] font-bold uppercase text-secondary tracking-wider block mb-2">Program &amp; Priorities</span>
+              <span class="text-[11px] font-bold uppercase text-secondary tracking-wider block mb-2">Program &amp;
+                Priorities</span>
               <p id="rev-course" class="text-base font-extrabold text-primary">B.Tech / B.E.</p>
               <div id="rev-branches" class="flex flex-wrap gap-1.5 mt-2">
                 <!-- Branch chips -->
@@ -523,15 +1010,18 @@
             </div>
           </div>
 
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-surface-container-high">
+          <div
+            class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-surface-container-high">
             <p class="text-xs text-on-surface-variant">
               Matching strictly compares against approved historical counseling records for your exam.
             </p>
             <div class="flex items-center gap-3 w-full sm:w-auto">
-              <button onclick="backToEditForm()" class="px-5 py-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs sm:text-sm font-bold transition-colors w-full sm:w-auto">
+              <button onclick="backToEditForm()"
+                class="px-5 py-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs sm:text-sm font-bold transition-colors w-full sm:w-auto">
                 Back to Edit
               </button>
-              <button onclick="executeRecommendationMatch()" class="px-7 py-3 rounded-xl bg-secondary hover:bg-secondary/90 text-on-secondary text-xs sm:text-sm font-bold shadow-md transition-all flex items-center justify-center gap-2 w-full sm:w-auto">
+              <button onclick="executeRecommendationMatch()"
+                class="px-7 py-3 rounded-xl bg-secondary hover:bg-secondary/90 text-on-secondary text-xs sm:text-sm font-bold shadow-md transition-all flex items-center justify-center gap-2 w-full sm:w-auto">
                 <span class="material-symbols-outlined text-base">search_check</span>
                 <span>Predict Matched Colleges</span>
               </button>
@@ -541,16 +1031,21 @@
 
         <!-- STEP 3: Recommendation Results Dashboard (Hidden by Default) -->
         <div id="step-results-card" class="hidden space-y-6">
-          
+
           <!-- Sticky Summary & Filter Bar -->
-          <div class="bg-surface-container-lowest rounded-3xl shadow-xl p-6 sm:p-8 border border-surface-container-high">
-            
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 mb-6 border-b border-surface-container-high">
+          <div
+            class="bg-surface-container-lowest rounded-3xl shadow-xl p-6 sm:p-8 border border-surface-container-high">
+
+            <div
+              class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 mb-6 border-b border-surface-container-high">
               <div>
                 <div class="flex items-center gap-2 flex-wrap mb-1">
-                  <span id="results-exam-badge" class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold">MHT-CET</span>
-                  <span id="results-score-badge" class="px-2.5 py-0.5 rounded-full bg-surface-container text-primary text-xs font-bold">98.42%</span>
-                  <span id="results-cat-badge" class="px-2.5 py-0.5 rounded-full bg-surface-container text-primary text-xs font-bold">OBC-NCL</span>
+                  <span id="results-exam-badge"
+                    class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold">MHT-CET</span>
+                  <span id="results-score-badge"
+                    class="px-2.5 py-0.5 rounded-full bg-surface-container text-primary text-xs font-bold">98.42%</span>
+                  <span id="results-cat-badge"
+                    class="px-2.5 py-0.5 rounded-full bg-surface-container text-primary text-xs font-bold">OBC-NCL</span>
                 </div>
                 <h2 class="text-xl sm:text-2xl font-extrabold text-primary">
                   Matched Colleges &amp; Programs (<span id="results-count">0</span>)
@@ -562,11 +1057,13 @@
 
               <!-- Quick action buttons -->
               <div class="flex items-center gap-3">
-                <button onclick="backToEditForm()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary text-xs sm:text-sm font-bold transition-colors">
+                <button onclick="backToEditForm()"
+                  class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary text-xs sm:text-sm font-bold transition-colors">
                   <span class="material-symbols-outlined text-base">tune</span>
                   <span>Edit Profile</span>
                 </button>
-                <button onclick="resetFlowToStart()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-error text-xs sm:text-sm font-bold transition-colors">
+                <button onclick="resetFlowToStart()"
+                  class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-error text-xs sm:text-sm font-bold transition-colors">
                   <span class="material-symbols-outlined text-base">restart_alt</span>
                   <span>Start Again</span>
                 </button>
@@ -574,15 +1071,18 @@
             </div>
 
             <!-- Sticky Filters & Sort Strip -->
-            <div class="sticky top-16 z-20 bg-surface/95 dark:bg-[#0d1320]/95 backdrop-blur-md py-3.5 px-4 -mx-4 sm:-mx-6 sm:px-6 rounded-2xl border-b border-surface-container-high/60 shadow-xs">
+            <div
+              class="sticky top-16 z-20 bg-surface/95 dark:bg-[#0d1320]/95 backdrop-blur-md py-3.5 px-4 -mx-4 sm:-mx-6 sm:px-6 rounded-2xl border-b border-surface-container-high/60 shadow-xs">
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                
+
                 <!-- Filter by Match Label -->
                 <div>
-                  <label for="filter-match-type" class="block text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-1 flex items-center gap-1">
+                  <label for="filter-match-type"
+                    class="block text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-1 flex items-center gap-1">
                     <span class="material-symbols-outlined text-[14px] text-secondary">filter_alt</span> Match Type
                   </label>
-                  <select id="filter-match-type" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all cursor-pointer">
+                  <select id="filter-match-type" onchange="applyFiltersAndSort()"
+                    class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all cursor-pointer">
                     <option value="all">All Results</option>
                     <option value="historical_match">🟢 Historical match only</option>
                     <option value="more_competitive">🟡 More competitive only</option>
@@ -592,31 +1092,41 @@
 
                 <!-- Filter by City -->
                 <div>
-                  <label for="filter-city" class="block text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-1 flex items-center gap-1">
+                  <label for="filter-city"
+                    class="block text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-1 flex items-center gap-1">
                     <span class="material-symbols-outlined text-[14px] text-secondary">location_on</span> City / Region
                   </label>
-                  <select id="filter-city" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all cursor-pointer">
+                  <select id="filter-city" onchange="applyFiltersAndSort()"
+                    class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all cursor-pointer">
                     <option value="all">All Cities</option>
                   </select>
                 </div>
 
                 <!-- Filter by Branch -->
                 <div>
-                  <label for="filter-branch" class="block text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-1 flex items-center gap-1">
+                  <label for="filter-branch"
+                    class="block text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-1 flex items-center gap-1">
                     <span class="material-symbols-outlined text-[14px] text-secondary">hub</span> Branch
                   </label>
-                  <select id="filter-branch" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all cursor-pointer">
+                  <select id="filter-branch" onchange="applyFiltersAndSort()"
+                    class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all cursor-pointer">
                     <option value="all">All Selected Branches</option>
                   </select>
                 </div>
 
                 <!-- Sort By -->
                 <div>
-                  <label for="sort-by" class="block text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-1 flex items-center gap-1">
+                  <label for="sort-by"
+                    class="block text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-1 flex items-center gap-1">
                     <span class="material-symbols-outlined text-[14px] text-secondary">sort</span> Sort Results By
                   </label>
-                  <select id="sort-by" onchange="applyFiltersAndSort()" class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all cursor-pointer">
-                    <option value="probability" selected>🎯 Best Match (Eligible &amp; High Probability First)</option>
+                  <select id="sort-by" onchange="applyFiltersAndSort()"
+                    class="w-full px-3 py-2 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all cursor-pointer">
+                    <option value="rank_asc" selected>🏆 State Merit Rank (Best / Lowest Rank First)</option>
+                    <option value="rank_desc">📈 State Merit Rank (Highest Rank First)</option>
+                    <option value="probability">🎯 Best Match Alignment (Probability)</option>
+                    <option value="cutoff_desc">📊 Cutoff Percentile / Marks (Highest First)</option>
+                    <option value="cutoff_asc">📉 Cutoff Percentile / Marks (Lowest First)</option>
                     <option value="university">🏛️ University Wise (A–Z)</option>
                     <option value="priority">📌 Branch Priority First</option>
                     <option value="fees_low_high">💰 Annual Tuition (Low to High)</option>
@@ -629,19 +1139,110 @@
 
           </div>
 
+          <!-- DSY Data Needed State Container -->
+          <div id="dsy-data-needed-state"
+            class="hidden bg-surface-container-lowest rounded-3xl p-6 sm:p-10 border border-secondary/35 shadow-xl space-y-6">
+            <div class="flex items-start gap-4">
+              <div
+                class="w-12 h-12 rounded-2xl bg-secondary/15 text-secondary flex items-center justify-center shrink-0 shadow-xs">
+                <span class="material-symbols-outlined text-3xl">info</span>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 flex-wrap mb-1">
+                  <span
+                    class="px-2.5 py-0.5 rounded-full bg-secondary text-white text-[10px] font-extrabold uppercase tracking-wider">DSY
+                    / DSE Option Active</span>
+                  <span
+                    class="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400 text-[10px] font-bold border border-amber-500/30">Official
+                    Cutoff Data Required</span>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-extrabold text-primary">Matching DSY/DSE Cutoff Data Needed</h3>
+                <p class="text-xs sm:text-sm text-on-surface-variant mt-1.5 leading-relaxed">
+                  Your Direct Second Year Engineering (DSY/DSE) candidate profile has been registered successfully.
+                  However, official Maharashtra State CET Cell Direct Second Year Engineering (DSE) Centralized
+                  Admission Process (CAP) cutoff data has not yet been imported into the database.
+                </p>
+              </div>
+            </div>
+
+            <div class="p-4 sm:p-5 rounded-2xl bg-surface-container border border-surface-container-high space-y-2">
+              <div class="flex items-center gap-2 text-xs font-bold text-primary">
+                <span class="material-symbols-outlined text-secondary text-base">verified_user</span>
+                <span>Strict Admission Route Isolation Guarantee</span>
+              </div>
+              <p class="text-xs text-on-surface-variant leading-relaxed">
+                CollegeHub strictly isolates First-Year engineering cutoffs and <strong>never uses First-Year CAP
+                  cutoffs to predict Direct Second Year admissions</strong>. Polytechnic lateral entry cutoffs, vacancy
+                seat matrices, and diploma reservation quotas operate under independent rules and cannot be evaluated
+                with First-Year data.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high space-y-2">
+                <span class="font-bold text-primary block flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-sm text-secondary">checklist</span> Required DSY Cutoff
+                  Data to Provide:
+                </span>
+                <ul class="list-disc list-inside space-y-1.5 text-on-surface-variant text-[11px] leading-relaxed">
+                  <li>State CET Cell DSE CAP Round 1, 2, or 3 Allotment Cutoff Matrix (PDF / CSV)</li>
+                  <li>Official fields: Institute Code, Course Code, Degree Branch, Category (GOPEN, GOBC, etc.), Quota
+                    (Home Univ HU / Other Than Home OHU / State Level SL)</li>
+                  <li>Cutoff metrics: Closing State General Merit Number (Merit Rank) or Diploma Aggregate %</li>
+                </ul>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high space-y-2">
+                <span class="font-bold text-primary block flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-sm text-secondary">upload_file</span> How Administrators
+                  Can Provide Data:
+                </span>
+                <p class="text-on-surface-variant text-[11px] leading-relaxed">
+                  Administrators can import DSY cutoffs in CSV format through the Admin Console. Use the official
+                  templates below to prepare and verify the data.
+                </p>
+                <div class="flex items-center gap-2 flex-wrap pt-2">
+                  <button type="button" onclick="loadDseSampleDataAndPredict()"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-secondary text-white font-bold text-[11px] hover:bg-secondary/90 shadow-xs transition-colors">
+                    <span class="material-symbols-outlined text-xs">auto_awesome</span> Preview Sample DSE Cutoffs (COEP, VJTI, PICT...)
+                  </button>
+                  <a href="/api/admin/import/dsy-template"
+                    class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-bold text-[11px] border border-surface-container-high transition-colors">
+                    <span class="material-symbols-outlined text-xs">download</span> DSY Template (.csv)
+                  </a>
+                  <a href="/api/admin/import/dsy-sample"
+                    class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-bold text-[11px] border border-surface-container-high transition-colors">
+                    <span class="material-symbols-outlined text-xs">description</span> DSY Sample (.csv)
+                  </a>
+                  <a href="/admin"
+                    class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-bold text-[11px] border border-surface-container-high transition-colors">
+                    <span class="material-symbols-outlined text-xs">admin_panel_settings</span> Admin Console
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-2 text-center text-xs text-on-surface-variant italic">
+              Past cutoffs are guidance and do not guarantee admission. No synthetic or invented cutoffs are generated.
+            </div>
+          </div>
+
           <!-- Active Results List -->
           <div id="results-list-container" class="space-y-4">
             <!-- Dynamic cards injected via renderRecommendations() -->
           </div>
 
           <!-- Empty State Container -->
-          <div id="results-empty-state" class="hidden bg-surface-container-lowest rounded-3xl p-12 text-center border border-surface-container-high space-y-3">
+          <div id="results-empty-state"
+            class="hidden bg-surface-container-lowest rounded-3xl p-12 text-center border border-surface-container-high space-y-3">
             <span class="material-symbols-outlined text-5xl text-outline-variant">search_off</span>
             <h3 class="text-lg font-extrabold text-primary">No Matching Programs Found</h3>
             <p class="text-xs sm:text-sm text-on-surface-variant max-w-md mx-auto">
-              No historical cutoffs matched your current active filter settings. Try adjusting your match type or city filter.
+              No historical cutoffs matched your current active filter settings. Try adjusting your match type or city
+              filter.
             </p>
-            <button onclick="resetFilters()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-secondary text-white text-xs font-bold mt-2">
+            <button onclick="resetFilters()"
+              class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-secondary text-white text-xs font-bold mt-2">
               Reset Filters
             </button>
           </div>
@@ -655,7 +1256,8 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-surface-container-low border-t border-surface-container-high/80 py-12 px-6 lg:px-12 text-on-surface-variant text-xs">
+  <footer
+    class="bg-surface-container-low border-t border-surface-container-high/80 py-12 px-6 lg:px-12 text-on-surface-variant text-xs">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2">
         <span class="material-symbols-outlined text-secondary text-base">verified</span>
@@ -678,9 +1280,11 @@
   <!-- Interactive Page Controller -->
   <script>
     // State
+    let currentAdmissionMode = 'fe'; // 'fe' (First Year) or 'dsy' (Direct Second Year)
     let currentProfile = null;
     let rawRecommendations = [];
     let selectedBranchesOrder = ['CSE', 'AIDS', 'IT'];
+    let dsySelectedBranchesOrder = ['CSE', 'AIDS', 'IT'];
     let currentClusterFilter = 'all';
     let branchSearchQuery = '';
 
@@ -734,7 +1338,159 @@
       renderPriorityList();
       handleExamChange();
       fetchLiveBranches();
+      renderDsyPriorityList();
+      renderDsyBranchBank();
+      handleDsyMetricChange();
+
+      // Check URL query parameters to support direct navigation into DSY mode
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('mode') === 'dsy' || urlParams.get('type') === 'dsy' || urlParams.get('admission') === 'dsy') {
+          switchAdmissionMode('dsy');
+        }
+      } catch (e) { }
     });
+
+    function switchAdmissionMode(mode) {
+      currentAdmissionMode = mode;
+      const tabFe = document.getElementById('tab-mode-fe');
+      const tabDsy = document.getElementById('tab-mode-dsy');
+      const feSection = document.getElementById('fe-form-section');
+      const dsySection = document.getElementById('dsy-form-section');
+
+      const feScore = document.getElementById('score-input');
+      const feClass10 = document.getElementById('class10-input');
+      const feClass12 = document.getElementById('class12-input');
+      const dsyBranch = document.getElementById('dsy-diploma-branch');
+      const dsyScore = document.getElementById('dsy-score-input');
+
+      const activeClasses = "flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 transition-all shadow-xs bg-surface-container-lowest dark:bg-[#111a2e] text-primary dark:text-teal-400 border border-surface-container-high dark:border-slate-700";
+      const inactiveClasses = "flex-1 py-3 px-4 rounded-xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 transition-all text-on-surface-variant dark:text-slate-400 hover:text-on-surface dark:hover:text-white hover:bg-surface-container-high dark:hover:bg-slate-800";
+
+      if (mode === 'dsy') {
+        if (tabFe) tabFe.className = inactiveClasses;
+        if (tabDsy) tabDsy.className = activeClasses;
+        if (feSection) feSection.classList.add('hidden');
+        if (dsySection) dsySection.classList.remove('hidden');
+
+        if (feScore) feScore.removeAttribute('required');
+        if (feClass10) feClass10.removeAttribute('required');
+        if (feClass12) feClass12.removeAttribute('required');
+        if (dsyBranch) dsyBranch.setAttribute('required', 'required');
+        if (dsyScore) dsyScore.setAttribute('required', 'required');
+
+        renderDsyPriorityList();
+        renderDsyBranchBank();
+      } else {
+        if (tabFe) tabFe.className = activeClasses;
+        if (tabDsy) tabDsy.className = inactiveClasses;
+        if (feSection) feSection.classList.remove('hidden');
+        if (dsySection) dsySection.classList.add('hidden');
+
+        if (feScore) feScore.setAttribute('required', 'required');
+        if (feClass10) feClass10.setAttribute('required', 'required');
+        if (feClass12) feClass12.setAttribute('required', 'required');
+        if (dsyBranch) dsyBranch.removeAttribute('required');
+        if (dsyScore) dsyScore.removeAttribute('required');
+      }
+    }
+
+    function handleDsyMetricChange() {
+      const metric = document.querySelector('input[name="dsyMetricType"]:checked')?.value || 'rank';
+      const label = document.getElementById('dsy-score-label');
+      const unit = document.getElementById('dsy-score-unit');
+      const input = document.getElementById('dsy-score-input');
+      const hint = document.getElementById('dsy-score-hint');
+
+      if (metric === 'marks') {
+        if (label) label.textContent = 'Final Diploma Aggregate Percentage (%)';
+        if (unit) unit.textContent = '%';
+        if (input) {
+          input.step = '0.01';
+          input.min = '35.00';
+          input.max = '100.00';
+          input.placeholder = 'e.g. 88.50';
+          if (input.value && parseFloat(input.value) > 100) input.value = '';
+        }
+        if (hint) hint.textContent = 'Aggregate marks percentage across final year / all semesters of engineering diploma.';
+      } else {
+        if (label) label.textContent = 'State General Merit Number (Rank)';
+        if (unit) unit.textContent = 'Rank';
+        if (input) {
+          input.step = '1';
+          input.min = '1';
+          input.max = '200000';
+          input.placeholder = 'e.g. 1450';
+          if (input.value && parseFloat(input.value) <= 100) input.value = '';
+        }
+        if (hint) hint.textContent = 'Official State Merit Rank assigned by Maharashtra State CET Cell (lower number is better).';
+      }
+    }
+
+    function renderDsyPriorityList() {
+      const container = document.getElementById('dsy-priority-list');
+      if (!container) return;
+      if (dsySelectedBranchesOrder.length === 0) {
+        container.innerHTML = '<span class="text-xs text-on-surface-variant italic">No degree branches selected. Click available branches below to add.</span>';
+        return;
+      }
+      container.innerHTML = dsySelectedBranchesOrder.map((code, idx) => `
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container border border-surface-container-high text-xs font-bold text-primary shadow-2xs">
+          <span class="w-4 h-4 rounded-full bg-secondary text-white text-[10px] flex items-center justify-center font-extrabold">
+            ${idx + 1}
+          </span>
+          <span>${code}</span>
+          ${idx > 0 ? `<button type="button" onclick="moveDsyPriority('${code}', -1)" title="Move Up" class="text-on-surface-variant hover:text-primary material-symbols-outlined text-sm">arrow_upward</button>` : ''}
+          ${idx < dsySelectedBranchesOrder.length - 1 ? `<button type="button" onclick="moveDsyPriority('${code}', 1)" title="Move Down" class="text-on-surface-variant hover:text-primary material-symbols-outlined text-sm">arrow_downward</button>` : ''}
+          <button type="button" onclick="toggleDsyBranchSelection('${code}')" title="Remove" class="text-on-surface-variant hover:text-error material-symbols-outlined text-sm ml-0.5">close</button>
+        </div>
+      `).join('');
+    }
+
+    function renderDsyBranchBank() {
+      const bank = document.getElementById('dsy-branch-bank');
+      if (!bank) return;
+      const dsyBranches = MASTER_BRANCH_CATALOG['B.Tech'] || [];
+      bank.innerHTML = dsyBranches.map(b => {
+        const isSelected = dsySelectedBranchesOrder.includes(b.code);
+        return `
+          <button type="button" onclick="toggleDsyBranchSelection('${b.code}')" class="px-3 py-2 rounded-xl text-xs font-bold transition-all border ${isSelected
+            ? 'bg-secondary text-white border-secondary shadow-xs scale-102'
+            : 'bg-surface-container-low hover:bg-surface-container text-on-surface border-surface-container-high/80'
+          }">
+            <span class="font-extrabold">${b.code}</span> - ${b.name}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function toggleDsyBranchSelection(code) {
+      const idx = dsySelectedBranchesOrder.indexOf(code);
+      if (idx > -1) {
+        dsySelectedBranchesOrder.splice(idx, 1);
+      } else {
+        dsySelectedBranchesOrder.push(code);
+      }
+      renderDsyPriorityList();
+      renderDsyBranchBank();
+    }
+
+    function moveDsyPriority(code, direction) {
+      const idx = dsySelectedBranchesOrder.indexOf(code);
+      if (idx < 0) return;
+      const targetIdx = idx + direction;
+      if (targetIdx < 0 || targetIdx >= dsySelectedBranchesOrder.length) return;
+      const temp = dsySelectedBranchesOrder[idx];
+      dsySelectedBranchesOrder[idx] = dsySelectedBranchesOrder[targetIdx];
+      dsySelectedBranchesOrder[targetIdx] = temp;
+      renderDsyPriorityList();
+    }
+
+    function toggleAllDsyDistricts() {
+      const checkboxes = document.querySelectorAll('input[name="dsyDistricts"]');
+      const areSomeChecked = Array.from(checkboxes).some(cb => cb.checked);
+      checkboxes.forEach(cb => cb.checked = !areSomeChecked);
+    }
 
     function handleScoreTypeChange() {
       const scoreType = document.querySelector('input[name="scoreType"]:checked')?.value || 'percentile';
@@ -795,7 +1551,7 @@
             if (ind) ind.classList.remove('hidden');
           }
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     function persistSelectedBranches() {
@@ -803,7 +1559,7 @@
         localStorage.setItem('collegehub_saved_branches', JSON.stringify(selectedBranchesOrder));
         const ind = document.getElementById('saved-branches-indicator');
         if (ind) ind.classList.remove('hidden');
-      } catch (e) {}
+      } catch (e) { }
     }
 
     async function fetchLiveBranches() {
@@ -863,7 +1619,7 @@
       if (!tabs) return;
       const currentCourse = document.getElementById('course-select').value;
       const branches = MASTER_BRANCH_CATALOG[currentCourse] || [];
-      
+
       const clusters = ['all'];
       branches.forEach(b => {
         if (b.cluster && !clusters.includes(b.cluster)) {
@@ -881,10 +1637,9 @@
         const count = c === 'all' ? branches.length : branches.filter(b => b.cluster === c).length;
         const label = c === 'all' ? `All (${count})` : `${c} (${count})`;
         return `
-          <button type="button" onclick="setClusterFilter('${c}')" class="px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all border ${
-            isActive
-              ? 'bg-secondary text-white border-secondary shadow-xs'
-              : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant border-surface-container-high'
+          <button type="button" onclick="setClusterFilter('${c}')" class="px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all border ${isActive
+            ? 'bg-secondary text-white border-secondary shadow-xs'
+            : 'bg-surface-container hover:bg-surface-container-high text-on-surface-variant border-surface-container-high'
           }">
             ${label}
           </button>
@@ -914,8 +1669,8 @@
         filtered = filtered.filter(b => b.cluster === currentClusterFilter);
       }
       if (branchSearchQuery) {
-        filtered = filtered.filter(b => 
-          b.code.toLowerCase().includes(branchSearchQuery) || 
+        filtered = filtered.filter(b =>
+          b.code.toLowerCase().includes(branchSearchQuery) ||
           b.name.toLowerCase().includes(branchSearchQuery) ||
           (b.desc && b.desc.toLowerCase().includes(branchSearchQuery))
         );
@@ -929,14 +1684,13 @@
       bank.innerHTML = filtered.map(b => {
         const isSelected = selectedBranchesOrder.includes(b.code);
         return `
-          <button type="button" onclick="toggleBranchSelection('${b.code}')" title="${b.desc || b.name}" class="group px-3 py-1.5 rounded-xl text-xs font-bold transition-all border flex items-center gap-1.5 ${
-            isSelected 
-              ? 'bg-secondary text-white border-secondary shadow-xs ring-1 ring-secondary' 
-              : 'bg-surface-container hover:bg-surface-container-high text-on-surface border-surface-container-high hover:border-secondary/40'
+          <button type="button" onclick="toggleBranchSelection('${b.code}')" title="${b.desc || b.name}" class="group px-3 py-1.5 rounded-xl text-xs font-bold transition-all border flex items-center gap-1.5 ${isSelected
+            ? 'bg-secondary text-white border-secondary dark:bg-teal-600 dark:border-teal-500 shadow-xs ring-1 ring-secondary'
+            : 'bg-surface-container dark:bg-slate-800 hover:bg-surface-container-high dark:hover:bg-slate-700 text-on-surface dark:text-slate-200 border-surface-container-high dark:border-slate-700 hover:border-secondary/40'
           }">
             <span>${isSelected ? '✓ ' : '+ '}${b.code}</span>
-            <span class="${isSelected ? 'text-white/95' : 'text-on-surface-variant group-hover:text-on-surface'} font-medium text-[11px]">${b.name}</span>
-            ${b.count ? `<span class="px-1.5 py-0.2 rounded-md ${isSelected ? 'bg-white/20 text-white' : 'bg-surface-container-high/70 text-on-surface-variant'} text-[10px] font-extrabold shrink-0">${b.count}</span>` : ''}
+            <span class="${isSelected ? 'text-white/95' : 'text-on-surface-variant dark:text-slate-400 group-hover:text-on-surface dark:group-hover:text-white'} font-medium text-[11px]">${b.name}</span>
+            ${b.count ? `<span class="px-1.5 py-0.2 rounded-md ${isSelected ? 'bg-white/20 text-white' : 'bg-surface-container-high/70 dark:bg-slate-700 text-on-surface-variant dark:text-slate-300'} text-[10px] font-extrabold shrink-0">${b.count}</span>` : ''}
           </button>
         `;
       }).join('');
@@ -965,19 +1719,19 @@
     function renderPriorityList() {
       const list = document.getElementById('priority-list');
       if (selectedBranchesOrder.length === 0) {
-        list.innerHTML = `<span class="text-xs text-on-surface-variant italic">No branches selected yet. Click options from the bank below.</span>`;
+        list.innerHTML = `<span class="text-xs text-on-surface-variant dark:text-slate-400 italic">No branches selected yet. Click options from the bank below.</span>`;
         return;
       }
 
       list.innerHTML = selectedBranchesOrder.map((code, idx) => `
-        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-lowest text-primary text-xs font-bold border border-surface-container-high shadow-xs">
-          <span class="w-5 h-5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-extrabold flex items-center justify-center shrink-0">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-lowest dark:bg-slate-800 text-primary dark:text-white text-xs font-bold border border-surface-container-high dark:border-slate-700 shadow-xs">
+          <span class="w-5 h-5 rounded-full bg-secondary-container dark:bg-teal-950 text-on-secondary-container dark:text-teal-300 text-[11px] font-extrabold flex items-center justify-center shrink-0 border dark:border-teal-700/50">
             ${idx + 1}
           </span>
           <span>${code}</span>
-          ${idx > 0 ? `<button type="button" onclick="movePriority('${code}', -1)" title="Move Up" class="text-on-surface-variant hover:text-primary material-symbols-outlined text-sm">arrow_upward</button>` : ''}
-          ${idx < selectedBranchesOrder.length - 1 ? `<button type="button" onclick="movePriority('${code}', 1)" title="Move Down" class="text-on-surface-variant hover:text-primary material-symbols-outlined text-sm">arrow_downward</button>` : ''}
-          <button type="button" onclick="toggleBranchSelection('${code}')" title="Remove" class="text-on-surface-variant hover:text-error material-symbols-outlined text-sm ml-0.5">close</button>
+          ${idx > 0 ? `<button type="button" onclick="movePriority('${code}', -1)" title="Move Up" class="text-on-surface-variant dark:text-slate-400 hover:text-primary dark:hover:text-white material-symbols-outlined text-sm">arrow_upward</button>` : ''}
+          ${idx < selectedBranchesOrder.length - 1 ? `<button type="button" onclick="movePriority('${code}', 1)" title="Move Down" class="text-on-surface-variant dark:text-slate-400 hover:text-primary dark:hover:text-white material-symbols-outlined text-sm">arrow_downward</button>` : ''}
+          <button type="button" onclick="toggleBranchSelection('${code}')" title="Remove" class="text-on-surface-variant dark:text-slate-400 hover:text-error material-symbols-outlined text-sm ml-0.5">close</button>
         </div>
       `).join('');
     }
@@ -1009,6 +1763,91 @@
     function handleFormSubmit(e) {
       e.preventDefault();
 
+      if (currentAdmissionMode === 'dsy') {
+        const dipBranch = document.getElementById('dsy-diploma-branch')?.value;
+        if (!dipBranch) {
+          alert('Please select your completed Diploma branch.');
+          document.getElementById('dsy-diploma-branch')?.focus();
+          return;
+        }
+
+        const metric = document.querySelector('input[name="dsyMetricType"]:checked')?.value || 'rank';
+        const scoreInput = document.getElementById('dsy-score-input');
+        const scoreVal = scoreInput ? parseFloat(scoreInput.value) : NaN;
+
+        if (isNaN(scoreVal) || scoreVal <= 0) {
+          alert('Please enter a valid numeric value for diploma merit rank or aggregate marks.');
+          scoreInput?.focus();
+          return;
+        }
+
+        if (metric === 'marks' && (scoreVal < 35 || scoreVal > 100)) {
+          alert('Diploma aggregate marks percentage must be between 35% and 100%.');
+          scoreInput?.focus();
+          return;
+        }
+
+        if (dsySelectedBranchesOrder.length === 0) {
+          const bErr = document.getElementById('dsy-branch-error');
+          if (bErr) {
+            bErr.textContent = 'Please select at least one degree branch preference.';
+            bErr.classList.remove('hidden');
+          }
+          return;
+        } else {
+          document.getElementById('dsy-branch-error')?.classList.add('hidden');
+        }
+
+        const districts = Array.from(document.querySelectorAll('input[name="dsyDistricts"]:checked')).map(cb => cb.value);
+        const dipMarks = parseFloat(document.getElementById('dsy-diploma-marks')?.value || 'NaN');
+        const class10 = parseFloat(document.getElementById('dsy-class10-input')?.value || 'NaN');
+        const dsyUniv = document.getElementById('dsy-university-select')?.value || 'any';
+        const dsyBudget = document.getElementById('dsy-budget-select')?.value || '';
+        const dsyHostel = document.getElementById('dsy-hostel-select')?.value || 'any';
+
+        currentProfile = {
+          admissionType: 'dsy',
+          diplomaBranch: dipBranch,
+          metricType: metric,
+          score: scoreVal,
+          diplomaMarks: dipMarks,
+          class10: class10,
+          category: document.getElementById('dsy-category-select')?.value || 'OPEN',
+          quota: document.getElementById('dsy-quota-select')?.value || 'SL',
+          capRound: document.getElementById('dsy-round-select')?.value || 'CAP Round I',
+          university: dsyUniv,
+          budget: dsyBudget,
+          hostel: dsyHostel,
+          admissionYear: document.getElementById('dsy-admission-year')?.value || '2026-2027',
+          preferredCourse: 'B.Tech / B.E. (Direct Second Year Lateral Entry)',
+          preferredBranches: [...dsySelectedBranchesOrder],
+          preferredDistricts: districts
+        };
+
+        // Populate Step 2 Review Screen
+        document.getElementById('rev-exam').textContent = `Direct Second Year Engineering (DSY/DSE)`;
+        document.getElementById('rev-score').textContent = currentProfile.metricType === 'rank' ? `State Merit Rank #${currentProfile.score}` : `${currentProfile.score}% Diploma Aggregate`;
+        document.getElementById('rev-academics').textContent = `Diploma: ${currentProfile.diplomaBranch}${!isNaN(dipMarks) ? ` | Agg: ${dipMarks}%` : ''}${!isNaN(class10) ? ` | Class 10: ${class10}%` : ''}`;
+        document.getElementById('rev-category').textContent = `${currentProfile.category} (Category Verified)`;
+        document.getElementById('rev-quota').textContent = `Quota: ${currentProfile.quota} | CAP: ${currentProfile.capRound} (${currentProfile.admissionYear})${dsyUniv !== 'any' ? ` | Univ: ${dsyUniv}` : ''}`;
+        document.getElementById('rev-course').textContent = currentProfile.preferredCourse;
+        document.getElementById('rev-location').textContent = `Districts: ${districts.length > 0 && !districts.includes('All') ? districts.join(', ') : 'All Maharashtra Districts'}`;
+
+        const revBranches = document.getElementById('rev-branches');
+        revBranches.innerHTML = currentProfile.preferredBranches.map((b, i) => `
+          <span class="px-2.5 py-1 rounded-xl bg-surface-container text-primary text-xs font-bold border border-surface-container-high">
+            #${i + 1} ${b}
+          </span>
+        `).join('');
+
+        // Switch to Step 2
+        document.getElementById('step-form-card').classList.add('hidden');
+        document.getElementById('step-review-card').classList.remove('hidden');
+        document.getElementById('step-results-card').classList.add('hidden');
+        window.scrollTo({ top: 120, behavior: 'smooth' });
+        return;
+      }
+
       if (selectedBranchesOrder.length === 0) {
         const bErr = document.getElementById('branch-error');
         bErr.textContent = 'Please select at least one branch preference.';
@@ -1021,6 +1860,7 @@
       const cities = Array.from(document.querySelectorAll('input[name="preferredCities"]:checked')).map(cb => cb.value);
 
       currentProfile = {
+        admissionType: 'fe',
         exam: document.getElementById('exam-select').value,
         scoreType: document.querySelector('input[name="scoreType"]:checked').value,
         score: document.getElementById('score-input').value,
@@ -1046,7 +1886,7 @@
       const revBranches = document.getElementById('rev-branches');
       revBranches.innerHTML = currentProfile.preferredBranches.map((b, i) => `
         <span class="px-2.5 py-1 rounded-xl bg-surface-container text-primary text-xs font-bold border border-surface-container-high">
-          #${i+1} ${b}
+          #${i + 1} ${b}
         </span>
       `).join('');
 
@@ -1069,15 +1909,159 @@
       rawRecommendations = [];
       document.getElementById('recommendation-form').reset();
       selectedBranchesOrder = ['CSE', 'AIDS', 'IT'];
+      dsySelectedBranchesOrder = ['CSE', 'AIDS', 'IT'];
       persistSelectedBranches();
       handleCourseChange();
       renderBranchBank();
       renderPriorityList();
+      renderDsyBranchBank();
+      renderDsyPriorityList();
       backToEditForm();
     }
 
     async function executeRecommendationMatch() {
       if (!currentProfile) return;
+
+      // Handle Direct Second Year Engineering (DSY/DSE) flow
+      if (currentProfile.admissionType === 'dsy') {
+        let dsyLoaded = false;
+        try {
+          const payload = {
+            admission_type: 'dsy',
+            diploma_branch: currentProfile.diplomaBranch,
+            metric_type: currentProfile.metricType,
+            score: currentProfile.score,
+            category: currentProfile.category,
+            preferred_engineering_branches: currentProfile.preferredBranches,
+            preferred_districts: currentProfile.preferredDistricts,
+            quota: currentProfile.quota,
+            cap_round: currentProfile.capRound,
+            admission_year: currentProfile.admissionYear,
+            sort_by: document.getElementById('sort-by')?.value || 'probability'
+          };
+          const resp = await fetch('/api/recommendations/dsy', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (resp.ok) {
+            const sData = await resp.json();
+            if (sData.data_status === 'matching_data_needed' || (sData.count === 0 && (!sData.recommendations || sData.recommendations.length === 0))) {
+              rawRecommendations = [];
+              dsyLoaded = true;
+              document.getElementById('results-list-container').innerHTML = '';
+              document.getElementById('results-empty-state').classList.add('hidden');
+              document.getElementById('dsy-data-needed-state').classList.remove('hidden');
+            } else if (sData.status === 'success' && Array.isArray(sData.recommendations) && sData.recommendations.length > 0) {
+              document.getElementById('dsy-data-needed-state').classList.add('hidden');
+              rawRecommendations = sData.recommendations.map(item => {
+                const r = item.record || {};
+                const pIdx = currentProfile.preferredBranches.indexOf(item.branch_code || r.branch_code);
+                const isWithin = item.match_label === 'within the past cutoff range';
+                return {
+                  record: {
+                    id: r.id || item.college_code,
+                    collegeCode: item.college_code || r.college_code,
+                    collegeName: item.college || r.college_name,
+                    shortName: item.college || r.college_name,
+                    campusType: r.campus_type || 'State / Autonomous Institute',
+                    city: item.district || r.city || '',
+                    district: item.district || r.district || '',
+                    state: r.state || 'Maharashtra',
+                    program: 'B.Tech (Lateral Entry)',
+                    branchCode: item.branch_code || r.branch_code,
+                    branchName: item.engineering_branch || r.branch_name,
+                    exam: 'DSE (Direct Second Year)',
+                    scoreType: item.cutoff_type,
+                    category: item.category || r.category || currentProfile.category,
+                    quota: item.quota || r.quota || currentProfile.quota,
+                    year: item.admission_year || r.academic_year,
+                    round: item.cap_round || r.round,
+                    closingValue: item.cutoff_value,
+                    closingRank: item.closing_rank || r.closing_rank || r.rank || (typeof item.cutoff_value === 'number' ? item.cutoff_value : (String(item.cutoff_value || '').startsWith('#') ? parseFloat(String(item.cutoff_value).replace('#', '')) : null)),
+                    annualFeesINR: r.annual_fees_inr,
+                    hostelAvailable: r.hostel_available,
+                    source: item.source || r.source || 'Maharashtra State CET Cell DSE CAP Matrix',
+                    lastVerifiedDate: r.last_verified_date || 'Sep 2024',
+                    status: 'approved',
+                    isDsy: true
+                  },
+                  isDsy: true,
+                  closingRank: item.closing_rank || r.closing_rank || r.rank || (typeof item.cutoff_value === 'number' ? item.cutoff_value : (String(item.cutoff_value || '').startsWith('#') ? parseFloat(String(item.cutoff_value).replace('#', '')) : null)),
+                  matchLabel: item.match_label,
+                  matchType: item.match_type === 'within_cutoff_range' ? 'historical_match' : item.match_type,
+                  matchTypeRaw: item.match_type,
+                  badgeClass: isWithin ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30' : 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30',
+                  badgeIcon: isWithin ? 'check_circle' : 'trending_up',
+                  priorityRank: pIdx >= 0 ? pIdx + 1 : 99,
+                  explanation: item.explanation,
+                  cutoffValueDisplay: item.cutoff_value,
+                  cutoffTypeDisplay: item.cutoff_type,
+                  admission_year: item.admission_year || r.academic_year,
+                  cap_round: item.cap_round || r.round,
+                  category: item.category || r.category || currentProfile.category,
+                  quota: item.quota || r.quota || currentProfile.quota,
+                  district: item.district || r.district || r.city || '',
+                  source: item.source || r.source || 'Maharashtra State CET Cell - Direct Second Year Engineering (DSE) Centralized Admission Process',
+                  disclaimer: item.disclaimer || 'Past cutoffs are guidance and do not guarantee admission.'
+                };
+              });
+              dsyLoaded = true;
+            }
+          }
+        } catch (err) {
+          console.warn('DSY recommendation fetch error:', err);
+        }
+
+        if (!dsyLoaded) {
+          rawRecommendations = [];
+          document.getElementById('results-list-container').innerHTML = '';
+          document.getElementById('results-empty-state').classList.add('hidden');
+          document.getElementById('dsy-data-needed-state').classList.remove('hidden');
+        }
+
+        // Badges for DSY
+        document.getElementById('results-exam-badge').textContent = 'Direct Second Year (DSY/DSE)';
+        document.getElementById('results-score-badge').textContent = currentProfile.metricType === 'rank' ? `Rank #${currentProfile.score}` : `${currentProfile.score}% Diploma`;
+        document.getElementById('results-cat-badge').textContent = `${currentProfile.category} (${currentProfile.quota})`;
+        document.getElementById('results-count').textContent = rawRecommendations.length;
+
+        // Populate branch filter options
+        const branchFilter = document.getElementById('filter-branch');
+        if (branchFilter) {
+          branchFilter.innerHTML = `<option value="all">All Selected Branches (${currentProfile.preferredBranches.length})</option>` +
+            currentProfile.preferredBranches.map(b => `<option value="${b}">${b} - ${BRANCH_META[b] || b}</option>`).join('');
+          branchFilter.value = 'all';
+        }
+
+        // Populate location filter options
+        const cityFilter = document.getElementById('filter-city');
+        if (cityFilter) {
+          const cities = Array.from(new Set(rawRecommendations.map(r => r.district || r.record?.district || r.record?.city).filter(Boolean))).sort();
+          cityFilter.innerHTML = '<option value="all">All Locations</option>' +
+            cities.map(c => `<option value="${c}">${c}</option>`).join('');
+          cityFilter.value = 'all';
+        }
+
+        const matchTypeFilter = document.getElementById('filter-match-type');
+        if (matchTypeFilter) matchTypeFilter.value = 'all';
+
+        if (rawRecommendations.length > 0) {
+          document.getElementById('dsy-data-needed-state').classList.add('hidden');
+          const sortByEl = document.getElementById('sort-by');
+          if (sortByEl) {
+            sortByEl.value = (currentProfile && currentProfile.metricType === 'marks') ? 'cutoff_desc' : 'rank_asc';
+          }
+          applyFiltersAndSort();
+        }
+
+        // Show Results Step
+        document.getElementById('step-form-card').classList.add('hidden');
+        document.getElementById('step-review-card').classList.add('hidden');
+        document.getElementById('step-results-card').classList.remove('hidden');
+        window.scrollTo({ top: 120, behavior: 'smooth' });
+        return;
+      }
 
       let serverLoaded = false;
       try {
@@ -1175,6 +2159,11 @@
       cityFilter.innerHTML = '<option value="all">All Cities</option>' +
         uniqueCities.map(c => `<option value="${c}">${c}</option>`).join('');
 
+      const sortByEl = document.getElementById('sort-by');
+      if (sortByEl && currentProfile && currentProfile.scoreType === 'rank') {
+        sortByEl.value = 'rank_asc';
+      }
+
       applyFiltersAndSort();
 
       // Show Results Step
@@ -1184,16 +2173,150 @@
       window.scrollTo({ top: 120, behavior: 'smooth' });
     }
 
+    async function loadDseSampleDataAndPredict() {
+      try {
+        const resp = await fetch('/api/admin/import/dsy-sample');
+        if (!resp.ok) return;
+        const text = await resp.text();
+        const lines = text.trim().split('\n');
+        if (lines.length < 2) return;
+        const header = lines[0].split(',').map(h => h.trim());
+        const records = [];
+        for (let i = 1; i < lines.length; i++) {
+          const row = lines[i].split(',').map(c => c.trim());
+          if (row.length < header.length) continue;
+          const obj = {};
+          header.forEach((h, idx) => { obj[h] = row[idx]; });
+          records.push(obj);
+        }
+
+        if (!currentProfile) {
+          currentProfile = {
+            admissionType: 'dsy',
+            diplomaBranch: 'Computer Engineering',
+            metricType: 'rank',
+            score: 1000,
+            category: 'OPEN',
+            quota: 'SL',
+            capRound: 'CAP Round I',
+            admissionYear: '2026-2027',
+            preferredCourse: 'B.Tech / B.E. (Direct Second Year Lateral Entry)',
+            preferredBranches: ['CSE', 'IT', 'AIDS', 'MECH'],
+            preferredDistricts: ['Pune', 'Mumbai Suburban', 'Sangli']
+          };
+        }
+
+        const studentRank = currentProfile.metricType === 'rank' ? parseFloat(currentProfile.score) : 1000;
+        const studentMarks = currentProfile.metricType === 'marks' ? parseFloat(currentProfile.score) : 90;
+
+        rawRecommendations = records.map(r => {
+          const cutRank = parseFloat(r.cutoff_rank || '0');
+          const cutVal = parseFloat(r.cutoff_value || '0');
+          const isRank = currentProfile.metricType === 'rank';
+          const isWithin = isRank ? (studentRank <= cutRank) : (studentMarks >= cutVal);
+          const pIdx = currentProfile.preferredBranches ? currentProfile.preferredBranches.indexOf(r.branch_code) : -1;
+
+          return {
+            record: {
+              id: r.college_code + '-' + r.branch_code,
+              collegeCode: r.college_code,
+              collegeName: r.college_name,
+              shortName: r.college_name,
+              campusType: r.campus_type,
+              city: r.city,
+              district: r.district,
+              state: r.state,
+              program: r.program,
+              branchCode: r.branch_code,
+              branchName: r.branch_name,
+              exam: r.exam,
+              scoreType: r.score_type,
+              category: r.category,
+              quota: r.quota,
+              year: r.academic_year,
+              round: r.round,
+              closingValue: isRank ? `#${Math.round(cutRank)}` : `${cutVal}%`,
+              closingRank: cutRank,
+              annualFeesINR: parseFloat(r.annual_fees_inr || '0'),
+              hostelAvailable: r.hostel_available === 'true',
+              source: r.remarks || 'Maharashtra State CET Cell DSE CAP Allotment Matrix 2024-25',
+              isDsy: true
+            },
+            isDsy: true,
+            closingRank: cutRank,
+            matchLabel: isWithin ? 'within the past cutoff range' : 'more competitive than the past cutoff range',
+            matchType: isWithin ? 'historical_match' : 'more_competitive',
+            matchTypeRaw: isWithin ? 'within_cutoff_range' : 'more_competitive',
+            badgeClass: isWithin ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30' : 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30',
+            badgeIcon: isWithin ? 'check_circle' : 'trending_up',
+            priorityRank: pIdx >= 0 ? pIdx + 1 : 99,
+            explanation: isWithin
+              ? `Within Cutoff Range: Your Diploma State Merit Rank #${studentRank} qualifies within closing rank #${cutRank} for ${r.branch_name} at ${r.college_name}.`
+              : `More Competitive: Allotments for ${r.branch_name} at ${r.college_name} closed at rank #${cutRank}.`,
+            cutoffValueDisplay: isRank ? `#${Math.round(cutRank)}` : `${cutVal}%`,
+            cutoffTypeDisplay: isRank ? 'State Merit Rank' : 'Diploma Marks',
+            admission_year: r.academic_year,
+            cap_round: r.round,
+            category: r.category,
+            quota: r.quota,
+            district: r.district || r.city,
+            source: r.remarks || 'Maharashtra State CET Cell DSE CAP Matrix',
+            disclaimer: 'Past cutoffs are guidance and do not guarantee admission.'
+          };
+        });
+
+        document.getElementById('dsy-data-needed-state').classList.add('hidden');
+        document.getElementById('results-count').textContent = rawRecommendations.length;
+
+        const branchFilter = document.getElementById('filter-branch');
+        if (branchFilter && currentProfile.preferredBranches) {
+          branchFilter.innerHTML = `<option value="all">All Selected Branches (${currentProfile.preferredBranches.length})</option>` +
+            currentProfile.preferredBranches.map(b => `<option value="${b}">${b} - ${BRANCH_META[b] || b}</option>`).join('');
+        }
+
+        const cityFilter = document.getElementById('filter-city');
+        const uniqueCities = Array.from(new Set(rawRecommendations.map(it => it.record?.city).filter(Boolean))).sort();
+        if (cityFilter) {
+          cityFilter.innerHTML = '<option value="all">All Cities</option>' +
+            uniqueCities.map(c => `<option value="${c}">${c}</option>`).join('');
+        }
+
+        const sortByEl = document.getElementById('sort-by');
+        if (sortByEl) sortByEl.value = 'rank_asc';
+
+        applyFiltersAndSort();
+
+        document.getElementById('step-form-card').classList.add('hidden');
+        document.getElementById('step-review-card').classList.add('hidden');
+        document.getElementById('step-results-card').classList.remove('hidden');
+        window.scrollTo({ top: 120, behavior: 'smooth' });
+      } catch (e) {
+        console.error('Error loading sample DSE data:', e);
+      }
+    }
+
     function applyFiltersAndSort() {
       const matchType = document.getElementById('filter-match-type').value;
       const city = document.getElementById('filter-city').value;
       const branch = document.getElementById('filter-branch').value;
       const sortBy = document.getElementById('sort-by').value;
 
-      let filtered = CollegeHubRecommender.engine.filterRecommendations(rawRecommendations, {
-        matchType,
-        city,
-        branch
+      let filtered = rawRecommendations.filter(item => {
+        if (matchType !== 'all') {
+          const m = item.matchType;
+          if (matchType === 'historical_match' && (m !== 'historical_match' && m !== 'within_cutoff_range')) return false;
+          if (matchType === 'more_competitive' && m !== 'more_competitive') return false;
+          if (matchType === 'insufficient_data' && m !== 'insufficient_data') return false;
+        }
+        if (city !== 'all') {
+          const itemCity = item.record?.city || item.district;
+          if (itemCity !== city) return false;
+        }
+        if (branch !== 'all') {
+          const itemBranch = item.record?.branchCode || item.branch_code;
+          if (itemBranch !== branch) return false;
+        }
+        return true;
       });
 
       let sorted = CollegeHubRecommender.engine.sortRecommendations(filtered, sortBy);
@@ -1226,7 +2349,8 @@
 
       container.innerHTML = items.map(item => {
         const r = item.record;
-        const isHistorical = item.matchType === 'historical_match';
+        const isDsy = item.isDsy || r.isDsy || (currentProfile && currentProfile.admissionType === 'dsy');
+        const isHistorical = item.matchType === 'historical_match' || item.matchType === 'within_cutoff_range';
         const isCompetitive = item.matchType === 'more_competitive';
         const isInsufficient = item.matchType === 'insufficient_data';
         const progId = `${r.collegeCode}_${r.branchCode}`;
@@ -1258,13 +2382,13 @@
 
         let badgeStyle = isHistorical
           ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/30'
-          : (isCompetitive 
-              ? 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30'
-              : 'bg-surface-container text-on-surface-variant border-surface-container-high');
+          : (isCompetitive
+            ? 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30'
+            : 'bg-surface-container text-on-surface-variant border-surface-container-high');
 
         let badgeIcon = isHistorical ? 'check_circle' : (isCompetitive ? 'trending_up' : 'info');
 
-        const hasProb = typeof item.admissionProbability === 'number';
+        const hasProb = !isDsy && typeof item.admissionProbability === 'number';
         let probBadgeClass = 'bg-surface-container text-on-surface-variant border-surface-container-high';
         let probBarColor = 'bg-primary';
         let probTextColor = 'text-primary';
@@ -1325,7 +2449,7 @@
                 <div class="flex flex-wrap items-center gap-x-3.5 gap-y-1 text-xs text-on-surface-variant pt-0.5">
                   <span class="flex items-center gap-1 font-medium">
                     <span class="material-symbols-outlined text-sm text-secondary">location_on</span>
-                    ${r.city}, ${r.state}
+                    ${r.city || r.district || ''}, ${r.state || 'Maharashtra'}
                   </span>
                   <span class="flex items-center gap-1 font-medium">
                     <span class="material-symbols-outlined text-sm text-secondary">account_balance</span>
@@ -1364,7 +2488,7 @@
                 </div>
                 <div>
                   <div class="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-secondary">
-                    <span>Academic Department &bull; ${r.program}</span>
+                    <span>${isDsy ? 'Direct Second Year Engineering (DSY/DSE)' : `Academic Department &bull; ${r.program}`}</span>
                   </div>
                   <div class="text-base sm:text-lg font-black text-primary tracking-tight leading-snug">
                     ${r.branchName || BRANCH_META[r.branchCode] || r.branchCode}
@@ -1382,7 +2506,7 @@
               </div>
             </div>
 
-            <!-- Admission Probability Meter -->
+            <!-- Admission Probability Meter (FE Mode Only) -->
             ${hasProb ? `
               <div class="mb-2.5 sm:mb-3 p-3 rounded-2xl bg-surface-container-low/90 dark:bg-[#0c1424] border border-surface-container-high/90 dark:border-slate-800 space-y-2 shadow-2xs">
                 <div class="flex items-center justify-between text-xs flex-wrap gap-2">
@@ -1406,87 +2530,146 @@
               <div class="flex items-start gap-2.5 text-xs leading-relaxed text-on-surface">
                 <span class="material-symbols-outlined text-base ${isHistorical ? 'text-emerald-600 dark:text-emerald-400' : (isCompetitive ? 'text-amber-600 dark:text-amber-400' : 'text-on-surface-variant')} shrink-0 mt-0.5">psychology_alt</span>
                 <div>
-                  <span class="font-bold text-primary">Admission Insight:</span> ${hasProb ? `<span class="font-bold ${item.admissionProbability >= 70 ? 'text-emerald-700 dark:text-emerald-400' : (item.admissionProbability >= 50 ? 'text-amber-700 dark:text-amber-400' : 'text-rose-700 dark:text-rose-400')}">${item.admissionProbability.toFixed(1)}% Allotment Probability (${item.probabilityTier})</span> &bull; ` : ''}${item.explanation}
+                  <span class="font-bold text-primary">${isDsy ? 'DSY Admission Insight:' : 'Admission Insight:'}</span> ${hasProb ? `<span class="font-bold ${item.admissionProbability >= 70 ? 'text-emerald-700 dark:text-emerald-400' : (item.admissionProbability >= 50 ? 'text-amber-700 dark:text-amber-400' : 'text-rose-700 dark:text-rose-400')}">${item.admissionProbability.toFixed(1)}% Allotment Probability (${item.probabilityTier})</span> &bull; ` : ''}${item.explanation}
                 </div>
               </div>
             </div>
 
-            <!-- Multi-Round Cutoff Matrix: Round 1, Round 2, Round 3, Round 4 -->
-            ${(() => {
-              const roundsMap = r.roundCutoffs || r.round_cutoffs || item.roundCutoffs || item.round_cutoffs || {};
-              const roundNumbers = [1, 2, 3, 4];
-              const studentScoreNum = currentProfile ? parseFloat(currentProfile.score) : NaN;
+            <!-- Cutoff Details: DSY Cutoff Specification Box or FE Multi-Round Matrix -->
+            ${isDsy ? `
+              <div class="p-3.5 sm:p-4 rounded-2xl bg-surface-container-low border border-surface-container-high text-xs text-on-surface-variant space-y-3">
+                <div class="flex items-center justify-between flex-wrap gap-2 text-[11px] font-bold text-primary">
+                  <span class="flex items-center gap-1.5 text-secondary uppercase tracking-wider font-extrabold">
+                    <span class="material-symbols-outlined text-sm">verified</span>
+                    <span>Direct Second Year (DSY/DSE) Verified CAP Cutoff</span>
+                  </span>
+                  <span class="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface text-[10px] font-semibold border border-surface-container-high/60">
+                    Source: ${item.source || r.source || 'State CET Cell Maharashtra - DSE CAP Centralized Allotment'}
+                  </span>
+                </div>
 
-              const roundBoxesHtml = roundNumbers.map(rndNum => {
-                const rndData = roundsMap[rndNum] || roundsMap[String(rndNum)];
-                let val = null;
-                let rank = null;
-                let seat = null;
+                <!-- DSY Specific 4-box Cutoff Matrix -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  <div class="p-3 rounded-2xl bg-surface-container border border-surface-container-high/80">
+                    <span class="text-[10px] uppercase font-bold text-on-surface-variant block tracking-wider">Cutoff Value &amp; Type</span>
+                    <div class="text-base sm:text-lg font-black ${isHistorical ? 'text-emerald-700 dark:text-emerald-400' : 'text-secondary'} mt-0.5">
+                      ${item.cutoffValueDisplay || item.cutoff_value || r.closingValue}
+                    </div>
+                    <span class="text-[10px] font-semibold text-primary block mt-0.5">
+                      ${item.cutoffTypeDisplay || item.cutoff_type || (currentProfile && currentProfile.metricType === 'rank' ? 'State Merit Rank' : 'Diploma Marks')}
+                    </span>
+                  </div>
 
-                if (rndData !== undefined && rndData !== null) {
-                  if (typeof rndData === 'object') {
-                    val = rndData.cutoff_value !== undefined ? rndData.cutoff_value : rndData.closingValue;
-                    rank = rndData.rank !== undefined ? rndData.rank : rndData.merit_number;
-                    seat = rndData.seat_type || rndData.seat_type_code;
-                  } else if (typeof rndData === 'number') {
-                    val = rndData;
-                  }
-                } else if (rndNum === 2 && r.closingValue !== null && r.closingValue !== undefined) {
-                  val = r.closingValue;
+                  <div class="p-3 rounded-2xl bg-surface-container border border-surface-container-high/80">
+                    <span class="text-[10px] uppercase font-bold text-on-surface-variant block tracking-wider">Admission Year &amp; Round</span>
+                    <div class="text-sm sm:text-base font-extrabold text-primary mt-0.5">
+                      ${item.admission_year || r.year || '2024-2025'}
+                    </div>
+                    <span class="text-[10px] font-semibold text-secondary block mt-0.5">
+                      ${item.cap_round || r.round || 'CAP Round I'}
+                    </span>
+                  </div>
+
+                  <div class="p-3 rounded-2xl bg-surface-container border border-surface-container-high/80">
+                    <span class="text-[10px] uppercase font-bold text-on-surface-variant block tracking-wider">Category &amp; Quota</span>
+                    <div class="text-sm sm:text-base font-extrabold text-primary mt-0.5">
+                      ${item.category || r.category}
+                    </div>
+                    <span class="text-[10px] font-semibold text-on-surface-variant block mt-0.5">
+                      ${item.quota || r.quota || 'Home University / State Level'}
+                    </span>
+                  </div>
+
+                  <div class="p-3 rounded-2xl bg-surface-container border border-surface-container-high/80">
+                    <span class="text-[10px] uppercase font-bold text-on-surface-variant block tracking-wider">District / Location</span>
+                    <div class="text-sm sm:text-base font-extrabold text-primary mt-0.5">
+                      ${item.district || r.district || r.city}
+                    </div>
+                    <span class="text-[10px] font-semibold text-on-surface-variant block mt-0.5">
+                      ${r.state || 'Maharashtra'}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Mandatory Guidance Disclaimer Banner -->
+                <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center gap-2 text-[11px] text-amber-800 dark:text-amber-300 font-medium">
+                  <span class="material-symbols-outlined text-base shrink-0 text-amber-600 dark:text-amber-400">warning</span>
+                  <span><strong>Advisory Disclaimer:</strong> Past cutoffs are guidance and do not guarantee admission.</span>
+                </div>
+              </div>
+            ` : (() => {
+            const roundsMap = r.roundCutoffs || r.round_cutoffs || item.roundCutoffs || item.round_cutoffs || {};
+            const roundNumbers = [1, 2, 3, 4];
+            const studentScoreNum = currentProfile ? parseFloat(currentProfile.score) : NaN;
+
+            const roundBoxesHtml = roundNumbers.map(rndNum => {
+              const rndData = roundsMap[rndNum] || roundsMap[String(rndNum)];
+              let val = null;
+              let rank = null;
+              let seat = null;
+
+              if (rndData !== undefined && rndData !== null) {
+                if (typeof rndData === 'object') {
+                  val = rndData.cutoff_value !== undefined ? rndData.cutoff_value : rndData.closingValue;
+                  rank = rndData.rank !== undefined ? rndData.rank : rndData.merit_number;
+                  seat = rndData.seat_type || rndData.seat_type_code;
+                } else if (typeof rndData === 'number') {
+                  val = rndData;
                 }
+              } else if (rndNum === 2 && r.closingValue !== null && r.closingValue !== undefined) {
+                val = r.closingValue;
+              }
 
-                const isStudentRank = currentProfile && currentProfile.scoreType === 'rank';
-                const hasVal = val !== null && val !== undefined && !isNaN(val);
-                const hasRank = rank !== null && rank !== undefined && !isNaN(rank);
+              const isStudentRank = currentProfile && currentProfile.scoreType === 'rank';
+              const hasVal = val !== null && val !== undefined && !isNaN(val);
+              const hasRank = rank !== null && rank !== undefined && !isNaN(rank);
 
-                let valDisplay = 'Allotted / NA';
-                let isEligible = false;
-                let subDisplay = '';
+              let valDisplay = 'Allotted / NA';
+              let isEligible = false;
+              let subDisplay = '';
 
-                if (isStudentRank) {
-                  // FOR RANK: COMPARE USER RANK WITH CUTOFF RANK (lower rank is better)
-                  const targetRank = hasRank ? Number(rank) : (hasVal && Number(val) > 100 ? Number(val) : null);
-                  if (targetRank) {
-                    valDisplay = `#${Math.round(targetRank)}`;
-                    if (!isNaN(studentScoreNum)) {
-                      isEligible = studentScoreNum <= targetRank;
-                    }
-                    if (hasVal && Number(val) <= 100) {
-                      subDisplay = `${Number(val).toFixed(4)}% CET`;
-                    }
-                  } else if (hasVal) {
-                    valDisplay = `${Number(val).toFixed(4)}%`;
+              if (isStudentRank) {
+                // FOR RANK: COMPARE USER RANK WITH CUTOFF RANK (lower rank is better)
+                const targetRank = hasRank ? Number(rank) : (hasVal && Number(val) > 100 ? Number(val) : null);
+                if (targetRank) {
+                  valDisplay = `#${Math.round(targetRank)}`;
+                  if (!isNaN(studentScoreNum)) {
+                    isEligible = studentScoreNum <= targetRank;
                   }
-                } else {
-                  // FOR PERCENTILE: COMPARE USER PERCENTILE WITH CUTOFF PERCENTILE (higher is better)
-                  if (hasVal) {
-                    const num = Number(val);
-                    valDisplay = `${num.toFixed(4)}%`;
-                    if (!isNaN(studentScoreNum)) {
-                      isEligible = studentScoreNum >= num;
-                    }
+                  if (hasVal && Number(val) <= 100) {
+                    subDisplay = `${Number(val).toFixed(4)}% CET`;
                   }
-                  if (hasRank) {
-                    subDisplay = `Merit #${Math.round(Number(rank))}`;
-                  } else if (seat) {
-                    subDisplay = `Seat: ${seat}`;
+                } else if (hasVal) {
+                  valDisplay = `${Number(val).toFixed(4)}%`;
+                }
+              } else {
+                // FOR PERCENTILE: COMPARE USER PERCENTILE WITH CUTOFF PERCENTILE (higher is better)
+                if (hasVal) {
+                  const num = Number(val);
+                  valDisplay = `${num.toFixed(4)}%`;
+                  if (!isNaN(studentScoreNum)) {
+                    isEligible = studentScoreNum >= num;
                   }
                 }
+                if (hasRank) {
+                  subDisplay = `Merit #${Math.round(Number(rank))}`;
+                } else if (seat) {
+                  subDisplay = `Seat: ${seat}`;
+                }
+              }
 
-                const roundTitle = `Round ${rndNum}`;
+              const roundTitle = `Round ${rndNum}`;
 
-                return `
-                  <div class="p-3 rounded-2xl border transition-all ${
-                    isEligible 
-                      ? 'bg-emerald-500/10 border-emerald-500/40 dark:bg-emerald-950/25' 
-                      : (hasVal || hasRank
-                          ? 'bg-surface-container border-surface-container-high/90' 
-                          : 'bg-surface-container-high/30 border-surface-container-high/50 opacity-70')
-                  }">
+              return `
+                  <div class="p-3 rounded-2xl border transition-all ${isEligible
+                  ? 'bg-emerald-500/10 border-emerald-500/40 dark:bg-emerald-950/25'
+                  : (hasVal || hasRank
+                    ? 'bg-surface-container border-surface-container-high/90'
+                    : 'bg-surface-container-high/30 border-surface-container-high/50 opacity-70')
+                }">
                     <div class="flex items-center justify-between gap-1 mb-1.5">
-                      <span class="text-[11px] font-black uppercase tracking-wider ${
-                        isEligible ? 'text-emerald-700 dark:text-emerald-400' : 'text-primary'
-                      }">
+                      <span class="text-[11px] font-black uppercase tracking-wider ${isEligible ? 'text-emerald-700 dark:text-emerald-400' : 'text-primary'
+                }">
                         ${roundTitle}
                       </span>
                       ${isEligible ? `
@@ -1501,11 +2684,10 @@
                     </div>
 
                     <div class="my-1">
-                      <div class="text-base font-extrabold tracking-tight ${
-                        isEligible 
-                          ? 'text-emerald-700 dark:text-emerald-300 font-black' 
-                          : (hasVal || hasRank ? 'text-secondary font-black' : 'text-on-surface-variant/70 text-xs font-semibold')
-                      }">
+                      <div class="text-base font-extrabold tracking-tight ${isEligible
+                  ? 'text-emerald-700 dark:text-emerald-300 font-black'
+                  : (hasVal || hasRank ? 'text-secondary font-black' : 'text-on-surface-variant/70 text-xs font-semibold')
+                }">
                         ${valDisplay}
                       </div>
                       ${subDisplay ? `
@@ -1525,9 +2707,9 @@
                     </div>
                   </div>
                 `;
-              }).join('');
+            }).join('');
 
-              return `
+            return `
                 <div class="p-3 sm:p-3.5 rounded-2xl bg-surface-container-low border border-surface-container-high text-xs text-on-surface-variant space-y-2.5">
                   <div class="flex items-center justify-between flex-wrap gap-2 text-[11px] font-bold text-primary">
                     <span class="flex items-center gap-1.5 text-secondary uppercase tracking-wider font-extrabold">
@@ -1565,12 +2747,12 @@
                   </div>
                 </div>
               `;
-            })()}
+          })()}
 
             <!-- Card Actions -->
             <div class="mt-3 flex items-center justify-between gap-3 pt-2.5 border-t border-surface-container-high/60 text-xs">
               <span class="text-[11px] text-on-surface-variant italic">
-                Verified CAP cutoffs &bull; Centralized Admission Process
+                ${isDsy ? 'Verified DSY/DSE lateral entry CAP cutoffs' : 'Verified CAP cutoffs &bull; Centralized Admission Process'}
               </span>
               <div class="flex items-center gap-2">
                 <a href="faqs.html?q=${encodeURIComponent(r.collegeName)}" class="px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-bold transition-colors inline-flex items-center gap-1.5 shadow-2xs">
@@ -1636,9 +2818,15 @@
       document.getElementById('filter-city').value = 'all';
       document.getElementById('filter-branch').value = 'all';
       document.getElementById('sort-by').value = 'probability';
+      const sortByEl = document.getElementById('sort-by');
+      if (sortByEl && currentProfile && currentProfile.scoreType === 'rank') {
+        sortByEl.value = 'rank_asc';
+      }
+
       applyFiltersAndSort();
     }
   </script>
 
 </body>
+
 </html>

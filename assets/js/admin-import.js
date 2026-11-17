@@ -140,6 +140,22 @@
       });
   }
 
+  function loadDsySampleCsvIntoForm() {
+    fetch('/api/admin/import/dsy-sample')
+      .then(res => res.text())
+      .then(csv => {
+        selectedCsvContent = csv;
+        selectedCsvFilename = 'maharashtra_dse_cutoffs_sample.csv';
+        updateFileSelectedUI('maharashtra_dse_cutoffs_sample.csv', csv.length);
+        const sourceInput = document.getElementById('import-source-title');
+        if (sourceInput) sourceInput.value = 'State CET Cell Maharashtra - Direct Second Year Engineering (DSE) Centralized Admission Process 2024-25';
+        showToast('DSY Sample Loaded', 'Direct Second Year Engineering (DSE) sample CSV loaded. Click "Parse & Validate CSV" to preview.');
+      })
+      .catch(err => {
+        alert('Failed to load DSY sample CSV: ' + err.message);
+      });
+  }
+
   // -------------------------------------------------------------------------
   // 3. Parse & Preview CSV
   // -------------------------------------------------------------------------
@@ -721,6 +737,7 @@
     prefillSampleSource,
     handleCsvFileSelect,
     loadSampleCsvIntoForm,
+    loadDsySampleCsvIntoForm,
     parseAndPreviewCsv,
     setPreviewFilter,
     commitImportBatch,

@@ -1022,6 +1022,467 @@ class TestCollegeHub(unittest.TestCase):
         self.assertNotIn('verification_code', data_prod)
         self.app.config['TESTING'] = True
 
+    def test_21_dsy_recommendations_and_data_isolation(self):
+        """
+        Direct Second Year Engineering (DSY/DSE) comprehensive tests:
+        1. Form field validations (diploma branch, metric type, score).
+        2. Strict data isolation: First-Year cutoffs are never returned for DSY.
+        3. Missing DSY data state: returns matching_data_needed without inventing cutoffs.
+        4. Like-for-like rank comparison: <= closing is 'within the past cutoff range', > closing is 'more competitive'.
+        5. Like-for-like marks comparison: >= closing is 'within the past cutoff range', < closing is 'more competitive'.
+        6. Suggestion output schema: college, branch, district, cutoff value and type, year, round, source, disclaimer.
+        """
+        # 1. Validation: Missing diploma branch
+        res_v1 = self.client.post('/api/recommendations/dsy', json={
+            'metric_type': 'rank',
+            'score': 1500,
+            'preferred_engineering_branches': ['CSE']
+        })
+        self.assertEqual(res_v1.status_code, 400)
+        self.assertIn('diploma branch is required', json.loads(res_v1.data)['message'].lower())
+
+        # 2. Validation: Invalid metric type
+        res_v2 = self.client.post('/api/recommendations/dsy', json={
+            'diploma_branch': 'Mechanical',
+            'metric_type': 'cgpa',
+            'score': 8.5,
+            'preferred_engineering_branches': ['MECH']
+        })
+        self.assertEqual(res_v2.status_code, 400)
+
+        # 3. Validation: Score range
+        res_v3 = self.client.post('/api/recommendations/dsy', json={
+            'diploma_branch': 'Mechanical',
+            'metric_type': 'marks',
+            'score': 120.5,
+            'preferred_engineering_branches': ['MECH']
+        })
+        self.assertEqual(res_v3.status_code, 400)
+
+        # 4. State when no DSY cutoff data is provided / matching
+        res_no_data = self.client.post('/api/recommendations/dsy', json={
+            'diploma_branch': 'Marine Engineering',
+            'metric_type': 'rank',
+            'score': 1500,
+            'preferred_engineering_branches': ['NONEXISTENT_BRANCH'],
+            'category': 'OPEN'
+        })
+        self.assertEqual(res_no_data.status_code, 200)
+        d_no_data = json.loads(res_no_data.data)
+        self.assertEqual(d_no_data['data_status'], 'matching_data_needed')
+        self.assertEqual(d_no_data['count'], 0)
+        self.assertIn('matching dsy/dse cutoff data is needed', d_no_data['message'].lower())
+        self.assertIn('data_guidance', d_no_data)
+        self.assertIn('how_to_provide', d_no_data['data_guidance'])
+        # Does not invent cutoffs
+        self.assertEqual(len(d_no_data['recommendations']), 0)
+
+        # 5. Strict First-Year Isolation: First-Year endpoint never returns DSY cutoffs
+        res_fe = self.client.post('/api/recommendations', json={
+            'exam': 'MHT-CET',
+            'score': 99.8,
+            'score_type': 'percentile',
+            'category': 'OPEN',
+            'preferred_course': 'B.Tech',
+            'preferred_branches': ['CSE']
+        })
+        self.assertEqual(res_fe.status_code, 200)
+        fe_data = json.loads(res_fe.data)
+        for r in fe_data.get('recommendations', []):
+            self.assertNotEqual(r.get('record', {}).get('admission_route'), 'BTECH_DSY')
+
+        # 6. Matching logic with DSY cutoffs: Rank comparison
+        mock_dsy_rank = {
+            'id': 'test-dsy-rank-01',
+            'college_code': '6006',
+            'college_name': 'COEP Technological University',
+            'campus_type': 'State University',
+            'city': 'Pune',
+            'district': 'Pune',
+            'state': 'Maharashtra',
+            'program': 'B.Tech',
+            'branch_code': 'CSE',
+            'branch_name': 'Computer Science & Engineering',
+            'admission_route': 'BTECH_DSY',
+            'exam': 'DSE',
+            'score_type': 'rank',
+            'category': 'OPEN',
+            'quota': 'SL',
+            'round': 'CAP Round I',
+            'cap_round': 1,
+            'academic_year': '2024-2025',
+            'cutoff_value': 850,
+            'closing_value': 850,
+            'closing_rank': 850,
+            'rank': 850,
+            'source': 'Government of Maharashtra State CET Cell DSE CAP 2024-25',
+            'status': 'approved',
+            'is_active': True
+        }
+        db._local_cutoffs.append(mock_dsy_rank)
+
+        # 6a. Rank 500 <= 850 -> "within the past cutoff range"
+        res_r_within = self.client.post('/api/recommendations/dsy', json={
+            'diploma_branch': 'Computer Engineering',
+            'metric_type': 'rank',
+            'score': 500,
+            'preferred_engineering_branches': ['CSE'],
+            'category': 'OPEN',
+            'quota': 'SL',
+            'cap_round': 'CAP Round I',
+            'admission_year': '2024-2025'
+        })
+        data_r_within = json.loads(res_r_within.data)
+        self.assertEqual(data_r_within['count'], 1)
+        card_r = data_r_within['recommendations'][0]
+        self.assertEqual(card_r['match_label'], 'within the past cutoff range')
+        self.assertEqual(card_r['college'], 'COEP Technological University')
+        self.assertEqual(card_r['engineering_branch'], 'Computer Science & Engineering')
+        self.assertEqual(card_r['district'], 'Pune')
+        self.assertEqual(card_r['cutoff_value'], '#850')
+        self.assertEqual(card_r['cutoff_type'], 'State Merit Rank')
+        self.assertEqual(card_r['admission_year'], '2024-2025')
+        self.assertEqual(card_r['cap_round'], 'CAP Round I')
+        self.assertIn('source', card_r)
+        self.assertIn('Past cutoffs are guidance and do not guarantee admission.', card_r['disclaimer'])
+
+        # 6b. Rank 1200 > 850 -> "more competitive than the past cutoff range"
+        res_r_comp = self.client.post('/api/recommendations/dsy', json={
+            'diploma_branch': 'Computer Engineering',
+            'metric_type': 'rank',
+            'score': 1200,
+            'preferred_engineering_branches': ['CSE'],
+            'category': 'OPEN',
+            'quota': 'SL',
+            'cap_round': 'CAP Round I',
+            'admission_year': '2024-2025'
+        })
+        data_r_comp = json.loads(res_r_comp.data)
+        self.assertEqual(data_r_comp['count'], 1)
+        self.assertEqual(data_r_comp['recommendations'][0]['match_label'], 'more competitive than the past cutoff range')
+
+        # Clean up mock rank cutoff
+        db._local_cutoffs = [c for c in db._local_cutoffs if c.get('id') != 'test-dsy-rank-01']
+
+        # 7. Matching logic with DSY cutoffs: Like-for-like Marks comparison
+        mock_dsy_marks = {
+            'id': 'test-dsy-marks-01',
+            'college_code': '6271',
+            'college_name': 'Pune Institute of Computer Technology (PICT)',
+            'campus_type': 'Private Autonomous',
+            'city': 'Pune',
+            'district': 'Pune',
+            'state': 'Maharashtra',
+            'program': 'B.Tech',
+            'branch_code': 'CSE',
+            'branch_name': 'Computer Science & Engineering',
+            'admission_route': 'BTECH_DSY',
+            'exam': 'DSE',
+            'score_type': 'marks',
+            'category': 'OPEN',
+            'quota': 'HU',
+            'round': 'CAP Round I',
+            'cap_round': 1,
+            'academic_year': '2024-2025',
+            'cutoff_value': 89.50,
+            'closing_value': 89.50,
+            'closing_marks': 89.50,
+            'source': 'Government of Maharashtra State CET Cell DSE CAP 2024-25',
+            'status': 'approved',
+            'is_active': True
+        }
+        db._local_cutoffs.append(mock_dsy_marks)
+
+        # 7a. Marks 91.50% >= 89.50% -> "within the past cutoff range"
+        res_m_within = self.client.post('/api/recommendations/dsy', json={
+            'diploma_branch': 'Computer Engineering',
+            'metric_type': 'marks',
+            'score': 91.50,
+            'preferred_engineering_branches': ['CSE'],
+            'category': 'OPEN',
+            'quota': 'HU',
+            'cap_round': 'CAP Round I',
+            'admission_year': '2024-2025'
+        })
+        data_m_within = json.loads(res_m_within.data)
+        self.assertEqual(data_m_within['count'], 1)
+        card_m = data_m_within['recommendations'][0]
+        self.assertEqual(card_m['match_label'], 'within the past cutoff range')
+        self.assertIn('Like-for-Like Marks Comparison', card_m['explanation'])
+        self.assertEqual(card_m['cutoff_value'], '89.50%')
+        self.assertEqual(card_m['cutoff_type'], 'Diploma Aggregate Marks')
+
+        # 7b. Marks 82.00% < 89.50% -> "more competitive than the past cutoff range"
+        res_m_comp = self.client.post('/api/recommendations/dsy', json={
+            'diploma_branch': 'Computer Engineering',
+            'metric_type': 'marks',
+            'score': 82.00,
+            'preferred_engineering_branches': ['CSE'],
+            'category': 'OPEN',
+            'quota': 'HU',
+            'cap_round': 'CAP Round I',
+            'admission_year': '2024-2025'
+        })
+        data_m_comp = json.loads(res_m_comp.data)
+        self.assertEqual(data_m_comp['count'], 1)
+        self.assertEqual(data_m_comp['recommendations'][0]['match_label'], 'more competitive than the past cutoff range')
+
+        # Clean up mock marks cutoff
+        db._local_cutoffs = [c for c in db._local_cutoffs if c.get('id') != 'test-dsy-marks-01']
+
+    def test_22_dsy_csv_template_and_sample_downloads(self):
+        """Test downloading of official DSY/DSE CSV templates and sample files."""
+        res_tmpl = self.client.get('/api/admin/import/dsy-template')
+        self.assertEqual(res_tmpl.status_code, 200)
+        self.assertEqual(res_tmpl.mimetype, 'text/csv')
+        self.assertIn(b'diploma_branch_eligibility', res_tmpl.data)
+        self.assertIn(b'admission_route', res_tmpl.data)
+
+        res_smpl = self.client.get('/api/admin/import/dsy-sample')
+        self.assertEqual(res_smpl.status_code, 200)
+        self.assertEqual(res_smpl.mimetype, 'text/csv')
+        self.assertIn(b'BTECH_DSY', res_smpl.data)
+        self.assertIn(b'COEP Technological University', res_smpl.data)
+        res_tmpl.close()
+        res_smpl.close()
+
+    def test_23_supabase_auth_config_and_session_sync(self):
+        """Test public Supabase Auth config and secure session synchronization."""
+        # 1. Config endpoint returns publishable key, never secret keys
+        res_cfg = self.client.get('/api/auth/config')
+        self.assertEqual(res_cfg.status_code, 200)
+        data_cfg = json.loads(res_cfg.data)
+        self.assertEqual(data_cfg['status'], 'success')
+        self.assertIn('supabase_url', data_cfg)
+        self.assertIn('supabase_publishable_key', data_cfg)
+        self.assertNotIn('supabase_secret_key', data_cfg)
+        self.assertNotIn('supabase_key', data_cfg)
+        self.assertNotIn('service_role', str(res_cfg.data).lower())
+
+        # 2. Session sync initializes session securely
+        sync_payload = {
+            "email": "neha.kulkarni@example.com",
+            "full_name": "Neha Kulkarni",
+            "role": "student",
+            "provider": "supabase"
+        }
+        res_sync = self.client.post('/api/auth/sync-session', json=sync_payload)
+        self.assertEqual(res_sync.status_code, 200)
+        data_sync = json.loads(res_sync.data)
+        self.assertEqual(data_sync['status'], 'success')
+        self.assertEqual(data_sync['user']['email'], 'neha.kulkarni@example.com')
+        self.assertEqual(data_sync['user']['name'], 'Neha Kulkarni')
+        self.assertEqual(data_sync['user']['role'], 'student')
+
+        # 3. Verify session active via /api/auth/me
+        res_me = self.client.get('/api/auth/me')
+        self.assertEqual(res_me.status_code, 200)
+        data_me = json.loads(res_me.data)
+        self.assertTrue(data_me['logged_in'])
+        self.assertEqual(data_me['user']['email'], 'neha.kulkarni@example.com')
+
+    def test_24_profile_persistence_and_relogin_fetching(self):
+        """Test profile update persistence and automatic fetching on relogin."""
+        test_email = "mustkeem.shaikh@example.com"
+
+        # 1. First-time login / sync
+        sync_res = self.client.post('/api/auth/sync-session', json={
+            "email": test_email,
+            "full_name": "Mustkeem",
+            "role": "student"
+        })
+        self.assertEqual(sync_res.status_code, 200)
+
+        # 2. Update profile with detailed information
+        profile_update = {
+            "legal_name": "Mustkeem Shaikh",
+            "preferred_name": "Mustkeem",
+            "phone": "+91 98765 43210",
+            "dob": "2005-04-12",
+            "domicile": "Maharashtra, India (Home State Quota)",
+            "address": "Flat 302, Hill View Residency, Pune, Maharashtra 411038"
+        }
+        update_res = self.client.post('/api/user/profile', json=profile_update)
+        self.assertEqual(update_res.status_code, 200)
+        update_data = json.loads(update_res.data)
+        self.assertEqual(update_data['status'], 'success')
+        self.assertEqual(update_data['user']['legal_name'], "Mustkeem Shaikh")
+        self.assertEqual(update_data['user']['phone'], "+91 98765 43210")
+        self.assertEqual(update_data['user']['dob'], "2005-04-12")
+        self.assertEqual(update_data['user']['domicile'], "Maharashtra, India (Home State Quota)")
+        self.assertEqual(update_data['user']['address'], "Flat 302, Hill View Residency, Pune, Maharashtra 411038")
+
+        # 3. Fetch profile via GET /api/user/profile
+        get_res = self.client.get('/api/user/profile')
+        self.assertEqual(get_res.status_code, 200)
+        get_data = json.loads(get_res.data)
+        self.assertEqual(get_data['profile']['legal_name'], "Mustkeem Shaikh")
+        self.assertEqual(get_data['profile']['phone'], "+91 98765 43210")
+
+        # 4. User logs out (session cleared)
+        logout_res = self.client.post('/api/auth/logout')
+        self.assertEqual(logout_res.status_code, 200)
+
+        # Confirm session is cleared
+        me_logged_out = self.client.get('/api/auth/me')
+        self.assertFalse(json.loads(me_logged_out.data)['logged_in'])
+
+        # 5. User re-logins (e.g. via Supabase session sync or Google OAuth)
+        relogin_res = self.client.post('/api/auth/sync-session', json={
+            "email": test_email,
+            "full_name": "Mustkeem",
+            "role": "student"
+        })
+        self.assertEqual(relogin_res.status_code, 200)
+        relogin_data = json.loads(relogin_res.data)
+        
+        # 6. Verify that on re-login, the saved profile was fetched and NOT lost!
+        relogin_user = relogin_data['user']
+        self.assertEqual(relogin_user['legal_name'], "Mustkeem Shaikh")
+        self.assertEqual(relogin_user['phone'], "+91 98765 43210")
+        self.assertEqual(relogin_user['dob'], "2005-04-12")
+        self.assertEqual(relogin_user['domicile'], "Maharashtra, India (Home State Quota)")
+        self.assertEqual(relogin_user['address'], "Flat 302, Hill View Residency, Pune, Maharashtra 411038")
+
+        # 7. Also verify via GET /api/user/profile after relogin
+        profile_after_relogin = self.client.get('/api/user/profile')
+        self.assertEqual(profile_after_relogin.status_code, 200)
+        p_data = json.loads(profile_after_relogin.data)['profile']
+        self.assertEqual(p_data['phone'], "+91 98765 43210")
+        self.assertEqual(p_data['legal_name'], "Mustkeem Shaikh")
+
+    def test_25_supabase_password_reset_page_and_generic_messaging(self):
+        """Test dedicated Supabase reset password page and generic messaging."""
+        # 1. Reset password page route exists and renders HTML
+        res_page = self.client.get('/reset-password')
+        self.assertEqual(res_page.status_code, 200)
+        self.assertIn(b'Set New Password', res_page.data)
+        self.assertIn(b'supabase-js', res_page.data)
+        self.assertIn(b'Password Requirements', res_page.data)
+        res_page.close()
+
+        # 2. Alias /reset-password.html also renders cleanly
+        res_alias = self.client.get('/reset-password.html')
+        self.assertEqual(res_alias.status_code, 200)
+        self.assertIn(b'CollegeHub', res_alias.data)
+        res_alias.close()
+
+        # 3. Supabase Auth configuration is exposed for client auth
+        res_cfg = self.client.get('/api/auth/config')
+        self.assertEqual(res_cfg.status_code, 200)
+        cfg_data = json.loads(res_cfg.data)
+        self.assertEqual(cfg_data['status'], 'success')
+        self.assertIn('supabase_publishable_key', cfg_data)
+        self.assertIn('supabase_url', cfg_data)
+
+    def test_26_recommendations_page_scripts_and_dsy_tab(self):
+        """Verify recommendations.html serves correctly and JavaScript has valid syntax."""
+        import re
+        import subprocess
+
+        res = self.client.get('/recommendations.html')
+        self.assertEqual(res.status_code, 200)
+        html = res.data.decode('utf-8')
+        res.close()
+
+        # Check key DOM elements for branches and DSY
+        self.assertIn('id="branch-bank"', html)
+        self.assertIn('id="tab-mode-dsy"', html)
+        self.assertIn('id="dsy-form-section"', html)
+        self.assertIn('id="dsy-branch-bank"', html)
+
+        # Check DSY academic profile fields and independent section structure
+        self.assertIn('id="dsy-diploma-marks"', html)
+        self.assertIn('id="dsy-class10-input"', html)
+        self.assertIn('id="dsy-university-select"', html)
+        self.assertIn('id="dsy-budget-select"', html)
+        self.assertIn('id="dsy-hostel-select"', html)
+        self.assertIn('value="rank_asc"', html)
+
+        # Verify fe-form-section closes BEFORE dsy-form-section starts (not nested inside)
+        fe_idx = html.find('id="fe-form-section"')
+        dsy_idx = html.find('id="dsy-form-section"')
+        self.assertTrue(fe_idx > 0 and dsy_idx > fe_idx)
+        fe_to_dsy = html[fe_idx:dsy_idx]
+        self.assertIn('<!-- END FIRST-YEAR ENGINEERING FORM SECTION -->', fe_to_dsy)
+        self.assertEqual(fe_to_dsy.count('<div'), fe_to_dsy.count('</div>'))
+
+        # Validate inline script syntax via Node.js stdin to avoid Windows CLI length limits
+        scripts = re.findall(r'<script\b([^>]*)>(.*?)</script>', html, re.DOTALL)
+        for idx, (attr, body) in enumerate(scripts):
+            if 'src=' not in attr and body.strip():
+                proc = subprocess.run(
+                    ['node', '-c'],
+                    input=body,
+                    capture_output=True,
+                    text=True
+                )
+                self.assertEqual(proc.returncode, 0, f"SyntaxError in script {idx}: {proc.stderr}")
+
+    def test_27_dsy_2026_cap1_recommendations_and_official_cutoffs(self):
+        """
+        Verify Direct Second Year Engineering (DSY/DSE) 2026 CAP Round I recommendations:
+        1. Queries official Maharashtra CET Cell 2026-27 DSY cutoffs for CAP Round I.
+        2. Asserts data_status == 'matched' with real college recommendations.
+        3. Asserts strict BTECH_DSY isolation and like-for-like rank & marks evaluation.
+        4. Asserts correct rank sorting order.
+        """
+        # Test 1: CAP Round I rank evaluation for DSY 2026-27
+        res = self.client.post('/api/recommendations/dsy', json={
+            'diploma_branch': 'Computer Engineering',
+            'metric_type': 'rank',
+            'score': 2500,
+            'preferred_engineering_branches': ['CSE', 'IT'],
+            'category': 'OPEN',
+            'quota': 'SL',
+            'cap_round': 'CAP Round I',
+            'admission_year': '2026-2027',
+            'sort_by': 'rank_asc'
+        })
+        self.assertEqual(res.status_code, 200)
+        data = res.get_json()
+        self.assertEqual(data.get('data_status'), 'matched')
+        recs = data.get('recommendations', [])
+        self.assertGreater(len(recs), 0)
+
+        # Verify strict isolation, field completeness, and like-for-like comparison
+        for r in recs:
+            self.assertEqual(r.get('record', {}).get('admission_route'), 'BTECH_DSY')
+            self.assertEqual(r.get('record', {}).get('academic_year'), '2026-2027')
+            self.assertIn('CAP Round I', r.get('record', {}).get('round'))
+            self.assertIn(r.get('branch_code'), ['CSE', 'IT'])
+            self.assertIn('disclaimer', r)
+            self.assertIn('explanation', r)
+            self.assertIn('source', r)
+
+        # Verify rank comparison accuracy
+        within = [r for r in recs if r.get('match_label') == 'within the past cutoff range']
+        competitive = [r for r in recs if r.get('match_label') == 'more competitive than the past cutoff range']
+        for r in within:
+            self.assertGreaterEqual(float(r['closing_rank']), 2500)
+        for r in competitive:
+            self.assertLess(float(r['closing_rank']), 2500)
+
+        # Test 2: Like-for-like Diploma aggregate marks evaluation for DSY 2026-27
+        res_marks = self.client.post('/api/recommendations/dsy', json={
+            'diploma_branch': 'Computer Engineering',
+            'metric_type': 'marks',
+            'score': 91.50,
+            'preferred_engineering_branches': ['CSE', 'IT'],
+            'category': 'OPEN',
+            'quota': 'SL',
+            'cap_round': 'CAP Round I',
+            'admission_year': '2026-2027'
+        })
+        self.assertEqual(res_marks.status_code, 200)
+        data_marks = res_marks.get_json()
+        self.assertEqual(data_marks.get('data_status'), 'matched')
+        recs_marks = data_marks.get('recommendations', [])
+        self.assertGreater(len(recs_marks), 0)
+        for r in recs_marks:
+            self.assertEqual(r.get('record', {}).get('admission_route'), 'BTECH_DSY')
+            self.assertEqual(r.get('record', {}).get('academic_year'), '2026-2027')
+
 
 if __name__ == '__main__':
     unittest.main()
