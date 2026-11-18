@@ -26,6 +26,12 @@ class Config:
     SMTP_USE_TLS = os.getenv('SMTP_USE_TLS', 'true').strip().lower() in ('true', '1', 'yes')
     SMTP_USE_SSL = os.getenv('SMTP_USE_SSL', 'false').strip().lower() in ('true', '1', 'yes')
 
+    # AI chatbot (Anthropic API). Leave ANTHROPIC_API_KEY empty to run in FAQ-only mode.
+    ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY', '').strip()
+    CHATBOT_MODEL = os.getenv('CHATBOT_MODEL', 'claude-haiku-5-5').strip()
+    CHATBOT_MAX_TOKENS = int(os.getenv('CHATBOT_MAX_TOKENS', '700'))
+    CHATBOT_RATE_LIMIT_PER_MIN = int(os.getenv('CHATBOT_RATE_LIMIT_PER_MIN', '15'))
+
     # The 8 authorized FAQ categories required by CollegeHub
     CATEGORIES = [
         'admissions',

@@ -863,7 +863,7 @@
               <h4 class="text-base font-bold leading-tight text-on-primary">CollegeHub AI Copilot</h4>
               <div class="flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-tertiary-fixed inline-block"></span>
-                <span class="text-xs text-primary-fixed">Active • 2025–26 Admissions Knowledge</span>
+                <span class="text-xs text-primary-fixed">Active • Maharashtra Engineering Colleges</span>
               </div>
             </div>
           </div>
@@ -881,23 +881,23 @@
             </div>
             <div class="bg-surface-container-lowest p-3.5 rounded-2xl rounded-tl-none shadow-xs border border-surface-container-high/60 max-w-[85%]">
               <p class="text-xs sm:text-sm text-on-surface leading-relaxed">
-                Hello! I'm your CollegeHub Assistant. I can clarify eligibility cutoffs, calculate hostel expenses, or outline document verification. What can I answer for you?
+                Hello! I'm your CollegeHub Assistant. Ask me anything about engineering colleges in Maharashtra: cutoffs, CAP rounds, branches, fees, placements or hostels. What can I answer for you?
               </p>
             </div>
           </div>
 
           <!-- Sample Quick Prompts -->
           <div class="space-y-1.5 pl-11">
-            <button class="text-left w-full px-3 py-2 rounded-xl bg-surface-container-lowest hover:bg-secondary-container/50 text-xs text-on-surface transition-colors shadow-xs border border-surface-container-high/60 flex items-center justify-between" onclick="sendChatSample('What documents are needed for admission?')" type="button">
-              <span>“What documents are needed for admission?”</span>
+            <button class="text-left w-full px-3 py-2 rounded-xl bg-surface-container-lowest hover:bg-secondary-container/50 text-xs text-on-surface transition-colors shadow-xs border border-surface-container-high/60 flex items-center justify-between" onclick="sendChatSample('Top engineering colleges in Pune?')" type="button">
+              <span>“Top engineering colleges in Pune?”</span>
               <span class="material-symbols-outlined text-xs text-secondary">arrow_forward</span>
             </button>
-            <button class="text-left w-full px-3 py-2 rounded-xl bg-surface-container-lowest hover:bg-secondary-container/50 text-xs text-on-surface transition-colors shadow-xs border border-surface-container-high/60 flex items-center justify-between" onclick="sendChatSample('What are the computer science cutoff ranks for 2024?')" type="button">
-              <span>“What are the CS cutoff ranks for 2024?”</span>
+            <button class="text-left w-full px-3 py-2 rounded-xl bg-surface-container-lowest hover:bg-secondary-container/50 text-xs text-on-surface transition-colors shadow-xs border border-surface-container-high/60 flex items-center justify-between" onclick="sendChatSample('What is the COEP computer engineering cutoff?')" type="button">
+              <span>“What is the COEP computer engineering cutoff?”</span>
               <span class="material-symbols-outlined text-xs text-secondary">arrow_forward</span>
             </button>
-            <button class="text-left w-full px-3 py-2 rounded-xl bg-surface-container-lowest hover:bg-secondary-container/50 text-xs text-on-surface transition-colors shadow-xs border border-surface-container-high/60 flex items-center justify-between" onclick="sendChatSample('How do I apply for out-of-state hostel reservation?')" type="button">
-              <span>“How do I apply for out-of-state hostel reservation?”</span>
+            <button class="text-left w-full px-3 py-2 rounded-xl bg-surface-container-lowest hover:bg-secondary-container/50 text-xs text-on-surface transition-colors shadow-xs border border-surface-container-high/60 flex items-center justify-between" onclick="sendChatSample('Explain CAP rounds in Maharashtra')" type="button">
+              <span>“Explain CAP rounds in Maharashtra”</span>
               <span class="material-symbols-outlined text-xs text-secondary">arrow_forward</span>
             </button>
           </div>
@@ -906,13 +906,13 @@
         <!-- Modal Footer / Input -->
         <div class="p-4 bg-surface-container-lowest border-t border-surface-container-high">
           <form class="flex items-center gap-2" onsubmit="handleChatMessageSubmit(event)">
-            <input class="flex-1 bg-surface-container-low rounded-xl px-4 py-2.5 text-xs sm:text-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container transition-all" id="chatModalInput" placeholder="Type your admissions question..." type="text">
+            <input class="flex-1 bg-surface-container-low rounded-xl px-4 py-2.5 text-xs sm:text-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container transition-all" id="chatModalInput" placeholder="Ask about any engineering college..." type="text">
             <button class="p-2.5 bg-secondary text-on-secondary rounded-xl hover:bg-secondary/90 shadow transition-colors flex items-center justify-center shrink-0" type="submit" aria-label="Send Message">
               <span class="material-symbols-outlined text-lg">send</span>
             </button>
           </form>
           <div class="flex items-center justify-between pt-2 px-1 text-[11px]">
-            <span class="text-outline">Answers from verified FAQs</span>
+            <span class="text-outline">Answers based on CollegeHub data</span>
             <a class="text-secondary font-bold hover:underline flex items-center gap-1" href="faqs.html">
               Open Full Chat Workspace
               <span class="material-symbols-outlined text-xs">open_in_new</span>
@@ -1119,6 +1119,15 @@
       }
     }
 
+    // Conversation memory so follow-up questions work
+    let modalChatHistory = [];
+    function formatBotText(text) {
+      let t = escapeHtml(String(text || ''));
+      t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      t = t.replace(/^\s*[-*]\s+/gm, '\u2022 ');
+      return t;
+    }
+
     // Quick message trigger in modal
     function sendChatSample(promptText) {
       appendUserMessage(promptText);
@@ -1159,7 +1168,7 @@
           <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-bounce"></span>
           <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-bounce [animation-delay:0.2s]"></span>
           <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-bounce [animation-delay:0.4s]"></span>
-          <span>Searching approved college FAQs...</span>
+          <span>Thinking...</span>
         </div>
       `;
       container.appendChild(typingBubble);
@@ -1169,7 +1178,7 @@
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: userQuery })
+          body: JSON.stringify({ message: userQuery, history: modalChatHistory })
         });
 
         const result = await response.json();
@@ -1180,28 +1189,35 @@
         botBubble.className = 'flex items-start gap-3';
 
         if (result.matched && result.status === 'matched') {
+          const isAI = result.source === 'ai';
+          const isLocal = result.source === 'local';
+          const fmt = isAI || isLocal;
+          const label = isAI ? 'AI Advisor' : isLocal ? 'CollegeHub Advisor' : (result.faq?.category || 'Verified');
+          const bodyHtml = fmt ? formatBotText(result.answer) : escapeHtml(result.answer);
+          const noteHtml = isAI ? `<p class="text-[10px] text-on-surface-variant mt-2">AI can make mistakes. Confirm cutoffs, fees and dates on the official CET Cell or college website.</p>` : '';
           botBubble.innerHTML = `
             <div class="w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0 text-xs font-bold">AI</div>
             <div class="bg-surface-container-lowest p-3.5 rounded-2xl rounded-tl-none shadow-xs border border-surface-container-high max-w-[85%]">
               <div class="flex items-center gap-2 mb-2">
                 <span class="px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-wider">
-                  ${escapeHtml(result.faq?.category || 'Approved FAQ')}
+                  ${escapeHtml(label)}
                 </span>
                 <span class="text-[10px] text-secondary font-semibold flex items-center gap-0.5">
-                  <span class="material-symbols-outlined text-[13px]">verified</span> Approved
+                  <span class="material-symbols-outlined text-[13px]">${fmt ? 'auto_awesome' : 'verified'}</span> ${fmt ? 'Based on CollegeHub data' : 'Approved'}
                 </span>
               </div>
-              <p class="text-xs sm:text-sm text-on-surface leading-relaxed">
-                ${escapeHtml(result.answer)}
-              </p>
+              <p class="text-xs sm:text-sm text-on-surface leading-relaxed whitespace-pre-line">${bodyHtml}</p>
+              ${noteHtml}
               <div class="mt-2.5 pt-2 border-t border-surface-container-high flex items-center justify-between text-xs">
-                <a href="faqs.html?category=${encodeURIComponent(result.faq?.category || '')}" class="font-bold text-secondary hover:underline flex items-center gap-1">
-                  View Full FAQ Directory
+                <a href="faqs.html" class="font-bold text-secondary hover:underline flex items-center gap-1">
+                  Continue in Full Chat Workspace
                   <span class="material-symbols-outlined text-xs">open_in_new</span>
                 </a>
               </div>
             </div>
           `;
+          modalChatHistory.push({ role: 'user', content: userQuery }, { role: 'assistant', content: result.answer });
+          if (modalChatHistory.length > 12) modalChatHistory = modalChatHistory.slice(-12);
         } else {
           // Explicit Fallback State
           botBubble.innerHTML = `
@@ -1212,7 +1228,7 @@
                 <span>FAQ Not Found</span>
               </div>
               <p class="text-xs sm:text-sm text-on-surface leading-relaxed mb-3">
-                ${escapeHtml(result.answer || "I couldn't find a reliable answer to that question in the approved college FAQs. Please try rephrasing your question, searching our FAQ directory, or contacting college administrative staff directly.")}
+                ${escapeHtml((response.status === 429 ? result.message : result.answer) || "I couldn't find a reliable answer to that question in the approved college FAQs. Please try rephrasing your question, searching our FAQ directory, or contacting college administrative staff directly.")}
               </p>
               <div class="pt-2 border-t border-surface-container-high flex flex-wrap gap-2 text-xs">
                 <a href="faqs.html" class="px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-semibold transition-colors">

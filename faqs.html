@@ -264,7 +264,7 @@
                     <span class="text-on-surface-variant text-xs font-medium">Doc verification #AD-101</span>
                   </div>
                   <h2 class="text-base sm:text-lg font-bold text-primary group-hover:text-secondary transition-colors">
-                    What documents are needed for admission?
+                    Top engineering colleges in Pune?
                   </h2>
                 </div>
                 <div class="flex items-center gap-3 shrink-0">
@@ -814,7 +814,7 @@
                   <h3 class="text-base font-bold text-primary">Ask CollegeHub AI Advisor</h3>
                   <div class="flex items-center gap-1.5 text-xs text-secondary font-semibold">
                     <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-                    <span>Online (Interactive Prototype)</span>
+                    <span>Online &bull; Maharashtra Engineering Colleges</span>
                   </div>
                 </div>
               </div>
@@ -826,23 +826,23 @@
             <!-- Quick Suggestion Starter Chips (Sticky under header) -->
             <div class="px-4 py-2.5 bg-surface-container-low border-b border-surface-container-high/40 flex flex-col gap-1.5">
               <span class="text-xs text-on-surface-variant flex items-center gap-1 font-semibold">
-                <span class="material-symbols-outlined text-xs text-secondary">bolt</span> Quick sample prompts:
+                <span class="material-symbols-outlined text-xs text-secondary">bolt</span> Try asking:
               </span>
               <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none" id="chip-container">
                 <button class="sample-chip shrink-0 px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface text-xs font-semibold hover:bg-secondary-container hover:text-on-secondary-container border border-surface-container-high transition-colors">
-                  What documents are needed for admission?
+                  Colleges in Sangli
                 </button>
                 <button class="sample-chip shrink-0 px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface text-xs font-semibold hover:bg-secondary-container hover:text-on-secondary-container border border-surface-container-high transition-colors">
-                  How do scholarships work?
+                  Tell me about Walchand College of Engineering
                 </button>
                 <button class="sample-chip shrink-0 px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface text-xs font-semibold hover:bg-secondary-container hover:text-on-secondary-container border border-surface-container-high transition-colors">
-                  What is the hostel fee?
+                  Explain CAP rounds in Maharashtra
                 </button>
                 <button class="sample-chip shrink-0 px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface text-xs font-semibold hover:bg-secondary-container hover:text-on-secondary-container border border-surface-container-high transition-colors">
-                  Can I change my major?
+                  What are TFWS and EWS seats?
                 </button>
-                <button class="sample-chip shrink-0 px-2.5 py-1 rounded-lg bg-error-container text-on-error-container text-xs font-semibold hover:opacity-90 border border-error/20 transition-colors" title="Test Fallback State">
-                  Unknown question test
+                <button class="sample-chip shrink-0 px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface text-xs font-semibold hover:bg-secondary-container hover:text-on-secondary-container border border-surface-container-high transition-colors">
+                  Documents needed for admission
                 </button>
               </div>
             </div>
@@ -857,7 +857,7 @@
                 <div class="flex flex-col gap-1 max-w-[85%]">
                   <span class="text-[11px] text-on-surface-variant pl-1">CollegeHub Advisor • Just now</span>
                   <div class="p-4 rounded-2xl rounded-tl-sm bg-surface-container-lowest text-on-surface text-xs sm:text-sm shadow-xs border border-surface-container-high leading-relaxed">
-                    Hi there! I can help answer common questions about admissions, fees, hostel rooms, cutoffs, and student life. What would you like to know?
+                    Hi there! Ask me anything about engineering colleges across Maharashtra: cutoffs, MHT-CET / JEE percentiles, CAP rounds, branches, fees, placements, hostels, and more. What would you like to know?
                   </div>
                 </div>
               </div>
@@ -878,7 +878,7 @@
             <!-- Chat Input Area -->
             <div class="p-4 bg-surface-container-lowest border-t border-surface-container-high shadow-xs">
               <form class="flex items-center gap-2" id="chat-form">
-                <input autocomplete="off" class="flex-1 px-4 py-3 rounded-xl bg-surface-container-low text-xs sm:text-sm text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:bg-surface-container transition-all" id="chat-user-input" placeholder="Ask about admissions, fees, hostel, cutoffs..." type="text">
+                <input autocomplete="off" class="flex-1 px-4 py-3 rounded-xl bg-surface-container-low text-xs sm:text-sm text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:bg-surface-container transition-all" id="chat-user-input" placeholder="Ask about colleges, cutoffs, CAP rounds, fees..." type="text">
                 <button class="w-11 h-11 rounded-xl bg-secondary text-on-secondary flex items-center justify-center hover:bg-secondary/90 transition-all shrink-0 shadow-xs" id="send-chat-btn" title="Send Message" type="submit">
                   <span class="material-symbols-outlined text-lg">send</span>
                 </button>
@@ -1083,6 +1083,22 @@
         exams: "Semester exams occur twice a year: Mid-terms in Week 8 (October/March) and Terminal finals in Weeks 16-18 (December/May). Continuous evaluation carries 40% weight."
       };
 
+      // Conversation memory sent to /api/chat so follow-up questions make sense
+      let chatHistory = [];
+      function rememberTurn(userText, botText) {
+        chatHistory.push({ role: 'user', content: userText });
+        chatHistory.push({ role: 'assistant', content: botText });
+        if (chatHistory.length > 12) chatHistory = chatHistory.slice(-12);
+      }
+
+      // Safe mini-formatter for AI replies: escape first, then allow **bold** and "- " bullets only
+      function formatBotText(text) {
+        let t = escapeHtml(String(text || ''));
+        t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        t = t.replace(/^\s*[-*]\s+/gm, '\u2022 ');
+        return t;
+      }
+
       function scrollChatToBottom() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
       }
@@ -1135,7 +1151,7 @@
           const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: rawQuery })
+            body: JSON.stringify({ message: rawQuery, history: chatHistory })
           });
 
           const result = await response.json();
@@ -1149,7 +1165,7 @@
                   <span class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Related Approved Topics:</span>
                   <div class="flex flex-wrap gap-1.5">
                     ${result.related.map(r => `
-                      <button type="button" onclick="askBotQuestion('${escapeHtml(r.question)}')" class="text-left text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors">
+                      <button type="button" data-q="${escapeHtml(r.question)}" class="related-q-btn text-left text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors">
                         ${escapeHtml(r.question)}
                       </button>
                     `).join('')}
@@ -1158,26 +1174,40 @@
               `;
             }
 
+            const isAI = result.source === 'ai';
+            const isLocal = result.source === 'local';
+            const fmt = isAI || isLocal;
+            const badgeLabel = isAI ? 'AI Advisor' : isLocal ? 'CollegeHub Advisor' : (result.faq?.category || 'Approved FAQ');
+            const trustLabel = (isAI || isLocal) ? 'Based on CollegeHub data' : (result.source === 'database' ? 'Verified CollegeHub records' : 'Verified College Knowledge');
+            const trustIcon = (isAI || isLocal) ? 'auto_awesome' : 'verified';
+            const bodyHtml = fmt ? formatBotText(result.answer) : escapeHtml(result.answer);
+            const noteHtml = isAI ? `<div class="text-[10px] text-on-surface-variant pt-1">AI can make mistakes. Please confirm cutoffs, fees and dates on the official CET Cell website or the college's site.</div>` : '';
             const verifiedHtml = `
               <div class="flex flex-col gap-2">
                 <div class="flex items-center gap-1.5">
                   <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase tracking-wider">
-                    ${escapeHtml(result.faq?.category || 'Approved FAQ')}
+                    ${escapeHtml(badgeLabel)}
                   </span>
                   <span class="text-[10px] text-secondary font-semibold flex items-center gap-0.5">
-                    <span class="material-symbols-outlined text-[13px]">verified</span> Verified College Knowledge
+                    <span class="material-symbols-outlined text-[13px]">${trustIcon}</span> ${trustLabel}
                   </span>
                 </div>
                 <div class="text-on-surface leading-relaxed">
-                  ${escapeHtml(result.answer)}
+                  ${bodyHtml}
                 </div>
+                ${noteHtml}
                 ${relatedChipsHtml}
               </div>
             `;
+            rememberTurn(rawQuery, result.answer);
             appendBotReply(verifiedHtml);
+            chatMessages.querySelectorAll('.related-q-btn:not([data-bound])').forEach(btn => {
+              btn.dataset.bound = '1';
+              btn.addEventListener('click', () => askBotQuestion(btn.dataset.q));
+            });
           } else {
             // Explicit Fallback State Requirement
-            const fallbackText = result.answer || "I couldn't find a reliable answer to that question in the approved college FAQs. Please try rephrasing your question, searching our FAQ directory, or contacting college administrative staff directly.";
+            const fallbackText = (response.status === 429 ? result.message : result.answer) || "I couldn't find a reliable answer to that question in the approved college FAQs. Please try rephrasing your question, searching our FAQ directory, or contacting college administrative staff directly.";
             const fallbackHtml = `
               <div class="flex flex-col gap-3">
                 <div class="flex items-center gap-1.5 text-error font-bold text-xs">
@@ -1239,6 +1269,7 @@
       };
 
       clearChatBtn.addEventListener('click', () => {
+        chatHistory = [];
         const messages = chatMessages.querySelectorAll('.user-message, .bot-message');
         messages.forEach((msg, idx) => {
           if (idx !== 0) msg.remove();
