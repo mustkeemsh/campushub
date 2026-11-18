@@ -11,6 +11,8 @@ It never invents figures: anything it does not have, it says it does not have.
 """
 import os
 import re
+import gzip
+import json
 import html
 import difflib
 import threading
@@ -19,6 +21,7 @@ from database import db
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 DATA_FILE = os.path.join(BASE_DIR, 'scraped_institutes.json')
+KB_FILE = os.path.join(BASE_DIR, 'assets', 'data', 'chatbot_cutoffs.json.gz')
 
 _lock = threading.Lock()
 _cache = {"colleges": None, "vocab": set(), "districts": set(), "regions": set(), "universities": {}}
@@ -222,12 +225,56 @@ def _db_cutoff_lines(col, branch_filter=None, limit=6):
     return lines[:limit]
 
 
+def _db_extra_lines(col):
+    """Fees / placements / contacts from the CollegeHub database (not in the CAP files), if imported."""
+    try:
+        inst = db.get_institute_by_code(col["code"]) or db.get_institute_by_code(col["code"].lstrip('0'))
+        if not inst:
+            return []
+        d = db.get_institute_details(inst.get("id"), published_only=True) or {}
+    except Exception:
+        return []
+    lines = []
+    for p in (d.get("placement_stats") or [])[:4]:
+        lines.append(f"- Placement ({p.get('academic_year')}): {p.get('metric_type')} package {_fmt_money(p.get('amount'))}")
+    seen = set()
+    for course in d.get("courses", []):
+        for f in (course.get("fees") or [])[:2]:
+            key = (f.get('fee_component'), f.get('amount'))
+            if key not in seen and len(seen) < 4:
+                seen.add(key)
+                lines.append(f"- Fee ({course.get('course_name')}): {f.get('fee_component')} {_fmt_money(f.get('amount'))} ({f.get('academic_year')})")
+    for c in (d.get("contacts") or [])[:2]:
+        lines.append(f"- Contact ({c.get('contact_type')}): {c.get('contact_value')}")
+    if d.get("institute", {}).get("website"):
+        lines.append(f"- Website: {d['institute']['website']}")
+    return lines
+
+
+def _fmt_money(v):
+    try:
+        return f"INR {int(float(v)):,}"
+    except (TypeError, ValueError):
+        return str(v)
+
+
 def _college_card(col, want_cutoff=False, branch_filter=None):
     parts = [f"**{col['name']}** (code {col['code']})",
              f"- Location: {col['address']}" + (f" ({col['district']} district, {col['region']} CAP region)" if col['district'] else ""),
              f"- Type: {col['status']}" + (f" | Minority status: {col['minority']}" if col['minority'] and col['minority'] != 'Non-Minority' else ""),
              f"- University: {col['university'] or 'n/a'}",
              f"- Total sanctioned intake (all branches): {_seats(col['intake'])} seats"]
+    kb_courses = _cache_courses(_kb_code(col)) if _kb_code(col) else []
+    if kb_courses:
+        names = sorted({nm for _, nm in kb_courses})
+        shown = ", ".join(names[:8]) + (f" and {len(names) - 8} more" if len(names) > 8 else "")
+        parts.append(f"- Branches in CAP 2025-26 ({len(names)}): {shown}")
+        parts.append("Ask me for this college's cutoff (e.g. \"cutoff for computer OBC\") to see round-wise percentiles.")
+        extra_db = _db_extra_lines(col)
+        if extra_db:
+            parts.append("More details in CollegeHub:")
+            parts += extra_db
+        return "\n".join(parts)
     extra = _db_cutoff_lines(col, branch_filter)
     if extra:
         parts.append("Cutoffs verified in CollegeHub:")
@@ -335,29 +382,356 @@ def _primer_answer(query):
 
 
 # ---------------------------------------------------------------------------
+# Cutoff knowledge base (built from the official CAP PDFs by scripts/build_chatbot_kb.py)
+# ---------------------------------------------------------------------------
+_kb_cache = {"kb": None, "by_college": None}
+
+_CATEGORY_WORDS = {
+    'open': 'OPEN', 'general': 'OPEN', 'gen': 'OPEN', 'sc': 'SC', 'st': 'ST', 'vj': 'VJ', 'vjda': 'VJ', 'dt': 'VJ',
+    'nt1': 'NT1', 'ntb': 'NT1', 'nt2': 'NT2', 'ntc': 'NT2', 'nt3': 'NT3', 'ntd': 'NT3', 'obc': 'OBC',
+    'sebc': 'SEBC', 'ews': 'EWS', 'tfws': 'TFWS',
+}
+_CATEGORY_LABEL = {'OPEN': 'Open', 'SC': 'SC', 'ST': 'ST', 'VJ': 'VJ/DT', 'NT1': 'NT-B', 'NT2': 'NT-C', 'NT3': 'NT-D',
+                   'OBC': 'OBC', 'SEBC': 'SEBC', 'EWS': 'EWS', 'TFWS': 'TFWS'}
+_POOL_LABEL = {'SL': 'State Level', 'HH': 'Home University seats', 'OO': 'Other-than-Home-University seats',
+               'HO': 'Home Univ. seats (other-univ. candidates)', 'OH': 'Other-univ. seats (home-univ. candidates)'}
+
+# branch keyword in the question -> text that must appear in the course name
+_BRANCH_MAP = [
+    (r'\b(cse|computer science|computer engineering|computer)\b', 'computer'),
+    (r'\binformation technology\b|\bit (branch|course|engineering|cutoff|seats)\b', 'information technology'),
+    (r'\b(aiml|ai ?& ?ml|artificial intelligence|machine learning|ai)\b', 'artificial intelligence'),
+    (r'\b(data science|ai ?& ?ds|aids)\b', 'data science'),
+    (r'\b(entc|extc|e&tc|electronics (and|&) telecom\w*)\b', 'electronics and telecommunication'),
+    (r'\belectronics\b', 'electronics'),
+    (r'\belectrical\b', 'electrical'),
+    (r'\b(mechanical|mech)\b', 'mechanical'),
+    (r'\bcivil\b', 'civil'),
+    (r'\bchemical\b', 'chemical'),
+    (r'\binstrumentation\b', 'instrumentation'),
+    (r'\bproduction\b', 'production'),
+    (r'\bbio ?technology\b', 'biotechnology'),
+    (r'\bbio ?medical\b', 'biomedical'),
+    (r'\bautomobile\b', 'automobile'),
+    (r'\brobotics\b', 'robotics'),
+    (r'\b(aeronautical|aerospace)\b', 'aero'),
+]
+
+
+def _kb():
+    if _kb_cache["kb"] is not None:
+        return _kb_cache["kb"] or None
+    with _lock:
+        if _kb_cache["kb"] is None:
+            try:
+                with gzip.open(KB_FILE, 'rt', encoding='utf-8') as fh:
+                    kb = json.load(fh)
+                by_college = {}
+                for choice, name in kb.get('courses', {}).items():
+                    code = choice[:5] if choice[:5] in kb['colleges'] else choice[:4].zfill(5)
+                    by_college.setdefault(code, []).append((choice, name))
+                _kb_cache["by_college"] = by_college
+                _kb_cache["kb"] = kb
+            except Exception as exc:
+                print(f"[local_advisor] cutoff knowledge base not available ({exc}). "
+                      f"Run: python scripts/build_chatbot_kb.py")
+                _kb_cache["kb"] = {}
+    return _kb_cache["kb"] or None
+
+
+def _kb_code(col):
+    """Map a scraped institute record to the 5-digit code used in the CAP cutoff PDFs."""
+    kb = _kb()
+    if not kb:
+        return None
+    code = col["code"].zfill(5)
+    return code if code in kb["colleges"] else None
+
+
+def _branch_terms(query):
+    q = query.lower()
+    terms = []
+    for pat, term in _BRANCH_MAP:
+        if re.search(pat, q) and term not in terms:
+            terms.append(term)
+    return terms
+
+
+def _category_gender(query):
+    toks = _tok(query)
+    cat = next((_CATEGORY_WORDS[t] for t in toks if t in _CATEGORY_WORDS and not (t == 'st' and 'tfws' in toks)), None)
+    gender = 'L' if re.search(r'\b(girl|girls|female|ladies|lady|woman|women)\b', query.lower()) else 'G'
+    return cat, gender
+
+
+def _find_percentile(query):
+    q = query.lower()
+    m = (re.search(r'(\d{2,3}(?:\.\d+)?)\s*(?:%ile|percentile|percentiles|percent|%|pr\b)', q)
+         or re.search(r'percentile\s*(?:of|is|was|:)?\s*(\d{2,3}(?:\.\d+)?)', q))
+    if m:
+        v = float(m.group(1))
+        if 0 < v <= 100:
+            return v
+    return None
+
+
+def _course_cells(choice, cat, gender, rounds=('1', '2', '3', '4')):
+    """{pool: {round: (seat_code, rank, pct)}} for the category, using the G/L seat column the student needs."""
+    kb = _kb()
+    out = {}
+    codes = [cat] if cat in ('EWS', 'TFWS') else [f"{gender}{cat}{sfx}" for sfx in 'SHO']
+    for r in rounds:
+        pools = kb['rounds'].get(r, {}).get(choice, {})
+        for pool, seats in pools.items():
+            for code in codes:
+                if code in seats:
+                    rank, pct = seats[code]
+                    out.setdefault(pool, {})[r] = (code, rank, pct)
+    return out
+
+
+def _fmt_cells(cells):
+    lines = []
+    for pool in ('SL', 'HH', 'OO', 'HO', 'OH'):
+        if pool not in cells:
+            continue
+        per = cells[pool]
+        seq = " | ".join(f"R{r} {per[r][2]:.2f}" for r in sorted(per))
+        last = per[max(per)]
+        lines.append(f"- {_POOL_LABEL[pool]}: {seq} percentile (latest rank {last[1]:,}, seat {last[0]})")
+    return lines
+
+
+def _cutoff_text(col, query, user_pct=None):
+    """Branch-wise cutoffs for one college from the CAP 2025-26 lists."""
+    kb = _kb()
+    code = _kb_code(col)
+    if not kb or not code:
+        return None
+    courses = _cache_courses(code)
+    if not courses:
+        return None
+    terms = _branch_terms(query)
+    cat, gender = _category_gender(query)
+    cat_used = cat or 'OPEN'
+    if terms:
+        picked = [(ch, nm) for ch, nm in courses if any(t in nm.lower() for t in terms)]
+    else:
+        picked = list(courses)
+    if not picked:
+        names = ", ".join(sorted({nm for _, nm in courses})[:12])
+        return (f"**{col['name']}** has no matching branch in the 2025-26 CAP list. Branches it offers: {names}.")
+
+    label = f"{_CATEGORY_LABEL[cat_used]}{' (ladies)' if gender == 'L' and cat_used not in ('EWS', 'TFWS') else ''}"
+    head = f"**{col['name']}**: CAP 2025-26 cutoffs for **{label}** category (percentile; higher = tougher)"
+    body = []
+    if len(picked) > 4:
+        rows = []
+        for ch, nm in picked:
+            cells = _course_cells(ch, cat_used, gender)
+            pref = cells.get('SL') or next(iter(cells.values()), None)
+            if pref:
+                last = pref[max(pref)]
+                rows.append((last[2], nm, last[1], max(pref)))
+        if not rows:
+            return head + f"\nNo {label} cutoffs were published for this college."
+        rows.sort(reverse=True)
+        body = [f"- {nm}: {pct:.2f} (CAP round {r}, rank {rank:,})" for pct, nm, rank, r in rows[:12]]
+        body.append("Name a branch (e.g. \"computer\" or \"mechanical\") to see all rounds and seat types.")
+    else:
+        for ch, nm in picked:
+            cells = _course_cells(ch, cat_used, gender)
+            body.append(f"**{nm}**")
+            lines = _fmt_cells(cells)
+            body += lines or [f"- No {label} cutoff was published for this branch."]
+            if user_pct is not None and cells:
+                pref = cells.get('SL') or next(iter(cells.values()))
+                best = max(v[2] for v in pref.values())
+                worst = min(v[2] for v in pref.values())
+                if user_pct >= best:
+                    body.append(f"- Your {user_pct:g} percentile is above every round's cutoff here, so this looks reachable.")
+                elif user_pct >= worst:
+                    body.append(f"- Your {user_pct:g} percentile is within range of the later-round cutoffs, so it is possible but not certain.")
+                else:
+                    body.append(f"- Your {user_pct:g} percentile is below the cutoffs here, so this would be ambitious.")
+    note = "\nThese are last year's closing cutoffs, so use them as a guide, not a guarantee."
+    return head + "\n" + "\n".join(body) + note
+
+
+def _cache_courses(code):
+    _kb()
+    return sorted(_kb_cache["by_college"].get(code, []), key=lambda x: x[1])
+
+
+def _branches_text(col):
+    code = _kb_code(col)
+    courses = _cache_courses(code) if code else []
+    if not courses:
+        return None
+    names = sorted({nm for _, nm in courses})
+    return f"**{col['name']}** has {len(names)} branches in the CAP 2025-26 list:\n" + "\n".join(f"- {n}" for n in names)
+
+
+def _dsy_text(col, query):
+    """Direct Second Year (diploma) cutoffs. The DSY list only contains seat types that had allotments."""
+    kb = _kb()
+    code = _kb_code(col) if kb else None
+    data = (kb or {}).get('dsy', {}).get(code or '', {})
+    if not data:
+        return None
+    terms = _branch_terms(query)
+    cat, gender = _category_gender(query)
+    dsy_name = {'NT1': 'NTB', 'NT2': 'NTC', 'NT3': 'NTD'}
+    want = dsy_name.get(cat, cat) if cat else None
+    lines = []
+    for course, seats in sorted(data.items()):
+        if terms and not any(t in course.lower() for t in terms):
+            continue
+        rows = []
+        for seat, (rank, score) in seats.items():
+            base = seat.upper()
+            if base[:1] in ('G', 'L') and base[1:] not in ('',):
+                base = base[1:]
+            rows.append((seat, base, rank, score))
+        if want:
+            picked = [r for r in rows if r[1] == want and (r[0][:1] in (gender, want[:1]) or True)]
+            picked = sorted(picked, key=lambda r: 0 if r[0].upper().startswith(gender) else 1)[:1]
+        else:
+            picked = sorted(rows, key=lambda r: (r[1] != 'OPEN', r[0]))[:3]
+        if not picked:
+            have = ", ".join(sorted({r[0] for r in rows})[:6])
+            lines.append(f"- {course}: no {_CATEGORY_LABEL.get(cat, 'matching')} entry in the DSY list (seat types listed: {have})")
+        for seat, _, rank, score in picked:
+            rtxt = f"rank {rank:,}" if isinstance(rank, int) else f"rank {rank}"
+            lines.append(f"- {course} ({seat}): score {score}, {rtxt}")
+    if not lines:
+        return None
+    return (f"**{col['name']}**: Direct Second Year (DSY) CAP round 2 cutoffs"
+            + (f", {_CATEGORY_LABEL[cat]} category" if cat else "") + ":\n" + "\n".join(lines[:12])
+            + "\nDSY merit is based on diploma marks, and only seat types with allotments are listed.")
+
+
+def _predict(query, user_pct):
+    """Which colleges/branches a student can aim for, from the CAP 2025-26 cutoffs."""
+    kb = _kb()
+    colleges = _load()
+    if not kb or not colleges:
+        return None
+    cat, gender = _category_gender(query)
+    cat = cat or 'OPEN'
+    terms = _branch_terms(query)
+    districts, regions = _find_places(query)
+    filters = _status_filters(query)
+    by_code = {c["code"].zfill(5): c for c in colleges}
+
+    likely, possible, reach = [], [], []
+    for code, courses in _cache_courses_all():
+        col = by_code.get(code)
+        if col is None:
+            continue
+        if districts and col['district'].lower() not in districts:
+            continue
+        if regions and col['region'].lower() not in regions:
+            continue
+        if not all(f(col) for f in filters):
+            continue
+        for ch, nm in courses:
+            if terms and not any(t in nm.lower() for t in terms):
+                continue
+            cells = _course_cells(ch, cat, gender)
+            pref = cells.get('SL') or cells.get('HH')
+            if not pref:
+                continue
+            hi = max(v[2] for v in pref.values())
+            lo = min(v[2] for v in pref.values())
+            item = (hi, col['name'], nm, col['district'])
+            if user_pct >= hi:
+                likely.append(item)
+            elif user_pct >= lo:
+                possible.append(item)
+            elif user_pct >= hi - 2.5:
+                reach.append(item)
+    if not (likely or possible or reach):
+        return {"kind": "predictor", "text": f"I couldn't find {_CATEGORY_LABEL[cat]}-category seats near {user_pct:g} percentile with those filters. Try a different branch or place."}
+
+    def fmt(items, n, label):
+        items = sorted(items, key=lambda x: -x[0])[:n]
+        return [f"- {c} | {b} ({d}): cutoff {hi:.2f}" for hi, c, b, d in items] if items else []
+
+    where = ', '.join(x.title() for x in (districts or regions)) or 'Maharashtra'
+    out = [f"**Options for {user_pct:g} percentile, {_CATEGORY_LABEL[cat]} category, {where}** (CAP 2025-26 State Level cutoffs):"]
+    for title, items, n in (("Likely (you are above all rounds' cutoffs)", likely, 8),
+                            ("Possible (within later-round cutoffs)", possible, 5),
+                            ("Ambitious (slightly above your percentile)", reach, 4)):
+        lines = fmt(items, n, title)
+        if lines:
+            out.append(f"{title}:")
+            out += lines
+    out.append("\nThis uses last year's cutoffs and State Level seats; Home University seats and this year's merit can differ. Tell me a branch or district to narrow it down.")
+    return {"kind": "predictor", "text": "\n".join(out)}
+
+
+def _cache_courses_all():
+    _kb()
+    return list(_kb_cache["by_college"].items())
+
+
+# ---------------------------------------------------------------------------
 # Public entry point
 # ---------------------------------------------------------------------------
+_INTENT_CUTOFF = re.compile(r'cut ?off|closing|percentile|%ile|rank|chance|admission|get admission|can i get|eligible', re.I)
+
+
 def answer(query):
     """Return {"text": str, "kind": str} or None if this question isn't something we can answer locally."""
     colleges = _load()
     q = query.lower()
 
     if _GREETING.match(query):
-        return {"kind": "greeting", "text": "Hi! I'm the CollegeHub Advisor. Ask me about any engineering college in Maharashtra: location, seats, type, university, cutoffs, or how CAP admissions work."}
+        return {"kind": "greeting", "text": "Hi! I'm the CollegeHub Advisor. Ask me about any engineering college in Maharashtra: branches, cutoffs, seats, location, or how CAP admissions work. You can also tell me your percentile to see which colleges you can aim for."}
 
-    branch_filter = [b for b in _BRANCH_WORDS if b in q] or (['computer'] if re.search(r'\b(cse|computer)\b', q) else None)
+    user_pct = _find_percentile(query)
+    asks_cutoff = bool(_INTENT_CUTOFF.search(q))
+    asks_branches = bool(re.search(r'\b(branches|branch list|courses|streams|offer|offers|programs?)\b', q))
+    asks_dsy = bool(re.search(r'\b(dsy|direct second year|diploma)\b', q))
     want_cutoff = any(w in q for w in ('cutoff', 'cut off', 'cutoffs', 'closing'))
 
-    # 1) a specific college
+    found = []
     if colleges:
         found, _ = _find_colleges(query)
-        if found:
-            if len(found) <= 3:
-                cards = "\n\n".join(_college_card(c, want_cutoff, branch_filter) for c in found)
-                return {"kind": "institute", "text": cards + "\n\nFor branch-wise cutoffs, try the College Predictor page."}
-            return {"kind": "institute", "text": f"I found {len(found)} colleges that match. Which one do you mean?\n" + _list_colleges(found, 8)}
 
-    # 2) districts / regions / universities
+    # 1) a specific college
+    if found:
+        if len(found) > 3:
+            return {"kind": "institute", "text": f"I found {len(found)} colleges that match. Which one do you mean?\n" + _list_colleges(found, 8)}
+        parts = []
+        for c in found:
+            text = None
+            if asks_dsy:
+                text = _dsy_text(c, query) or f"I don't have DSY cutoff data for **{c['name']}** with those filters."
+                parts.append(text)
+                continue
+            if text is None and (asks_cutoff or _branch_terms(query)) and not asks_branches:
+                text = _cutoff_text(c, query, user_pct)
+            if text is None and asks_branches:
+                text = _branches_text(c)
+            if text is None:
+                text = _college_card(c, want_cutoff, _branch_terms(query))
+            parts.append(text)
+        kind = 'cutoff' if any('cutoffs' in t for t in parts) else 'institute'
+        if re.search(r'\b(fees?|hostel|placements?|package|salary|nirf|ranking|website|phone|contact|email|facilit\w+|faculty|campus)\b', q) \
+                and not any('More details in CollegeHub' in t for t in parts):
+            parts.append("I don't have verified fee, hostel, placement or contact details for this college in CollegeHub yet. "
+                         "Please check the college's official website or admission office for those.")
+        return {"kind": kind, "text": "\n\n".join(parts)}
+
+    # 2) "which colleges can I get with N percentile"
+    if user_pct is not None:
+        pred = _predict(query, user_pct)
+        if pred:
+            return pred
+
+    # 3) districts / regions / universities
     if colleges:
         districts, regions = _find_places(query)
         uni_hit = None
@@ -369,7 +743,7 @@ def answer(query):
                 if (len(acr) >= 4 and re.search(r'\b' + acr + r'\b', q)) or (' ' + key.split(',')[0] + ' ') in (' ' + q + ' ') or (len(key) <= 3 and re.search(r'\b' + key + r'\b colleges?', q)):
                     uni_hit = real
                     break
-        asks_list = bool(re.search(r'\b(colleges?|institutes?|list|which|top|best|options|options|available|how many|number)\b', q))
+        asks_list = bool(re.search(r'\b(colleges?|institutes?|list|which|top|best|options|available|how many|number)\b', q))
         if (districts or regions or uni_hit) and asks_list:
             filters = _status_filters(query)
             pool = colleges
@@ -389,7 +763,7 @@ def answer(query):
             head = f"**{len(pool)} engineering {'college' if len(pool) == 1 else 'colleges'}** found for {where} ({govt} government/university, about {seats:,} total seats)."
             body = "Largest by seat intake:\n" + _list_colleges(pool, 8)
             tail = ("\n\nI don't hold official quality rankings, so this list is sorted by seats. "
-                    "Use the College Predictor to see which ones fit your percentile.") if re.search(r'\b(top|best)\b', q) else ""
+                    "Tell me your percentile and category and I'll show which of these you can aim for.") if re.search(r'\b(top|best)\b', q) else ""
             return {"kind": "district", "text": head + "\n" + body + tail}
 
         if re.search(r'how many .*(college|institute)|number of .*(college|institute)', q) and 'maharashtra' in q:
@@ -399,7 +773,7 @@ def answer(query):
             reg = ', '.join(f"{k}: {v}" for k, v in sorted(by_region.items(), key=lambda x: -x[1]))
             return {"kind": "overview", "text": f"The CAP institute list in CollegeHub has **{len(colleges)} engineering institutes** across Maharashtra.\nBy CAP region: {reg}."}
 
-    # 3) general admissions knowledge
+    # 4) general admissions knowledge
     primer = _primer_answer(query)
     if primer:
         return {"kind": "general", "text": primer}
@@ -408,8 +782,8 @@ def answer(query):
 
 
 def context_for_ai(query):
-    """Facts from the CAP institute list to give the AI model as verified context (used when an API key exists)."""
+    """Facts from the CAP data to give the AI model as verified context (used when an API key exists)."""
     res = answer(query)
-    if res and res["kind"] in ("institute", "district", "overview"):
+    if res and res["kind"] in ("institute", "district", "overview", "cutoff", "predictor"):
         return res["text"]
     return ""
