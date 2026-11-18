@@ -4,10 +4,14 @@ from flask import Blueprint, send_from_directory, session, redirect, url_for, cu
 views_bp = Blueprint('views_bp', __name__)
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if not os.path.exists(os.path.join(BASE_DIR, 'index.html')) and os.path.exists(os.path.join(os.getcwd(), 'index.html')):
+    BASE_DIR = os.path.abspath(os.getcwd())
 ASSETS_DIR = os.path.join(BASE_DIR, 'assets')
 
 
 @views_bp.route('/')
+@views_bp.route('/api/index')
+@views_bp.route('/api/index.py')
 def home():
     """Serve the public Home page."""
     return send_from_directory(BASE_DIR, 'index.html')
