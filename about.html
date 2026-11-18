@@ -133,6 +133,17 @@
           <span>Ask CollegeHub</span>
         </a>
 
+        <!-- User profile pill -->
+        <a href="settings.html" class="flex items-center gap-2 pl-2 rounded-full focus:outline-none" title="Account Settings">
+          <div data-user-initials class="w-9 h-9 rounded-full bg-secondary-container dark:bg-teal-950 text-on-secondary-container dark:text-teal-300 flex items-center justify-center font-bold text-xs ring-2 ring-secondary/30 dark:ring-teal-500/30">
+            ST
+          </div>
+          <div class="hidden xl:flex flex-col text-left">
+            <span data-user-name class="text-xs font-bold text-on-surface dark:text-white">Student Profile</span>
+            <span data-user-role class="text-[10px] text-on-surface-variant dark:text-slate-400">Applicant Active</span>
+          </div>
+        </a>
+
         <!-- Mobile Menu Toggle Button -->
         <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden w-10 h-10 rounded-xl bg-surface-container dark:bg-slate-800 hover:bg-surface-container-high dark:hover:bg-slate-700 text-on-surface dark:text-white flex items-center justify-center transition-colors" aria-label="Toggle Menu">
           <span id="mobile-menu-icon" class="material-symbols-outlined text-2xl">menu</span>
@@ -395,5 +406,6 @@
     });
   </script>
   <script src="assets/js/demo-data.js"></script>
+  <script src="assets/js/auth-session.js"></script>
 </body>
 </html>
