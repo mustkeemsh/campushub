@@ -26,7 +26,15 @@ class Config:
     SMTP_USE_TLS = os.getenv('SMTP_USE_TLS', 'true').strip().lower() in ('true', '1', 'yes')
     SMTP_USE_SSL = os.getenv('SMTP_USE_SSL', 'false').strip().lower() in ('true', '1', 'yes')
 
-    # AI chatbot (Anthropic API). Leave ANTHROPIC_API_KEY empty to run in FAQ-only mode.
+    # AI chatbot. Set ONE key. With no key the chatbot runs in key-free mode (CAP data + FAQs only).
+    # CHATBOT_PROVIDER: auto | gemini | anthropic | openai  (auto = first key found)
+    CHATBOT_PROVIDER = os.getenv('CHATBOT_PROVIDER', 'auto').strip().lower()
+    GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', '').strip()
+    GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash').strip()
+    # Any OpenAI-compatible service (Groq, OpenRouter, a local Ollama server, ...)
+    OPENAI_COMPAT_BASE_URL = os.getenv('OPENAI_COMPAT_BASE_URL', '').strip().rstrip('/')
+    OPENAI_COMPAT_API_KEY = os.getenv('OPENAI_COMPAT_API_KEY', '').strip()
+    OPENAI_COMPAT_MODEL = os.getenv('OPENAI_COMPAT_MODEL', '').strip()
     ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY', '').strip()
     CHATBOT_MODEL = os.getenv('CHATBOT_MODEL', 'claude-haiku-5-5').strip()
     CHATBOT_MAX_TOKENS = int(os.getenv('CHATBOT_MAX_TOKENS', '700'))
